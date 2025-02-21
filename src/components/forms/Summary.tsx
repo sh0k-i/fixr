@@ -173,7 +173,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
 					<div className='flex justify-center text-center'>
 						<div className="max-w-[40rem] text-center">
 							<h1 className="heading-form">
-							Almost There! <span className="text-accentColor">Confirm Your Appointment</span> Now
+							Almost There! <span className="text-accentColor">Request Your Appointment</span> Now
 							</h1> 
 						</div>
 					</div>
@@ -192,7 +192,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
                             <path d="m15.8 24.7c-2.3.1-1.9-3.9.3-3.4 2.3-.1 2 3.9-.3 3.4zm.2-5.5c-.6 0-.9-.3-.9-1l-.7-9.2c-.1-.9.6-1.7 1.5-1.8s1.7.6 1.8 1.5v.3l-.7 9.2c-.1.7-.4 1-1 1z" fill="#eee"></path>
                           </g>
                         </svg>
-                        <p className="text-lg font-semibold ml-2">Pending Confirmation</p>
+                        <p className="text-lg font-semibold ml-2">Pending Request</p>
                       </div>
                     </div>
 										<hr className='mb-4'></hr>
@@ -317,7 +317,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
 								{loading ? (
 									<div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></div>
 								) : (
-									'Confirm Booking'
+									'Request Booking'
 								)}
 							</button>
 						</div>
@@ -345,7 +345,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
 						<ConfirmCheck />
             <h4 className='text-lg sm:text-xl font-semibold text-center py-1'>Awesome!</h4>
             <DialogDescription>
-						Your booking has been confirmed, and you will receive updates shortly regarding your Free Assessment. We look forward to helping you bring your project to life.
+						Your booking has been requested, and you will receive updates shortly regarding your Free Assessment. We look forward to helping you bring your project to life.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
