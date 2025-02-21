@@ -8,7 +8,6 @@ import NavBar from '@/components/NavBar';
 import { AppContext } from '../context/AppContext';
 import Footer from '@/components/Footer';
 import BlurFade from '@/components/ui/blur-fade';
-import HeroVideoDialog from '@/components/ui/hero-video-dialog';
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
 import IconComponent from '@/hooks/IconComponent';
 
