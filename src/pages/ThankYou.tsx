@@ -244,7 +244,7 @@ const ThankYou: React.FC = () => {
         </div>
         <HowItWorks />
         
-        {/* video  */}
+        {/* video 
         <BlurFade delay={6 * 0.15} inView yOffset={0} className="relative">
           <HeroVideoDialog
             className="dark:hidden block"
@@ -260,7 +260,7 @@ const ThankYou: React.FC = () => {
             thumbnailSrc="images/howto_thumbnail.jpg"
             thumbnailAlt="How To Video"
           />
-        </BlurFade>        
+        </BlurFade>         */}
 
 
       </div>
