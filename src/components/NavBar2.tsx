@@ -78,7 +78,11 @@ const NavBar2 = () => {
             <div className="md:flex md:items-center md:gap-12 ">
               <a className="block text-accent" href={newUrl}>
                 <span className="sr-only">Home</span>
-                <img src={logoSrc} alt="Logo" className="py-2 h-full max-h-16 sm:max-h-20  max-w-48 sm:max-w-72" />
+                <img 
+                  src={logoSrc} 
+                  alt="Logo" 
+                  className="py-2 h-full max-h-16 sm:max-h-20 w-auto max-w-[193px] sm:max-w-[280px]" 
+                />
               </a>
             </div>
             <div className='flex items-center justify-end gap-2 sm:gap-4'>
