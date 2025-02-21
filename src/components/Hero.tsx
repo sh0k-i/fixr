@@ -26,8 +26,6 @@ const Hero = () => {
   const { contractor, setForm, form, services } = appContext;
   const urlParams = new URLSearchParams(location.search);
   const firstnameParam = capitalizeWords(urlParams.get('firstname')) || '';
-  const stateParam = urlParams.get('state') || '';
-  const zipParam = urlParams.get('zip') || '';
   const conceptParam = urlParams.get('concept_id') || '';
   const [slug, setSlug] = useState('');
   const initialStep = services.length > 1 ? 1 : 2;
@@ -35,11 +33,9 @@ const Hero = () => {
   const [heroMedia, setHeroMedia] = useState('');
 
   // Default content
-  const defaultLede = zipParam
-    ? `Hi ${firstnameParam}, find top contractors in ${stateParam} near ${zipParam} for your upcoming remodel and control your quotes`
-    : stateParam
-    ? `Hi ${firstnameParam}, find top contractors in ${stateParam} for your upcoming remodel and control your quotes`
-    : "Hi there, find top contractors in your area for your upcoming remodel and control your quotes";
+  const defaultLede = firstnameParam
+    ? `Receive a customized assessment of your home’s specific needs and expert recommendations tailored just for you by our experienced team`
+      : "Hi there, receive a customized assessment of your home’s specific needs and expert recommendations tailored just for you by our experienced team";
 
   const heroH1 = contractor.content.hero_h1 || "Building Better Spaces for Better Living";
   const heroLede = contractor.content.hero_lede || defaultLede;
