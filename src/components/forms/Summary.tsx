@@ -104,7 +104,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
 						service_name: selectedService.services.name,
 						service_id: selectedService.id,
             is_booked: true,
-            timezone: user.timezone,
+            timezone: contractor.timezone,
             contractor_id: contractor.id,
 					},
 				]);
@@ -231,10 +231,10 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
                           <img src="/images/clock.svg" alt="Clock" className="inline mr-2 h-5" />
                           <p className="text-base text-gray-800">{formatTime(form.time)}</p>
                           
-                          {user.timezone && ( 
+                          {contractor.timezone && ( 
                             <div className='flex items-center'>
                               <img src="/images/globe.svg" alt="Clock" className="inline ml-4 mr-2 h-5" />
-                              <p className="text-base text-gray-800">{user.timezone}</p>
+                              <p className="text-base text-gray-800">{contractor.timezone}</p>
                             </div>)}
 
                         </div>
@@ -244,10 +244,10 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
                           <img src="/images/clock.svg" alt="Clock" className="inline mr-2 h-5" />
                           <p className="text-base text-gray-800">{formatTime(form.time)}</p>
                         </div>
-                        {user.timezone && (
+                        {contractor.timezone && (
                           <div className="flex items-center px-8 sm:hidden">
                             <img src="/images/globe.svg" alt="Clock" className="inline mr-2 h-5" />
-                            <p className="text-base text-gray-800">{user.timezone}</p>
+                            <p className="text-base text-gray-800">{contractor.timezone}</p>
                           </div>
                         )}
 
