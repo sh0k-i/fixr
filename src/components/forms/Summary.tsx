@@ -119,9 +119,17 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
 		}	
 	};
 
-  const formatDate = (dateString: any) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(date);
+  const formatDate = (dateString: string) => {
+    // Split the stored yyyy-MM-dd format into components
+    const [year, month, day] = dateString.split('-').map(Number);
+    // Create a Date object using LOCAL time components
+    const date = new Date(year, month - 1, day); // months are 0-based in JS
+    
+    return new Intl.DateTimeFormat('en-US', { 
+      month: 'long', 
+      day: 'numeric', 
+      year: 'numeric' 
+    }).format(date);
   };
   
   const formatTime = (timeString: any) => {

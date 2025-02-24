@@ -190,6 +190,18 @@ const Step2Schedule: React.FC<Step2ScheduleProps> = ({ onNext, onReset, onBack }
                   Selected Time: {formik.values.time}
                 </div>
               )}
+
+              {/* show contractor.timezone */}
+              <div className="mt-4 text-center text-gray-700 dark:text-neutral-200 justify-center items-center">
+                <div className='flex justify-center items-center'>
+                  <img src="/images/globe.svg" alt="Clock" className="inline ml-4 mr-2 h-5" />
+                  <p>
+                    <span className="text-base text-gray-800">{contractor.timezone}</span>
+                  </p>
+                </div>
+
+              </div>
+            
             </BlurFade>
           </div>
           <div className="mt-4 flex flex-col space-y-4 sticky bottom-4">
