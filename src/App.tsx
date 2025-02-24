@@ -29,7 +29,7 @@ function App() {
     return null;
   }
 
-  const { setContractor, setServices, setLocations, contractor, user, setUser, setForm } = appContext;
+  const { setContractor, setServices, setLocations, contractor, user, setForm } = appContext;
 
   useEffect(() => {
     window.HSStaticMethods.autoInit();
@@ -130,37 +130,48 @@ function App() {
     fetchConcepts();
   }, [conceptId]);
 
-  // fetch zip if user.zip is present or changed
+  // // fetch zip if user.zip is present or changed
+  // useEffect(() => {
+  //   const fetchZip = async () => {
+  //     if (user.zip) {
+  //       try {
+  //         console.log('Fetching zip data...');
+  //         const { data, error } = await central
+  //           .from('zips')
+  //           .select('*')
+  //           .eq('zip', user.zip)
+  //           .single();
+
+  //         if (error) {
+  //           console.error('Error fetching zip:', error);
+  //         } else {
+  //           setUser(prevUser => ({
+  //             ...prevUser,
+  //             city: data.city,
+  //             state: data.state_id,
+  //             timezone: data.timezone,
+  //           }));
+  //           console.log('Zip data fetched:', data);
+  //         }
+  //       } catch (err) {
+  //         console.error('Unexpected error:', err);
+  //       }
+  //     }
+  //   };
+
+  //   fetchZip();
+  // }, [user.zip]);
+
+  // Detect user's timezone on mount
   useEffect(() => {
-    const fetchZip = async () => {
-      if (user.zip) {
-        try {
-          console.log('Fetching zip data...');
-          const { data, error } = await central
-            .from('zips')
-            .select('*')
-            .eq('zip', user.zip)
-            .single();
-
-          if (error) {
-            console.error('Error fetching zip:', error);
-          } else {
-            setUser(prevUser => ({
-              ...prevUser,
-              city: data.city,
-              state: data.state_id,
-              timezone: data.timezone,
-            }));
-            console.log('Zip data fetched:', data);
-          }
-        } catch (err) {
-          console.error('Unexpected error:', err);
-        }
-      }
-    };
-
-    fetchZip();
-  }, [user.zip]);
+    if (!user.timezone) {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      appContext.setUser((prev) => ({
+        ...prev,
+        timezone: tz,
+      }));
+    }
+  }, [user.timezone, appContext]);
 
   useEffect(() => {
     if (contractor) {

@@ -135,12 +135,21 @@ const Step2Schedule: React.FC<Step2ScheduleProps> = ({ onNext, onReset, onBack }
                 <div className="rounded-lg small-stepper:border small-stepper:border-gray-300 small-stepper:p-4 small-stepper:shadow-xl sm:p-6 lg:p-8 small-stepper:bg-white">
                   <Calendar
                     mode="single"
-                    selected={formik.values.date ? new Date(formik.values.date) : undefined}
+                    selected={
+                      formik.values.date
+                        ? new Date(
+                            // Split the stored date string into parts and create a local Date
+                            Number(formik.values.date.split('-')[0]), // Year
+                            Number(formik.values.date.split('-')[1]) - 1, // Month (0-based)
+                            Number(formik.values.date.split('-')[2]) // Day
+                          )
+                        : undefined
+                    }
                     onSelect={handleDateChange}
                     initialFocus
                     modifiers={{
                       disabled: [
-                        { before: new Date() },
+                        { before: new Date(new Date().setHours(0, 0, 0, 0)) },
                         { from: new Date(), to: new Date(new Date().setDate(new Date().getDate() + 3)) },
                         { after: new Date(new Date().setDate(new Date().getDate() + 20)) },
                       ]

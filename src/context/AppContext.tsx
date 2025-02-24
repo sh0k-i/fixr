@@ -72,7 +72,7 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
     phone: null,
     state: null,
     userNs: null,
-    timezone: null,
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   });
 
   const [form, setForm] = useState<FormData>({
