@@ -12,7 +12,6 @@ interface UserData {
   phone: string | null;
   state: string | null;
   userNs: string | null;
-  timezone: string | null;
 }
 
 interface FormData {
@@ -25,18 +24,19 @@ interface FormData {
   time: string | null;
   isBooked: boolean;
   concept: any | null;
+  timezone: string | null;
 }
 
 interface AppContextType {
   cookiesAccepted: string[];
   cookieConsentId: string;
-
   user: UserData;
   form: FormData;
   selectedService: any;
   contractor: any;
   services: any;
   locations: any;
+  timezoneAbbr: string;
 
   setCookiesAccepted: Dispatch<SetStateAction<string[]>>;
   setCookieConsentId: Dispatch<SetStateAction<string>>;
@@ -46,6 +46,7 @@ interface AppContextType {
   setContractor: Dispatch<SetStateAction<any>>;
   setServices: Dispatch<SetStateAction<any>>;
   setLocations: Dispatch<SetStateAction<any>>;
+  setTimezoneAbbr: Dispatch<SetStateAction<string>>;
 }
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -72,7 +73,6 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
     phone: null,
     state: null,
     userNs: null,
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   });
 
   const [form, setForm] = useState<FormData>({
@@ -85,12 +85,14 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
     time: null,
     isBooked: false,
     concept: null,
+    timezone: null,
   });
 
   const [selectedService, setSelectedService] = useState<any>(null);
   const [contractor, setContractor] = useState<any>(null);
   const [services, setServices] = useState<any>(null);
   const [locations, setLocations] = useState<any>(null);
+  const [timezoneAbbr, setTimezoneAbbr] = useState<string>('');
 
 useEffect(() => {
   const params = new URLSearchParams(location.search);
@@ -134,8 +136,11 @@ useEffect(() => {
     if (storedLocations) {
       setLocations(JSON.parse(storedLocations));
     } 
-    
-  }, [setUser, setForm, setSelectedService, setContractor, setServices, setLocations]);
+    const storedTimezoneAbbr = localStorage.getItem('timezoneAbbr');
+    if (storedTimezoneAbbr) {
+      setTimezoneAbbr(JSON.parse(storedTimezoneAbbr));
+    }
+  }, [setUser, setForm, setSelectedService, setContractor, setServices, setLocations, setTimezoneAbbr]);
   
   // Save context values to local storage whenever they change
   useEffect(() => {
@@ -145,7 +150,8 @@ useEffect(() => {
     localStorage.setItem('contractor', JSON.stringify(contractor));
     localStorage.setItem('services', JSON.stringify(services));
     localStorage.setItem('locations', JSON.stringify(locations));
-  }, [user, form, selectedService, contractor, services, locations]);  
+    localStorage.setItem('timezoneAbbr', JSON.stringify(timezoneAbbr));
+  }, [user, form, selectedService, contractor, services, locations, timezoneAbbr]);  
 
   return (
     <AppContext.Provider
@@ -157,6 +163,7 @@ useEffect(() => {
         selectedService,
         contractor,
         locations,
+        timezoneAbbr,
         services,
         setCookiesAccepted,
         setCookieConsentId,
@@ -166,6 +173,7 @@ useEffect(() => {
         setContractor,
         setLocations,
         setServices,
+        setTimezoneAbbr,
       }}
     >
       {children}

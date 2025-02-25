@@ -18,10 +18,10 @@ const ThankYou: React.FC = () => {
   if (!appContext || !appContext.contractor || !appContext.services) {
     return null; // Handle the case where data is not loaded yet
   }
+  const { form, user, selectedService, contractor, timezoneAbbr } = appContext;
   const navigate = useNavigate();
   const confettiRef = useRef<ConfettiRef>(null);
   const [slug, setSlug] = useState('');
-  const { form, user, selectedService, contractor } = appContext;
 
   useEffect(() => {
     if (appContext && appContext.contractor) {
@@ -43,9 +43,17 @@ const ThankYou: React.FC = () => {
     };
   }, [navigate]);
 
-  const formatDate = (dateString: any) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(date);
+  const formatDate = (dateString: string) => {
+    // Split the stored yyyy-MM-dd format into components
+    const [year, month, day] = dateString.split('-').map(Number);
+    // Create a Date object using LOCAL time components
+    const date = new Date(year, month - 1, day); // months are 0-based in JS
+    
+    return new Intl.DateTimeFormat('en-US', { 
+      month: 'long', 
+      day: 'numeric', 
+      year: 'numeric' 
+    }).format(date);
   };
 
   const formatTime = (timeString: any) => {
@@ -164,7 +172,7 @@ const ThankYou: React.FC = () => {
                     <hr className='mb-4'></hr>
                     <p className="text-sm font-semibold text-gray-800 mb-3">Scheduled Date and Time</p>
                     {form.date && form.time ? (
-                      <div className="flex flex-wrap justify-between my-4 w-auto bg-gray-100 rounded-md pb-4 space-y-2">
+                      <div className="flex flex-wrap justify-between my-4 w-auto bg-gray-100 rounded-md pt-2 pb-4 space-y-2">
                         <div className="flex items-center px-8 min-w-[200px] mt-2">
                           <img src="/images/calendar.svg" alt="Calendar" className="inline mr-2 h-5" />
                           <p className="text-base text-gray-800">{formatDate(form.date)}</p>
@@ -174,10 +182,10 @@ const ThankYou: React.FC = () => {
                           <img src="/images/clock.svg" alt="Clock" className="inline mr-2 h-5" />
                           <p className="text-base text-gray-800">{formatTime(form.time)}</p>
 
-                          {user.timezone && ( 
+                          {timezoneAbbr && ( 
                             <div className='flex items-center'>
                               <img src="/images/globe.svg" alt="Clock" className="inline ml-4 mr-2 h-5" />
-                              <p className="text-base text-gray-800">{user.timezone}</p>
+                              <p className="text-base text-gray-800">{timezoneAbbr}</p>
                             </div>)}
 
                         </div>
@@ -187,10 +195,10 @@ const ThankYou: React.FC = () => {
                           <img src="/images/clock.svg" alt="Clock" className="inline mr-2 h-5" />
                           <p className="text-base text-gray-800">{formatTime(form.time)}</p>
                         </div>
-                        {user.timezone && (
+                        {contractor.timezone && (
                           <div className="flex items-center px-8 sm:hidden">
                             <img src="/images/globe.svg" alt="Clock" className="inline mr-2 h-5" />
-                            <p className="text-base text-gray-800">{user.timezone}</p>
+                            <p className="text-base text-gray-800">{contractor.timezone}</p>
                           </div>
                         )}
 

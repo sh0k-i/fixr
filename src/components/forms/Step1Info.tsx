@@ -18,8 +18,11 @@ const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
     return null; // Handle the case where data is not loaded yet
   }
 
-  const { user, form, setUser, setForm } = appContext;
+  const { user, form, setUser, setForm, contractor } = appContext;
   const [loading, setLoading] = useState<boolean>(false);
+  // Use dynamic links from contractor
+  const privacyPolicyLink = contractor.privacy_policy_link || `#`;
+  const termsAndConditionsLink = contractor.terms_and_conditions_link || `#`;
 
   const handleReset = () => {
     onReset();
@@ -230,7 +233,7 @@ const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
                 <div className="relative">
                   <label htmlFor="phone" className="input-label">Phone</label>
                   <div className='flex items-start'>
-                    <input className="py-3 px-4 block w-12 bg-gray-100 border border-gray-200 border-r-transparent rounded-l-lg text-base focus:border-gray-200 focus:border-r-transparent focus:ring-transparent cursor-default focus:outline-none" readOnly placeholder='+1'>
+                    <input className="py-3 px-4 block text-center w-14 bg-gray-100 border border-gray-200 border-r-transparent rounded-l-lg text-base focus:border-gray-200 focus:border-r-transparent focus:ring-transparent cursor-default focus:outline-none" readOnly placeholder='+1'>
                     </input>
                     <PhoneInput
                       country="US"
@@ -409,11 +412,11 @@ const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
                 />
                 <label htmlFor="termsAndPrivacyOptIn" className="ml-4 block text-base text-gray-900 dark:text-gray-300">
                   I have read and agree to the 
-                  <a href="https://projectquote.com/terms-and-conditions" target="_blank" rel="noopener noreferrer" className="text-accentColor underline ml-1">
+                  <a href={`${termsAndConditionsLink}`} target="_blank" rel="noopener noreferrer" className="text-accentColor underline ml-1">
                     Terms & Conditions
                   </a> 
                   {" "}and 
-                  <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-accentColor underline ml-1">
+                  <a href={`${privacyPolicyLink}`} target="_blank" rel="noopener noreferrer" className="text-accentColor underline ml-1">
                     Privacy Policy
                   </a>.
                 </label>

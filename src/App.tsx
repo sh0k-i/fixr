@@ -29,7 +29,7 @@ function App() {
     return null;
   }
 
-  const { setContractor, setServices, setLocations, contractor, user, setForm } = appContext;
+  const { setContractor, setServices, setLocations, contractor, setForm } = appContext;
 
   useEffect(() => {
     window.HSStaticMethods.autoInit();
@@ -161,17 +161,6 @@ function App() {
 
   //   fetchZip();
   // }, [user.zip]);
-
-  // Detect user's timezone on mount
-  useEffect(() => {
-    if (!user.timezone) {
-      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      appContext.setUser((prev) => ({
-        ...prev,
-        timezone: tz,
-      }));
-    }
-  }, [user.timezone, appContext]);
 
   useEffect(() => {
     if (contractor) {

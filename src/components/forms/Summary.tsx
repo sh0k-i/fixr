@@ -29,7 +29,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
     return null; // Handle the case where data is not loaded yet
   }
 
-  const { form, setForm, user, contractor, selectedService } = appContext; // Access selectedService from appContext
+  const { form, setForm, user, contractor, selectedService, timezoneAbbr } = appContext; // Access selectedService from appContext
   const [loading, setLoading] = useState<boolean>(false);
 
 	const handleRedirect = () => {
@@ -104,7 +104,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
 						service_name: selectedService.services.name,
 						service_id: selectedService.id,
             is_booked: true,
-            timezone: contractor.timezone,
+            timezone: form.timezone,
             contractor_id: contractor.id,
 					},
 				]);
@@ -231,10 +231,10 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
                           <img src="/images/clock.svg" alt="Clock" className="inline mr-2 h-5" />
                           <p className="text-base text-gray-800">{formatTime(form.time)}</p>
                           
-                          {contractor.timezone && ( 
+                          {timezoneAbbr && ( 
                             <div className='flex items-center'>
                               <img src="/images/globe.svg" alt="Clock" className="inline ml-4 mr-2 h-5" />
-                              <p className="text-base text-gray-800">{contractor.timezone}</p>
+                              <p className="text-base text-gray-800">{timezoneAbbr}</p>
                             </div>)}
 
                         </div>

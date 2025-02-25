@@ -6,6 +6,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { format, getDay } from 'date-fns';
 import BlurFade from '@/components/ui/blur-fade';
 import NavButtons from '../ui/navButtons';
+import  { DateTime }  from 'luxon';
 
 interface Step2ScheduleProps {
   onNext: () => void;
@@ -23,7 +24,7 @@ const Step2Schedule: React.FC<Step2ScheduleProps> = ({ onNext, onReset, onBack }
     return null; // Handle the case where data is not loaded yet
   }
 
-  const { form, setForm, contractor } = appContext;
+  const { form, setForm, contractor, timezoneAbbr, setTimezoneAbbr } = appContext;
   const [loading, setLoading] = useState<boolean>(false); // State to control spinner
   const [selectedDayTimeSlots, setSelectedDayTimeSlots] = useState<string[]>([]); // State to store time slots for the selected day
 
@@ -65,29 +66,39 @@ const Step2Schedule: React.FC<Step2ScheduleProps> = ({ onNext, onReset, onBack }
         ...prevForm,
         date: values.date,
         time: values.time,
+        timezone: contractor.timezone,
       }));
 
       setLoading(false); // Hide spinner
       onNext();
     },
   });
-
+  
   const handleDateChange = (date: Date | undefined) => {
     if (date) {
       const formattedDate = format(date, 'yyyy-MM-dd');
       formik.setFieldValue('date', formattedDate);
-
-      // Get the day of the week for the selected date
+  
       const dayOfWeek = getDay(date);
       const days: DayOfWeek[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
       const selectedDay = days[dayOfWeek];
-
-      // Set the time slots for the selected day
-      setSelectedDayTimeSlots(timeSlots[selectedDay]);
+      const newTimeSlots = timeSlots[selectedDay];
+  
+      setSelectedDayTimeSlots(newTimeSlots);
+  
+      // Clear invalid time selection
+      if (formik.values.time && !newTimeSlots.includes(formik.values.time)) {
+        formik.setFieldValue('time', '');
+        setRawTime('');
+      }
     }
   };
-  
-  const [rawTime, setRawTime] = useState<string>('');
+
+  const [rawTime, setRawTime] = useState<string>(form.time || '');
+
+  useEffect(() => {
+    setRawTime(form.time || '');
+  }, [form.time]);
 
   // Function to convert 24-hour time to 12-hour time
   const convertTo12HourFormat = (time: string): string => {
@@ -112,6 +123,25 @@ const Step2Schedule: React.FC<Step2ScheduleProps> = ({ onNext, onReset, onBack }
     setSelectedDayTimeSlots(timeSlots[currentDay]);
   }, [timeSlots]);
 
+  // Normalize holiday dates to midnight in the LOCAL timezone
+  const disabledDates = contractor.disabled_dates;
+  const holidays = disabledDates.holidays.map((dateStr: string) => {
+    const [datePart] = dateStr.split('T');
+    const [year, month, day] = datePart.split('-').map(Number);
+    return new Date(year, month - 1, day); // Months are 0-based
+  });
+
+  // Convert IANA Time Zone to Standard Time Abbreviation
+  const getTimeZoneAbbreviation = (ianaTimeZone: string): string => {
+    const now = DateTime.now().setZone(ianaTimeZone);
+    return now.toFormat('ZZZZ'); // Returns abbreviation like EST, CST, etc.
+  };
+
+  // set timezone abbreviation
+  useEffect(() => {
+    setTimezoneAbbr(getTimeZoneAbbreviation(contractor.timezone));
+  }, [contractor.timezone]);
+
   return (
     <div className="container-form">
       <NavButtons handleBack={onBack} handleReset={onReset} />
@@ -128,6 +158,15 @@ const Step2Schedule: React.FC<Step2ScheduleProps> = ({ onNext, onReset, onBack }
         <form onSubmit={formik.handleSubmit}>
           <div className="mt-4 rounded-lg px-4 py-4 shadow-lg sm:px-6 sm:py-4 lg:px-8 bg-white">
             <BlurFade delay={0.1} duration={0.4} blur='0px' inView yOffset={0} className="flex-grow">
+              {/* Show timezone abbreviation */}
+              <div className="mt-0 text-center text-gray-700 dark:text-neutral-200 justify-center items-center">
+                <div className='flex justify-center items-center'>
+                  <img src="/images/globe.svg" alt="Clock" className="inline ml-0 mr-2 h-5" />
+                  <p>
+                    <span className="text-base text-gray-800">{timezoneAbbr}</span>
+                  </p>
+                </div>
+              </div>
               <h2 className="text-center mt-2 mb-4 text-xl font-semibold text-gray-800 dark:text-neutral-200">
                 Select a date
               </h2>
@@ -147,13 +186,20 @@ const Step2Schedule: React.FC<Step2ScheduleProps> = ({ onNext, onReset, onBack }
                     }
                     onSelect={handleDateChange}
                     initialFocus
-                    modifiers={{
-                      disabled: [
-                        { before: new Date(new Date().setHours(0, 0, 0, 0)) },
-                        { from: new Date(), to: new Date(new Date().setDate(new Date().getDate() + 3)) },
-                        { after: new Date(new Date().setDate(new Date().getDate() + 20)) },
-                      ]
-                    }}
+                    disabled={[
+                      // Disable dates before today
+                      { before: new Date(new Date().setHours(0, 0, 0, 0)) },
+                      // Disable dynamic "from" range
+                      { 
+                        from: new Date(), 
+                        to: new Date(new Date().setDate(new Date().getDate() + disabledDates.from)) 
+                      },
+                      // Disable dynamic "after" range
+                      { after: new Date(new Date().setDate(new Date().getDate() + disabledDates.after)) },
+                      // Disable specific holidays
+                      ...holidays
+                    ]}
+                  
                   />
                 </div>
               </div>
@@ -161,46 +207,37 @@ const Step2Schedule: React.FC<Step2ScheduleProps> = ({ onNext, onReset, onBack }
               <h2 className="text-center mt-6 mb-4 text-xl font-semibold text-gray-800 dark:text-neutral-200">
                 Select Time
               </h2>
-              {selectedDayTimeSlots.length > 0 ? (
-                <div
-                  className="flex flex-wrap justify-center pb-2"
-                  style={{ gap: '10px', marginTop: '15px', width: '100%' }}
-                >
-                  {selectedDayTimeSlots.map((time: string) => (
-                    <button
-                      key={time}
-                      type="button"
-                      className={`py-3 px-4 w-28 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-300  ${
-                        rawTime === time ? 'bg-accentColor text-white border-accentColor hover:bg-accentColor' : 'bg-white text-gray-800 hover:bg-gray-100'
-                      }`}
-                      onClick={() => handleTimeSelect(time)}
-                    >
-                      {convertTo12HourFormat(time)}
-                    </button>
-                  ))}
-                </div>
+              {formik.values.date ? ( // Check if a date has been selected
+                selectedDayTimeSlots.length > 0 ? (
+                  <div
+                    className="flex flex-wrap justify-center pb-2"
+                    style={{ gap: '10px', marginTop: '15px', width: '100%' }}
+                  >
+                    {selectedDayTimeSlots.map((time: string) => (
+                      <button
+                        key={time}
+                        type="button"
+                        className={`py-3 px-4 w-28 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-300  ${
+                          rawTime === time ? 'bg-accentColor text-white border-accentColor hover:bg-accentColor' : 'bg-white text-gray-800 hover:bg-gray-100'
+                        }`}
+                        onClick={() => handleTimeSelect(time)}
+                      >
+                        {convertTo12HourFormat(time)}
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center text-gray-700 dark:text-neutral-200">
+                    No time slots available for the selected date.
+                  </div>
+                )
               ) : (
                 <div className="text-center text-gray-700 dark:text-neutral-200">
-                  No time slots available for the selected date.
+                  Please select a date to view available time slots.
                 </div>
               )}
+
               
-              {formik.values.time && (
-                <div className="mt-2 text-center text-gray-700 dark:text-neutral-200 hidden">
-                  Selected Time: {formik.values.time}
-                </div>
-              )}
-
-              {/* show contractor.timezone */}
-              <div className="mt-4 text-center text-gray-700 dark:text-neutral-200 justify-center items-center">
-                <div className='flex justify-center items-center'>
-                  <img src="/images/globe.svg" alt="Clock" className="inline ml-4 mr-2 h-5" />
-                  <p>
-                    <span className="text-base text-gray-800">{contractor.timezone}</span>
-                  </p>
-                </div>
-
-              </div>
             
             </BlurFade>
           </div>
