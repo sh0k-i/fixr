@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { AppContext } from '@/context/AppContext';
 import { useLocation } from 'react-router-dom';
 
@@ -10,19 +10,11 @@ const Footer: React.FC = () => {
   }
 
   const { contractor } = appContext;
-  const [slug, setSlug] = useState('');
   const location = useLocation();
   const currentParams = new URLSearchParams(location.search);
-      
-  useEffect(() => {
-    if (appContext && appContext.contractor) {
-      setSlug(appContext.contractor.slug);
-    }
-  }, [appContext, appContext.contractor]);
 
   // Use dynamic links from contractor
-  const privacyPolicyLink = contractor.privacy_policy_link || `/privacy-policy/${slug}`;
-  const termsAndConditionsLink = contractor.terms_and_conditions_link || `#`;
+  const privacyPolicyLink = contractor.privacy_policy_link || `#`;
 
   return (
     <footer className="bg-accentDark">
@@ -33,12 +25,6 @@ const Footer: React.FC = () => {
             className="hover:underline"
           >
             Privacy Policy
-          </a>
-          <a
-            href={`${termsAndConditionsLink}?${currentParams.toString()}`}
-            className="hover:underline"
-          >
-            Terms & Conditions
           </a>
         </div>
         <div>

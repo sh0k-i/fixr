@@ -22,7 +22,6 @@ const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
   const [loading, setLoading] = useState<boolean>(false);
   // Use dynamic links from contractor
   const privacyPolicyLink = contractor.privacy_policy_link || `#`;
-  const termsAndConditionsLink = contractor.terms_and_conditions_link || `#`;
 
   const handleReset = () => {
     onReset();
@@ -412,10 +411,6 @@ const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
                 />
                 <label htmlFor="termsAndPrivacyOptIn" className="ml-4 block text-base text-gray-900 dark:text-gray-300">
                   I have read and agree to the 
-                  <a href={`${termsAndConditionsLink}`} target="_blank" rel="noopener noreferrer" className="text-accentColor underline ml-1">
-                    Terms & Conditions
-                  </a> 
-                  {" "}and 
                   <a href={`${privacyPolicyLink}`} target="_blank" rel="noopener noreferrer" className="text-accentColor underline ml-1">
                     Privacy Policy
                   </a>.
