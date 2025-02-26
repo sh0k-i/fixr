@@ -412,7 +412,7 @@ const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
                   </a>
                   {termsConditions && ( 
                     <span> and
-                      <a href={`${privacyPolicyLink}`} target="_blank" rel="noopener noreferrer" className="text-accentColor underline ml-1">
+                      <a href={`${termsConditions}`} target="_blank" rel="noopener noreferrer" className="text-accentColor underline ml-1">
                       Terms and Conditions
                       </a>
                     </span>
