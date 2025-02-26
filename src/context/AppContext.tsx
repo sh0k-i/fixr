@@ -1,5 +1,6 @@
-import React, { createContext, useState, ReactNode, Dispatch, SetStateAction, useEffect } from 'react';
+import React, { createContext, useState, ReactNode, Dispatch, SetStateAction, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
+import  { DateTime }  from 'luxon';
 
 interface UserData {
   firstname: string | null;
@@ -56,7 +57,7 @@ interface AppContextProviderProps {
 }
 
 // Create the provider component
-const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => {
+export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => {
   const location = useLocation();
 
   const [cookiesAccepted, setCookiesAccepted] = useState<string[]>([]);
@@ -94,10 +95,10 @@ const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => 
   const [locations, setLocations] = useState<any>(null);
   const [timezoneAbbr, setTimezoneAbbr] = useState<string>('');
 
-useEffect(() => {
-  const params = new URLSearchParams(location.search);
-  setUser(prevUser => ({ ...prevUser, userNs: params.get('user_ns') }));
-}, [location.search]);
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    setUser(prevUser => ({ ...prevUser, userNs: params.get('user_ns') }));
+  }, [location.search]);
 
   // Initialize cookiesAccepted from local storage
   useEffect(() => {
@@ -112,18 +113,18 @@ useEffect(() => {
   }, []);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-    const storedForm = localStorage.getItem('form');
-    if (storedForm) {
-      setForm(JSON.parse(storedForm));
-    }
-    const storedSelectedService = localStorage.getItem('selectedService');
-    if (storedSelectedService) {
-      setSelectedService(JSON.parse(storedSelectedService));
-    }
+    // const storedUser = localStorage.getItem('user');
+    // if (storedUser) {
+    //   setUser(JSON.parse(storedUser));
+    // }
+    // const storedForm = localStorage.getItem('form');
+    // if (storedForm) {
+    //   setForm(JSON.parse(storedForm));
+    // }
+    // const storedSelectedService = localStorage.getItem('selectedService');
+    // if (storedSelectedService) {
+    //   setSelectedService(JSON.parse(storedSelectedService));
+    // }
     const storedContractor = localStorage.getItem('contractor');
     if (storedContractor) {
       setContractor(JSON.parse(storedContractor));
@@ -144,14 +145,24 @@ useEffect(() => {
   
   // Save context values to local storage whenever they change
   useEffect(() => {
-    localStorage.setItem('user', JSON.stringify(user));
-    localStorage.setItem('form', JSON.stringify(form));
-    localStorage.setItem('selectedService', JSON.stringify(selectedService));
     localStorage.setItem('contractor', JSON.stringify(contractor));
     localStorage.setItem('services', JSON.stringify(services));
     localStorage.setItem('locations', JSON.stringify(locations));
     localStorage.setItem('timezoneAbbr', JSON.stringify(timezoneAbbr));
-  }, [user, form, selectedService, contractor, services, locations, timezoneAbbr]);  
+  }, [contractor, services, locations, timezoneAbbr]);  
+
+  // Convert IANA Time Zone to Standard Time Abbreviation
+  const getTimeZoneAbbreviation = (ianaTimeZone: string): string => {
+    const now = DateTime.now().setZone(ianaTimeZone);
+    return now.toFormat('ZZZZ'); // Returns abbreviation like EST, CST, etc.
+  };
+
+  // set timezone abbreviation
+  useEffect(() => {
+    if (contractor && contractor.timezone) {
+      setTimezoneAbbr(getTimeZoneAbbreviation(contractor.timezone));
+    }
+  }, [contractor]);
 
   return (
     <AppContext.Provider
@@ -181,4 +192,11 @@ useEffect(() => {
   );
 };
 
-export default AppContextProvider;
+// Custom hook to use the context
+export const useAppContext = () => {
+  const context = useContext(AppContext);
+  if (context === undefined) {
+    throw new Error('useAppContext must be used within an AppContextProvider');
+  }
+  return context;
+};

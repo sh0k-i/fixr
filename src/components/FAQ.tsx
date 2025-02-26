@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import BlurFade from './ui/blur-fade';
-import { AppContext } from '@/context/AppContext';
+import { useAppContext } from '@/context/AppContext';
 
 interface FAQItem {
   id: number;
@@ -10,11 +10,7 @@ interface FAQItem {
 
 const FAQ: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const appContext = useContext(AppContext);
-
-  if (!appContext || !appContext.contractor || !appContext.contractor.faqs) {
-    return null; // Handle the case where data is not loaded yet
-  }
+  const { contractor } = useAppContext();
 
   const toggleAccordion = (index: number) => {
     setActiveIndex(activeIndex === index ? null : index);
@@ -40,7 +36,7 @@ const FAQ: React.FC = () => {
         <BlurFade delay={3 * 0.15} inView yOffset={0} className="md:col-span-3">
           {/* Accordion */}
           <div className="hs-accordion-group divide-y divide-gray-200 dark:divide-neutral-700">
-            {appContext.contractor.faqs.map((item: FAQItem, index: number) => (
+            {contractor.faqs.map((item: FAQItem, index: number) => (
               <div className="hs-accordion pt-6 pb-3" key={item.id}>
                 <button
                   className="hs-accordion-toggle group pb-3 inline-flex items-center justify-between gap-x-3 w-full md:text-lg font-semibold text-start text-gray-800 rounded-lg transition hover:text-accentColor focus:outline-none focus:text-accentColor dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400"

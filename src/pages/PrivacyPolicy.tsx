@@ -1,15 +1,12 @@
 "use client";
-import { useContext } from 'react'; 
 import Footer from "@/components/Footer";
 import NavBar2 from "@/components/NavBar2";
-import { AppContext } from '@/context/AppContext';
+import { useAppContext } from '@/context/AppContext';
+
 
 
 const PrivacyPolicy = () => {
-  const appContext = useContext(AppContext);
-    if (!appContext || !appContext.contractor) {
-      return null; 
-    }
+  const {contractor} = useAppContext();
   return (
     <div className="bg-gray-100">
       <NavBar2 />
@@ -18,7 +15,7 @@ const PrivacyPolicy = () => {
           <div className='flex justify-center text-center mt-11'>
             <div className="my-10">
               <h1 className="heading-primary">
-                Privacy Policy for <span className="text-accentColor">{appContext.contractor.name}</span>
+                Privacy Policy for <span className="text-accentColor">{contractor.name}</span>
               </h1>
             </div>
           </div>

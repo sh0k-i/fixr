@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { AppContext } from '@/context/AppContext';
+import React, { useState } from 'react';
+import { useAppContext } from '@/context/AppContext';
 import Services from '@/components/Services';
 
 // Define props interface
@@ -8,12 +8,7 @@ interface Step1SelectionProps {
 }
 
 const Step1Selection: React.FC<Step1SelectionProps> = ({ onNext }) => {
-  const appContext = useContext(AppContext);
-
-  if (!appContext || !appContext.contractor || !appContext.services) {
-    return null; // Handle the case where data is not loaded yet
-  }
-  const { services, setSelectedService } = appContext;
+  const { services, setSelectedService } = useAppContext(); 
   const [loading, setLoading] = useState<boolean>(false); // State to control spinner
   const params = new URLSearchParams(window.location.search);
   const initial = params.get('firstname');

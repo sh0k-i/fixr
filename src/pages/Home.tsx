@@ -4,19 +4,36 @@ import FAQ from '@/components/FAQ';
 import Testimonials from '@/components/Testimonials';
 import Footer from '@/components/Footer';
 import ServiceCards from '@/components/ServiceCards';
-import { AppContext } from '@/context/AppContext';
-import { useContext } from 'react';
+import { useAppContext } from '@/context/AppContext';
+import { useEffect } from 'react';
 import NavBar2 from '@/components/NavBar2';
 import Feature from '@/components/Feature';
 
 const Home = () => {
-  const appContext = useContext(AppContext);
-  
-  if (!appContext || !appContext.contractor || !appContext.services) {
-    return null;
-  }
-  const { services } = appContext;
-  
+  const { services, user, form, selectedService, setUser, setForm, setSelectedService} = useAppContext();
+
+  // Load context values from local storage
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+    const storedForm = localStorage.getItem('form');
+    if (storedForm) {
+      setForm(JSON.parse(storedForm));
+    }
+    const storedSelectedService = localStorage.getItem('selectedService');
+    if (storedSelectedService) {
+      setSelectedService(JSON.parse(storedSelectedService));
+    }
+  }, [setUser, setForm, setSelectedService]);
+
+  // Save context values to local storage whenever they change
+  useEffect(() => {
+    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('form', JSON.stringify(form));
+    localStorage.setItem('selectedService', JSON.stringify(selectedService));
+  }, [user, form, selectedService]);  
 
   return (
     <div className='bg-white'>

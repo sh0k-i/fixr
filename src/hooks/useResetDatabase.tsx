@@ -1,18 +1,12 @@
-import { useContext } from 'react';
-import { AppContext } from '../context/AppContext';
+import { useAppContext } from '@/context/AppContext';
 import {central} from '@/lib/supabaseClient';
 
 const useResetDatabase = () => {
-  const appContext = useContext(AppContext);
 
   const resetFormFields = async () => {
-    if (!appContext) {
-      console.error('AppContext is not available');
-      return;
-    }
 
     try {
-      const { form } = appContext; // Ensure formId is accessible
+      const { form } = useAppContext();
 
       // Check if formId exists in the database
       const { data, error } = await central

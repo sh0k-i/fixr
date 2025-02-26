@@ -1,14 +1,9 @@
-import { useContext } from 'react';
-import { AppContext } from '@/context/AppContext'; // Ensure AppContext is correctly imported
+import { useAppContext } from '@/context/AppContext';
+ // Ensure AppContext is correctly imported
 
 const useClearFormState = () => {
-  const appContext = useContext(AppContext);
 
-  if (!appContext) {
-    throw new Error('useClearFormState must be used within an AppContextProvider');
-  }
-
-  const { setUser, setForm, setSelectedService } = appContext;
+  const { setUser, setForm, setSelectedService } = useAppContext();
 
   const clearFormState = () => {
     setUser(prev => ({

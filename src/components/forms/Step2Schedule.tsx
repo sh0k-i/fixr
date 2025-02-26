@@ -1,12 +1,12 @@
 "use client";
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import { AppContext } from '@/context/AppContext';
+import { useAppContext } from '@/context/AppContext';
+
 import { Calendar } from '@/components/ui/calendar';
 import { format, getDay } from 'date-fns';
 import BlurFade from '@/components/ui/blur-fade';
 import NavButtons from '../ui/navButtons';
-import  { DateTime }  from 'luxon';
 
 interface Step2ScheduleProps {
   onNext: () => void;
@@ -18,13 +18,7 @@ interface Step2ScheduleProps {
 type DayOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
 
 const Step2Schedule: React.FC<Step2ScheduleProps> = ({ onNext, onReset, onBack }) => {
-  const appContext = useContext(AppContext);
-
-  if (!appContext || !appContext.contractor || !appContext.services) {
-    return null; // Handle the case where data is not loaded yet
-  }
-
-  const { form, setForm, contractor, timezoneAbbr, setTimezoneAbbr } = appContext;
+  const { form, setForm, contractor, timezoneAbbr } = useAppContext();
   const [loading, setLoading] = useState<boolean>(false); // State to control spinner
   const [selectedDayTimeSlots, setSelectedDayTimeSlots] = useState<string[]>([]); // State to store time slots for the selected day
 
@@ -130,17 +124,6 @@ const Step2Schedule: React.FC<Step2ScheduleProps> = ({ onNext, onReset, onBack }
     const [year, month, day] = datePart.split('-').map(Number);
     return new Date(year, month - 1, day); // Months are 0-based
   });
-
-  // Convert IANA Time Zone to Standard Time Abbreviation
-  const getTimeZoneAbbreviation = (ianaTimeZone: string): string => {
-    const now = DateTime.now().setZone(ianaTimeZone);
-    return now.toFormat('ZZZZ'); // Returns abbreviation like EST, CST, etc.
-  };
-
-  // set timezone abbreviation
-  useEffect(() => {
-    setTimezoneAbbr(getTimeZoneAbbreviation(contractor.timezone));
-  }, [contractor.timezone]);
 
   return (
     <div className="container-form">

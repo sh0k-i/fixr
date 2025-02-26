@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { AppContext } from '@/context/AppContext';
+import React from 'react';
+import { useAppContext } from '@/context/AppContext';
 import BlurFade from './ui/blur-fade';
 import IconComponent from '@/hooks/IconComponent';
 
@@ -15,13 +15,9 @@ interface ServicesProps {
 
 const Services: React.FC<ServicesProps> = ({ services, handleServiceSelect }) => {
 
-  const appContext = useContext(AppContext);
+  const { contractor } = useAppContext();
 
-  if (!appContext || !appContext.contractor || !appContext.services) {
-    return null; // Handle the case where data is not loaded yet
-  }
-
-  const accent_rgba = appContext.contractor.colors.accent_rgba || '0 10px 25px -6px rgba(0, 0, 0, 0.1)';
+  const accent_rgba = contractor.colors.accent_rgba || '0 10px 25px -6px rgba(0, 0, 0, 0.1)';
 
   return (
     <div>

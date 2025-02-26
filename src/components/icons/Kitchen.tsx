@@ -1,15 +1,12 @@
 
 
 
-import React, { useContext } from 'react';
-import { AppContext } from '@/context/AppContext';
+import React from 'react';
+import { useAppContext } from '@/context/AppContext';
+
 
 const Kitchen: React.FC = () => {
-  const appContext = useContext(AppContext);
-  if (!appContext) {
-    return null;
-  }
-  const { contractor } = appContext;
+    const { contractor } = useAppContext();
   const { accent, dark, darker } = contractor.colors;
 
   return (

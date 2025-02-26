@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { AppContext } from '@/context/AppContext';
+import { useAppContext } from '@/context/AppContext';
 import PhoneInput from 'react-phone-number-input/input';
 import NavButtons from '../ui/navButtons';
 
@@ -12,13 +12,8 @@ interface Step1InfoProps {
 }
 
 const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
-  const appContext = useContext(AppContext);
-
-  if (!appContext || !appContext.contractor || !appContext.services) {
-    return null; // Handle the case where data is not loaded yet
-  }
-
-  const { user, form, setUser, setForm, contractor } = appContext;
+  
+  const { user, form, setUser, setForm, contractor } = useAppContext();
   const [loading, setLoading] = useState<boolean>(false);
   // Use dynamic links from contractor
   const privacyPolicyLink = contractor.privacy_policy_link || `#`;

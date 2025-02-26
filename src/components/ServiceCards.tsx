@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { AppContext } from '../context/AppContext'; // Ensure AppContext is correctly imported
+import React, { useState, useEffect } from 'react';
+import { useAppContext } from '@/context/AppContext';
 import useClearFormState from '../hooks/useClearFormState';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Services from './Services';
@@ -7,12 +7,7 @@ import BlurFade from './ui/blur-fade';
 import useFormPersistence from '@/hooks/useFormPersistence';
 
 const ServiceCards: React.FC = () => {
-  const appContext = useContext(AppContext);
-  if (!appContext || !appContext.contractor || !appContext.services) {
-    return null; // Handle the case where data is not loaded yet
-  }
-
-  const { contractor, services, form, setSelectedService } = appContext;
+  const { contractor, services, form, setSelectedService } = useAppContext();
   const [, setCurrentStep, resetCurrentStep] = useFormPersistence('formStep', 1); 
 
   const navigate = useNavigate();
@@ -21,10 +16,10 @@ const ServiceCards: React.FC = () => {
     const [slug, setSlug] = useState('');
 
   useEffect(() => {
-    if (appContext && appContext.contractor) {
-      setSlug(appContext.contractor.slug);
+    if (contractor) {
+      setSlug(contractor.slug);
     }
-  }, [appContext, appContext.contractor]);
+  }, [ contractor]);
 
   const handleServiceSelect = async (service: any) => {
     let formId = form.formId;
@@ -49,7 +44,7 @@ const ServiceCards: React.FC = () => {
 
     console.log('Selected service:', service);
     console.log('Form ID:', formId);
-    console.log(appContext.form);
+    console.log(form);
     console.log(services);
 
     // Update local storage

@@ -3,13 +3,15 @@ import Home from './pages/Home';
 import RequestQuote from './pages/RequestQuote';
 import "preline/preline";
 import { IStaticMethods } from "preline/preline";
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import CookiePolicy from './pages/CookiePolicy';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import "vanilla-cookieconsent/dist/cookieconsent.css";
 import {central} from '@/lib/supabaseClient';
-import { AppContext } from '@/context/AppContext';
+import { useAppContext } from '@/context/AppContext';
 import ThankYou from './pages/ThankYou';
+import Inbound from './pages/Inbound';
+import InboundThankYou from './pages/InboundThanksYou';
 
 declare global {
   interface Window {
@@ -19,17 +21,12 @@ declare global {
 
 function App() {
   const location = useLocation();
-  const appContext = useContext(AppContext);
   const [loading, setLoading] = useState(false); // State to control rendering
   const params = new URLSearchParams(location.search);
   const companyId = params.get('company_id');
   const conceptId = params.get('concept_id');
 
-  if (!appContext) {
-    return null;
-  }
-
-  const { setContractor, setServices, setLocations, contractor, setForm } = appContext;
+  const { setContractor, setServices, setLocations, contractor, setForm, services, form, user, locations } = useAppContext();
 
   useEffect(() => {
     window.HSStaticMethods.autoInit();
@@ -130,38 +127,6 @@ function App() {
     fetchConcepts();
   }, [conceptId]);
 
-  // // fetch zip if user.zip is present or changed
-  // useEffect(() => {
-  //   const fetchZip = async () => {
-  //     if (user.zip) {
-  //       try {
-  //         console.log('Fetching zip data...');
-  //         const { data, error } = await central
-  //           .from('zips')
-  //           .select('*')
-  //           .eq('zip', user.zip)
-  //           .single();
-
-  //         if (error) {
-  //           console.error('Error fetching zip:', error);
-  //         } else {
-  //           setUser(prevUser => ({
-  //             ...prevUser,
-  //             city: data.city,
-  //             state: data.state_id,
-  //             timezone: data.timezone,
-  //           }));
-  //           console.log('Zip data fetched:', data);
-  //         }
-  //       } catch (err) {
-  //         console.error('Unexpected error:', err);
-  //       }
-  //     }
-  //   };
-
-  //   fetchZip();
-  // }, [user.zip]);
-
   useEffect(() => {
     if (contractor) {
       // Update the document title
@@ -181,29 +146,29 @@ function App() {
   }, [contractor]);
 
   useEffect(() => {
-    console.log('contractor', appContext.contractor);
-    console.log('services', appContext.services);
-    console.log('locations', appContext.locations);
-    console.log('form', appContext.form);
-    console.log('user', appContext.user);
+    console.log('contractor', contractor);
+    console.log('services', services);
+    console.log('locations', locations);
+    console.log('form', form);
+    console.log('user', user);
   }
-  , [appContext]);
+  , [ contractor, services, locations, form, user]);
 
   // Set custom colors from contractor data
   useEffect(() => {
-    if (appContext && appContext.contractor && appContext.contractor.colors) {
-      const accentColor = appContext.contractor.colors.accent || '#FA5100'; 
-      const light = appContext.contractor.colors.light || '#fff1eb';
-      const dark = appContext.contractor.colors.dark || '#d84a05';
-      const darker = appContext.contractor.colors.darker || '#ab3c06';
+    if (contractor && contractor.colors) {
+      const accentColor = contractor.colors.accent || '#FA5100'; 
+      const light = contractor.colors.light || '#fff1eb';
+      const dark = contractor.colors.dark || '#d84a05';
+      const darker = contractor.colors.darker || '#ab3c06';
       document.documentElement.style.setProperty('--light', light);
       document.documentElement.style.setProperty('--accent', accentColor);
       document.documentElement.style.setProperty('--darker', darker);
       document.documentElement.style.setProperty('--dark', dark);
     }
-  }, [appContext]);
+  }, [ contractor ]);
 
-  if (loading) {
+  if (loading || !contractor || !services || !locations) {
     return null; // Render nothing while loading
   }
   
@@ -212,11 +177,12 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/:slug' element={<Home />} />
-        <Route path='/stl/:slug' element={<Home />} />
+        <Route path='/inbound/:slug' element={<Inbound />} />
         <Route path='/request-quotes/:slug' element={<RequestQuote />} />
         <Route path='/cookie-policy/:slug' element={<CookiePolicy />} />
         <Route path='/privacy-policy/:slug' element={<PrivacyPolicy />} />
         <Route path='/summary/:slug' element={<ThankYou />} />
+        <Route path='/summary-inbound/:slug' element={<InboundThankYou />} />
         {/* <Route path="*" element={<RequestQuote />} /> */}
       </Routes>
     </>

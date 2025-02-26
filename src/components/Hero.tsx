@@ -1,7 +1,7 @@
 "use client";
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { AppContext } from '@/context/AppContext';
+import { useAppContext } from '@/context/AppContext';
 import useClearFormState from '@/hooks/useClearFormState.tsx';
 import { InteractiveHoverButton } from './ui/interactive-hover-button';
 import {PromoModal, DialogTitle, Dialog} from '@/components/PromoModal';
@@ -11,19 +11,14 @@ import BlurFade from './ui/blur-fade';
 const Hero = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const appContext = useContext(AppContext);
   const clearFormState = useClearFormState();
-
-  if (!appContext || !appContext.contractor || !appContext.services) {
-    return null; // Handle the case where data is not loaded yet
-  }
 
   const capitalizeWords = (str: string | null) => {
     if (!str) return '';
     return str.replace(/\b\w/g, char => char.toUpperCase());
   };
 
-  const { contractor, setForm, form, services } = appContext;
+  const { contractor, setForm, form, services } = useAppContext();
   const urlParams = new URLSearchParams(location.search);
   const firstnameParam = capitalizeWords(urlParams.get('firstname')) || '';
   const conceptParam = urlParams.get('concept_id') || '';
@@ -46,10 +41,10 @@ const Hero = () => {
   const [subheadingText1, setSubheadingText1] = useState(heroLede);
 
   useEffect(() => {
-    if (appContext && appContext.contractor) {
-      setSlug(appContext.contractor.slug);
+    if (contractor) {
+      setSlug(contractor.slug);
     }
-  }, [appContext, appContext.contractor]);
+  }, [contractor]);
 
   // Determine the hero media
   useEffect(() => {
@@ -145,7 +140,7 @@ const Hero = () => {
         </div>
         <div className="absolute inset-0 bg-[#12121d99] opacity-100 z-[1]"></div> {/* Moved overlay after video and added z-index */}
 
-        <div className="relative z-[2] w-full overflow-hidden"> {/* Added z-index to content container */}
+        <div  className="relative z-[2] w-full overflow-hidden"> {/* Added z-index to content container */}
           
           <div className="z-10 lg:w-8/12 flex items-left justify-left flex-col px-4 sm:pl-16 mt-0 space-y-6 md:space-y-8 pb-4">
             <BlurFade delay={2 * 0.25} yOffset={0}
@@ -161,7 +156,7 @@ const Hero = () => {
 
             <BlurFade delay={6 * 0.25} yOffset={0} className="mt-5 lg:mt-8 flex flex-col items-start gap-2 sm:flex-row sm:gap-3">
               
-              <InteractiveHoverButton className='bg-accentColor text-white border-transparent text-sm rounded-lg py-3' onClick={handleButtonClick}>{buttonText}</InteractiveHoverButton>
+              <InteractiveHoverButton className='bg-accentColor text-white border-transparent text-sm rounded-lg py-3' onClick={handleButtonClick} >{buttonText}</InteractiveHoverButton>
             </BlurFade>
 
           </div>

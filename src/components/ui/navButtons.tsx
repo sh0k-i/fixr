@@ -1,8 +1,7 @@
 import React from 'react';
 import BackButton from '@/components/ui/backButton';
 import ResetButton from '@/components/ui/resetButton';
-import { AppContext } from '@/context/AppContext';
-import { useContext } from 'react';
+import { useAppContext } from '@/context/AppContext';
 
 interface NavButtonsProps {
   handleBack: () => void;
@@ -10,13 +9,9 @@ interface NavButtonsProps {
 }
 
 const NavButtons: React.FC<NavButtonsProps> = ({ handleBack, handleReset }) => {
-  const appContext = useContext(AppContext);
 
-  if (!appContext) {
-    return null;
-  }
-
-  const hasAvatar = appContext.contractor?.content?.avatar;
+  const { contractor } = useAppContext();
+  const hasAvatar = contractor?.content?.avatar;
 
   return (
     <div>

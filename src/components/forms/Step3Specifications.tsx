@@ -1,5 +1,6 @@
-import React, { useContext, useState } from 'react';
-import { AppContext } from '@/context/AppContext';
+import React, { useState } from 'react';
+import { useAppContext } from '@/context/AppContext';
+
 import NavButtons from '../ui/navButtons';
 import ResetButton from '../ui/resetButton';
 import Repair from '../icons/Repair';
@@ -13,13 +14,7 @@ interface Step3SpecificationsProps {
 }
 
 const Step3Specifications: React.FC<Step3SpecificationsProps> = ({ onNext, onBack, onReset }) => {
-  const appContext = useContext(AppContext);
-
-  if (!appContext || !appContext.contractor || !appContext.services) {
-    return null; // Handle the case where data is not loaded yet
-  }
-
-  const { setForm, contractor, services } = appContext; // Access form and setForm from appContext
+  const { setForm, contractor, services } = useAppContext();
   const [loading, setLoading] = useState<boolean>(false);
   const accent_rgba = contractor.colors.accent_rgba || '0 10px 25px -6px rgba(0, 0, 0, 0.1)';
 
@@ -60,12 +55,12 @@ const Step3Specifications: React.FC<Step3SpecificationsProps> = ({ onNext, onBac
     onNext();
   };
 
-  const hasAvatar = appContext.contractor?.content?.avatar;
+  const hasAvatar = contractor?.content?.avatar;
 
   return (
     <div className="container-form">
       {
-        appContext.services.length > 1 ? (
+        services.length > 1 ? (
           <NavButtons handleBack={handleBack} handleReset={handleReset} />
         ) : (
           <div

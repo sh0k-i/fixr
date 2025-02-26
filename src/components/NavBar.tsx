@@ -1,27 +1,27 @@
 "use client";
-import { useContext, useEffect, useState } from 'react'; 
-import { AppContext } from '@/context/AppContext';
+import { useEffect, useState } from 'react'; 
+import { useAppContext } from '@/context/AppContext';
 
 const Navbar  = () => {
-  const appContext = useContext(AppContext);
-
-  if (!appContext || !appContext.contractor || !appContext.services) {
-    return null; // Handle the case where data is not loaded yet
-  }
-
+  
+  const { contractor } = useAppContext();
   const [slug, setSlug] = useState('');
 
   useEffect(() => {
-    if (appContext && appContext.contractor) {
-      setSlug(appContext.contractor.slug);
+    if ( contractor) {
+      setSlug(contractor.slug);
     }
-  }, [appContext, appContext.contractor]);
+  }, [contractor]);
 
-    // Extract bot_number from URL parameters
-    const searchParams = new URLSearchParams(location.search);
-    const companyPhone = searchParams.get('bot_number') || '+18594075999'; // Fallback to default if not provided
+  // Extract bot_number from URL parameters
+  const searchParams = new URLSearchParams(location.search);
+  const companyPhone = searchParams.get('bot_number') || '+18594075999'; // Fallback to default if not provided
 
-  const logoSrc = appContext.contractor.content.logo || '/images/logo.png';
+  if (!contractor) {
+    return null; // Handle the case where data is not loaded yet
+  }
+
+  const logoSrc = contractor.content.logo || '/images/logo.png';
 
 
   // Create the new URL with preserved query parameters

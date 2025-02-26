@@ -1,6 +1,7 @@
 "use client";
-import React, { useContext, useState } from 'react';
-import { AppContext } from '@/context/AppContext';
+import React, { useState } from 'react';
+import { useAppContext } from '@/context/AppContext';
+
 import NavButtons from '../ui/navButtons';
 
 // Define props interface
@@ -11,13 +12,7 @@ interface Step2PromoOptInProps {
 }
 
 const Step2PromoOptIn: React.FC<Step2PromoOptInProps> = ({ onNext, onBack, onReset }) => {
-  const appContext = useContext(AppContext);
-
-  if (!appContext || !appContext.contractor || !appContext.services) {
-    return null; // Handle the case where data is not loaded yet
-  }
-
-  const { setForm, contractor } = appContext; // Access form and setForm from appContext
+  const { setForm, contractor } = useAppContext();
   const [loading, setLoading] = useState<boolean>(false);
   const accent_rgba = contractor.colors.accent_rgba || '0 10px 25px -6px rgba(0, 0, 0, 0.1)';
 

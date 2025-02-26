@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ParentForm from "@/components/forms/ParentForm";
 import { useLocation } from 'react-router-dom';
 import { Dialog, DialogContent,
@@ -11,24 +11,46 @@ import { Dialog, DialogContent,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import posthog from 'posthog-js';
-import { AppContext } from '@/context/AppContext';
+import { useAppContext } from '@/context/AppContext';
+
 import Navbar from '@/components/NavBar';
 
 const RequestQuote = () => {
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const appContext = useContext(AppContext);
-
-  if (!appContext) {
-    return null; // Handle the case where data is not loaded yet
-  }
   const [slug, setSlug] = useState('');
+  const { user, form, selectedService, contractor, setUser, setForm, setSelectedService } = useAppContext();
+
+  // Load context values from local storage
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+    const storedForm = localStorage.getItem('form');
+    if (storedForm) {
+      setForm(JSON.parse(storedForm));
+    }
+    const storedSelectedService = localStorage.getItem('selectedService');
+    if (storedSelectedService) {
+      setSelectedService(JSON.parse(storedSelectedService));
+    }
+  }, [setUser, setForm, setSelectedService]);
+
+  // Save context values to local storage whenever they change
+  useEffect(() => {
+    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('form', JSON.stringify(form));
+    localStorage.setItem('selectedService', JSON.stringify(selectedService));
+  }, [user, form, selectedService]);  
+
+
 
   useEffect(() => {
-    if (appContext && appContext.contractor) {
-      setSlug(appContext.contractor.slug);
+    if (contractor) {
+      setSlug(contractor.slug);
     }
-  }, [appContext, appContext.contractor]);
+  }, [contractor]);
 
   useEffect(() => {
     const handlePopState = () => {
@@ -56,7 +78,7 @@ const RequestQuote = () => {
     setIsModalOpen(false);
   };
 
-  if (!appContext.contractor) {
+  if (!contractor) {
     return null;
   }
 

@@ -8,32 +8,90 @@ import NavBar from '@/components/NavBar';
 import { useAppContext } from '@/context/AppContext';
 import Footer from '@/components/Footer';
 import BlurFade from '@/components/ui/blur-fade';
-import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
 import IconComponent from '@/hooks/IconComponent';
+import { useLocation } from 'react-router-dom';
+import {central} from '@/lib/supabaseClient';
 
-
-
-const ThankYou: React.FC = () => {
+const InboundThankYou: React.FC = () => {
   const { form, user, selectedService, contractor, timezoneAbbr, setUser, setForm, setSelectedService } = useAppContext();
   const navigate = useNavigate();
   const confettiRef = useRef<ConfettiRef>(null);
   const [slug, setSlug] = useState('');
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const serviceId = params.get('service');
+  const formId = params.get('form_id');
+  const [loading, setLoading] = useState(true);
 
-  // Load context values from local storage
+  // On load, fetch form from bookings table in supabase based on form id
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    if (formId) {
+      const fetchForm = async () => {
+        const { data: form, error } = await central
+          .from('bookings')
+          .select('*')
+          .eq('id', formId)
+          .single();
+
+        if (error) {
+          console.error('Error fetching form:', error);
+          return;
+        }
+
+        if (form) {
+          setUser(prevUser => ({
+            ...prevUser,
+            userNs: form.user_ns,
+            firstname: form.firstname,
+            lastname: form.lastname,
+            email: form.email,
+            phone: form.phone,
+            zip: form.zip,
+            address1: form.address1,
+            address2: form.address2,
+            city: form.city,
+            state: form.state,
+          }));
+
+          setForm(prevForm => ({
+            ...prevForm,
+            formId: form.id,
+            serviceSpecification: form.service_specification,
+            promo: form.promo,
+            date: form.date,
+            time: form.time,
+            timezone: contractor?.timezone,
+          }));
+          setLoading(false);
+        }
+      }
+      fetchForm();
     }
-    const storedForm = localStorage.getItem('form');
-    if (storedForm) {
-      setForm(JSON.parse(storedForm));
+
+  }, [ location.search ]);
+
+  // if service id exisits, set selected service 
+  useEffect(() => {
+    const fetchService = async () => {
+      const { data: service, error } = await central
+        .from('services')
+        .select('*')
+        .eq('id', serviceId)
+        .single();
+
+      if (error) {
+        console.error('Error fetching service:', error);
+        return;
+      }
+
+      if (service) {
+        setSelectedService(service);
+      }
     }
-    const storedSelectedService = localStorage.getItem('selectedService');
-    if (storedSelectedService) {
-      setSelectedService(JSON.parse(storedSelectedService));
+    if (serviceId) {
+      fetchService();
     }
-  }, [setUser, setForm, setSelectedService]);
+  }, [serviceId]);
 
   useEffect(() => {
     if (contractor) {
@@ -101,7 +159,7 @@ const ThankYou: React.FC = () => {
 
   const bRoll = contractor.content.b_roll || 'https://storage.googleapis.com/channel_automation/Webassets/video/homeprojectparterns-hero_9.0.10.webm';
 
-  if (!selectedService || !user || !contractor) {
+  if (!selectedService || !user || !contractor || loading) {
     return null;
   }
 
@@ -130,17 +188,13 @@ const ThankYou: React.FC = () => {
           <div className="z-10 flex items-center justify-center flex-col px-4 sm:pl-16 mt-0 space-y-6 md:space-y-8 py-14 md:py-16 lg:py-20">
             <BlurFade delay={2 * 0.20} yOffset={0}
               className="block font-display text-center text-4xl md:text-5xl lg:text-6xl font-semibold text-white max-w-4xl pointer-events-none">
-              Your Appointment is Requested - See You Soon!
+              Your Appointment is Confirmed - See You Soon!
             </BlurFade>
 
             <BlurFade delay={3 * 0.20} yOffset={0}
               className="text-sm md:text-base lg:text-lg text-white/80 text-center max-w-4xl pointer-events-none"
             >
-              Thank you for booking with us! Your appointment has been successfully requested. You'll receive a confirmation email with all the details shortly. We look forward to seeing you!
-            </BlurFade>
-
-            <BlurFade delay={4 * 0.20} yOffset={0} className="mt-5 lg:mt-8 flex flex-col items-start gap-2 sm:flex-row sm:gap-3"> 
-              <InteractiveHoverButton className='bg-accentColor text-white border-transparent text-sm rounded-lg py-3' onClick={handleGoHome}>Go to Home Page</InteractiveHoverButton>
+              Thank you for booking with us! Your appointment has been successfully confirmed. You'll receive a confirmation email with all the details shortly. We look forward to seeing you!
             </BlurFade>
           </div>
         </div>
@@ -169,7 +223,7 @@ const ThankYou: React.FC = () => {
                         <path clipRule="evenodd" d="m256 0c-141.2 0-256 114.8-256 256s114.8 256 256 256 256-114.8 256-256-114.8-256-256-256z" fill="currentColor" fillRule="evenodd"></path>
                         <path d="m206.7 373.1c-32.7-32.7-65.2-65.7-98-98.4-3.6-3.6-3.6-9.6 0-13.2l37.7-37.7c3.6-3.6 9.6-3.6 13.2 0l53.9 53.9 138.6-138.7c3.7-3.6 9.6-3.6 13.3 0l37.8 37.8c3.7 3.7 3.7 9.6 0 13.2l-183.3 183.1c-3.6 3.7-9.5 3.7-13.2 0z" fill="#fff"></path>
                       </svg>
-                        <p className="text-lg font-semibold ml-2">Appointment Requested</p>
+                        <p className="text-lg font-semibold ml-2">Appointment Confirmed</p>
                       </div>
                     </div>
                     <hr className='mb-4'></hr>
@@ -300,4 +354,4 @@ const ThankYou: React.FC = () => {
   );
 };
 
-export default ThankYou;
+export default InboundThankYou;

@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import Marquee from "./ui/marquee";
 import BlurFade from "./ui/blur-fade";
-import { AppContext } from '@/context/AppContext';
+import { useAppContext } from '@/context/AppContext';
 
 interface Review {
   name: string;
@@ -36,13 +36,9 @@ const ReviewCard: React.FC<Review> = ({ img, name, body }) => {
 };
 
 const Testimonials: React.FC = () => {
-  const appContext = useContext(AppContext);
+  const { contractor } = useAppContext();
 
-  if (!appContext || !appContext.contractor || !appContext.contractor.testimonials) {
-    return null; // Handle the case where data is not loaded yet
-  }
-
-  const sortedReviews = [...appContext.contractor.testimonials].sort((a, b) => a.id.localeCompare(b.id)); // Ascending order
+  const sortedReviews = [...contractor.testimonials].sort((a, b) => a.id.localeCompare(b.id)); // Ascending order
 
   return (
     <div>

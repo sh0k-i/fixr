@@ -1,7 +1,8 @@
 import * as React from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { useContext, useState, useEffect } from 'react';
-import { AppContext } from '@/context/AppContext';
+import { useState, useEffect } from 'react';
+import { useAppContext } from '@/context/AppContext';
+
 import { cn } from "@/lib/utils"
 
 interface PromoModalProps {
@@ -11,11 +12,8 @@ interface PromoModalProps {
 const Dialog = DialogPrimitive.Root
 
 const PromoModal: React.FC<PromoModalProps> = ({ onButtonClick }) => {
-  const appContext = useContext(AppContext);
-  if (!appContext || !appContext.contractor || !appContext.services) {
-    return null; // Handle the case where data is not loaded yet
-  }
-  const backgroundImage = appContext?.form?.concept?.photo || '';
+  const { form } = useAppContext();
+  const backgroundImage = form?.concept?.photo || '';
   const [open, setOpen] = useState(false);
   
   useEffect(() => {

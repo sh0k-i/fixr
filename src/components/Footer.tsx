@@ -1,18 +1,14 @@
-import { useContext } from 'react';
-import { AppContext } from '@/context/AppContext';
+import { useAppContext } from '@/context/AppContext';
 import { useLocation } from 'react-router-dom';
 
 const Footer: React.FC = () => {
-  const appContext = useContext(AppContext);
-
-  if (!appContext || !appContext.contractor || !appContext.services) {
-    return null; // Handle the case where data is not loaded yet
-  }
-
-  const { contractor } = appContext;
+  const { contractor, services } = useAppContext();
   const location = useLocation();
   const currentParams = new URLSearchParams(location.search);
 
+  if ( !contractor || !services) {
+    return null; // Handle the case where data is not loaded yet
+  }
   // Use dynamic links from contractor
   const privacyPolicyLink = contractor.privacy_policy_link || `#`;
 

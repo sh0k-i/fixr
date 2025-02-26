@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Stepper from '../ui/Stepper';
-import { AppContext } from '@/context/AppContext';
+import { useAppContext } from '@/context/AppContext';
 import useFormPersistence from '@/hooks/useFormPersistence';
 import useClearFormState from '@/hooks/useClearFormState';
 import Step1Selection from './Step1Selection';
@@ -13,17 +13,12 @@ import Step2Schedule from './Step2Schedule';
 import Summary from './Summary';
 
 const ParentForm = () => {
-  const appContext = useContext(AppContext);
   const navigate = useNavigate();
   const location = useLocation();
   const clearFormState = useClearFormState();
   // const resetDatabase = useResetDatabase();
 
-  if (!appContext || !appContext.contractor || !appContext.services) {
-    return null; // Handle the case where data is not loaded yet
-  }
-
-  const { setForm, contractor, services, setSelectedService } = appContext;
+  const { setForm, contractor, services, setSelectedService } = useAppContext();
   // Determine the initial step based on the number of services
   const initialStep = services.length === 1 ? 2 : 1;
   const [currentStep, setCurrentStep, resetCurrentStep] = useFormPersistence('formStep', initialStep);
@@ -46,10 +41,10 @@ const ParentForm = () => {
   
   // Set the slug
   useEffect(() => {
-    if (appContext && appContext.contractor) {
-      setSlug(appContext.contractor.slug);
+    if (contractor) {
+      setSlug(contractor.slug);
     }
-  }, [appContext, appContext.contractor]);
+  }, [contractor]);
 
   const navigateWithParams = (path: string) => {
     const currentParams = new URLSearchParams(location.search);
