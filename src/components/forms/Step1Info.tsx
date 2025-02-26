@@ -17,6 +17,7 @@ const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
   const [loading, setLoading] = useState<boolean>(false);
   // Use dynamic links from contractor
   const privacyPolicyLink = contractor.privacy_policy_link || `#`;
+  const termsConditions = contractor.terms_conditions_link || null;
 
   const handleReset = () => {
     onReset();
@@ -408,7 +409,14 @@ const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
                   I have read and agree to the 
                   <a href={`${privacyPolicyLink}`} target="_blank" rel="noopener noreferrer" className="text-accentColor underline ml-1">
                     Privacy Policy
-                  </a>.
+                  </a>
+                  {termsConditions && ( 
+                    <span> and
+                      <a href={`${privacyPolicyLink}`} target="_blank" rel="noopener noreferrer" className="text-accentColor underline ml-1">
+                      Terms and Conditions
+                      </a>
+                    </span>
+                  )}
                 </label>
               </div>
               {formik.errors.termsAndPrivacyOptIn && (
