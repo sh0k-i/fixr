@@ -4,12 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import type { ConfettiRef } from '@/components/ui/confetti';
 import Confetti from '@/components/ui/confetti';
 import HowItWorks from '@/components/HowItWorks';
-import NavBar from '@/components/NavBar';
 import { useAppContext } from '@/context/AppContext';
 import Footer from '@/components/Footer';
 import BlurFade from '@/components/ui/blur-fade';
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
 import IconComponent from '@/hooks/IconComponent';
+import NavBar2 from '@/components/NavBar2';
 
 
 
@@ -111,7 +111,7 @@ const ThankYou: React.FC = () => {
         ref={confettiRef}
         className="absolute left-0 top-0 z-50 w-full h-full pointer-events-none"
       />
-      <NavBar />
+      <NavBar2 />
       {/* hero */}
       <div className="relative flex items-center">
         <div className="absolute inset-0">
@@ -130,7 +130,7 @@ const ThankYou: React.FC = () => {
           <div className="z-10 flex items-center justify-center flex-col px-4 sm:pl-16 mt-0 space-y-6 md:space-y-8 py-14 md:py-16 lg:py-20">
             <BlurFade delay={2 * 0.20} yOffset={0}
               className="block font-display text-center text-4xl md:text-5xl lg:text-6xl font-semibold text-white max-w-4xl pointer-events-none">
-              Your Appointment is Requested - See You Soon!
+              Your Appointment is Requested - Talk to You Soon!
             </BlurFade>
 
             <BlurFade delay={3 * 0.20} yOffset={0}
