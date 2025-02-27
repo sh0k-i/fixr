@@ -18,7 +18,7 @@ const ParentForm = () => {
   const clearFormState = useClearFormState();
   // const resetDatabase = useResetDatabase();
 
-  const { setForm, contractor, services, setSelectedService } = useAppContext();
+  const { setForm, contractor, services, setSelectedService, selectedService } = useAppContext();
   // Determine the initial step based on the number of services
   const initialStep = services.length === 1 ? 2 : 1;
   const [currentStep, setCurrentStep, resetCurrentStep] = useFormPersistence('formStep', initialStep);
@@ -36,8 +36,32 @@ const ParentForm = () => {
         setCurrentStep(2)
       }
     }
-    
   }, [services, setSelectedService]);
+
+  // If there is only 1 specification, preselect it
+  useEffect(() => {
+    if (selectedService?.specifications?.length === 1) {
+      setForm((prevForm) => ({
+        ...prevForm,
+        serviceSpecification: selectedService.specifications[0],
+      }));
+    }
+  }, [selectedService]);
+
+  // Modify your existing specification useEffect
+  useEffect(() => {
+    if (selectedService?.specifications?.length === 1) {
+      setForm(prev => ({
+        ...prev,
+        serviceSpecification: selectedService.specifications[0]
+      }));
+      // Add automatic step progression
+      if (currentStep === 2) {
+        setCurrentStep(3);
+      }
+    }
+  }, [selectedService, currentStep, setForm, setCurrentStep]);
+
   
   // Set the slug
   useEffect(() => {
@@ -68,8 +92,21 @@ const ParentForm = () => {
         setCurrentStep(currentStep + 2);
         console.log('promo does not exist');
       }
+    } else if (currentStep === 1) {
+      if (selectedService?.specifications?.length === 1) {
+        setForm(prev => ({
+          ...prev,
+          serviceSpecification: selectedService.specifications[0]
+        }));
+        setCurrentStep(3);
+        console.log('specifications length is 1');
+      } else {
+        setCurrentStep(2);
+        console.log('specifications length is more than 1');
+      }
     } else {
       setCurrentStep(currentStep + 1);
+      console.log('else is triggered');
     }
   };
 
@@ -85,6 +122,12 @@ const ParentForm = () => {
         setCurrentStep(currentStep - 1);
       } else {
         setCurrentStep(currentStep - 2);
+      }
+    } else if (currentStep === 3) {
+      if (selectedService?.specifications?.length === 1) {
+        setCurrentStep(1);
+      } else {
+        setCurrentStep(2);
       }
     } else {
       setCurrentStep(currentStep - 1);

@@ -18,6 +18,7 @@ const ThankYou: React.FC = () => {
   const navigate = useNavigate();
   const confettiRef = useRef<ConfettiRef>(null);
   const [slug, setSlug] = useState('');
+  const [heroMedia, setHeroMedia] = useState('');
 
   // Load context values from local storage
   useEffect(() => {
@@ -40,6 +41,17 @@ const ThankYou: React.FC = () => {
       setSlug(contractor.slug);
     }
   }, [contractor]);
+
+  // Determine the hero media
+  useEffect(() => {
+    if (contractor.content.b_roll) {
+      setHeroMedia(contractor.content.b_roll);
+    } else if (contractor.content.bg_photo) {
+      setHeroMedia(contractor.content.bg_photo);
+    } else {
+      setHeroMedia('/images/feature.jpg');
+    }
+  }, [contractor.content.b_roll, contractor.content.bg_photo]);
 
   const handleGoHome = () => {
     const params = window.location.search;
@@ -99,8 +111,6 @@ const ThankYou: React.FC = () => {
     return `+1 (${areaCode}) ${centralOfficeCode}-${lineNumber}`;
   };
 
-  const bRoll = contractor.content.b_roll || 'https://storage.googleapis.com/channel_automation/Webassets/video/homeprojectparterns-hero_9.0.10.webm';
-
   if (!selectedService || !user || !contractor) {
     return null;
   }
@@ -115,14 +125,21 @@ const ThankYou: React.FC = () => {
       {/* hero */}
       <div className="relative flex items-center">
         <div className="absolute inset-0">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover"
-            src={bRoll}
-          ></video>
+          {heroMedia.endsWith('.webm') || heroMedia.endsWith('.mp4') ? (
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover"
+              src={heroMedia}
+            ></video>
+          ) : (
+            <div
+              className="w-full h-full bg-cover bg-top"
+              style={{ backgroundImage: `url(${heroMedia})` }}
+            ></div>
+          )}
         </div>
         <div className="absolute inset-0 bg-[#12121d99] opacity-100 z-[1]"></div> {/* Moved overlay after video and added z-index */}
 

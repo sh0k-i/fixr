@@ -13,8 +13,14 @@ interface Step3SpecificationsProps {
   onReset: () => void;
 }
 
+// Component mapping object
+const specificationComponents = {
+  Repair: Repair,
+  Remodel: Remodel,
+};
+
 const Step3Specifications: React.FC<Step3SpecificationsProps> = ({ onNext, onBack, onReset }) => {
-  const { setForm, contractor, services } = useAppContext();
+  const { setForm, contractor, services, selectedService } = useAppContext();
   const [loading, setLoading] = useState<boolean>(false);
   const accent_rgba = contractor.colors.accent_rgba || '0 10px 25px -6px rgba(0, 0, 0, 0.1)';
 
@@ -57,6 +63,11 @@ const Step3Specifications: React.FC<Step3SpecificationsProps> = ({ onNext, onBac
 
   const hasAvatar = contractor?.content?.avatar;
 
+  // Check if we have valid specifications
+  if (!selectedService?.specifications?.length) {
+    return <div>No specifications available</div>;
+  }
+
   return (
     <div className="container-form">
       {
@@ -86,49 +97,29 @@ const Step3Specifications: React.FC<Step3SpecificationsProps> = ({ onNext, onBac
 
         <div className="mt-12 flex flex-col h-full">
           <div className="container-cards">
-            <button
-              type="button"
-              className="cards-button"
-              onClick={() => handleSelect("Repair")}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = accent_rgba + ' 0px 10px 25px -6px ';
-                e.currentTarget.style.borderColor = accent_rgba;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = 'rgba(0, 0, 0, 0.07) 0px 10px 25px -6px';
-                e.currentTarget.style.borderColor = 'rgba(157, 176, 197, 0.25)';
-              }}
-            >
-              {/* <img
-                src="/images/repair.svg"
-                alt="repair icon"
-                className="w-12 h-12 sm:w-14 sm:h-14 sm:mb-4 ml-2 mr-4 sm:ml-0 sm:mr-0"
-              /> */}
-              <Repair />
-              <span className="cards-text">Repair</span>
-            </button>
-
-            <button
-              type="button"
-              className="cards-button"
-              onClick={() => handleSelect("Remodel")}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = accent_rgba + ' 0px 10px 25px -6px ';
-                e.currentTarget.style.borderColor = accent_rgba;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = 'rgba(0, 0, 0, 0.07) 0px 10px 25px -6px';
-                e.currentTarget.style.borderColor = 'rgba(157, 176, 197, 0.25)';
-              }}
-            >
-              {/* <img
-                src="/images/remodel.svg"
-                alt="remodel icon"
-                className="w-12 h-12 sm:w-14 sm:h-14 sm:mb-4 ml-2 mr-4 sm:ml-0 sm:mr-0"
-              /> */}
-              <Remodel />
-              <span className="cards-text">Remodel</span>
-            </button>
+            {selectedService.specifications.map((spec: string) => {
+              const SpecificationIcon = specificationComponents[spec as keyof typeof specificationComponents];
+              
+              return (
+                <button
+                  key={spec}
+                  type="button"
+                  className="cards-button"
+                  onClick={() => handleSelect(spec)}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.boxShadow = `${accent_rgba} 0px 10px 25px -6px`;
+                    e.currentTarget.style.borderColor = accent_rgba;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.boxShadow = 'rgba(0, 0, 0, 0.07) 0px 10px 25px -6px';
+                    e.currentTarget.style.borderColor = 'rgba(157, 176, 197, 0.25)';
+                  }}
+                >
+                  {SpecificationIcon && <SpecificationIcon />}
+                  <span className="cards-text">{spec}</span>
+                </button>
+              );
+            })}
           </div>
           {loading && (
             <div className="flex justify-center pt-20">
