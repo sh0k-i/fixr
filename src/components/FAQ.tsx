@@ -12,6 +12,10 @@ const FAQ: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const { contractor } = useAppContext();
 
+  if (!contractor.faqs || contractor.faqs.length === 0) {
+    return null;
+  }
+
   const toggleAccordion = (index: number) => {
     setActiveIndex(activeIndex === index ? null : index);
   };

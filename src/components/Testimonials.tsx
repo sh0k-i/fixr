@@ -38,6 +38,10 @@ const ReviewCard: React.FC<Review> = ({ img, name, body }) => {
 const Testimonials: React.FC = () => {
   const { contractor } = useAppContext();
 
+  if (!contractor.testimonials || contractor.testimonials.length === 0) {
+    return null;
+  }
+
   const sortedReviews = [...contractor.testimonials].sort((a, b) => a.id.localeCompare(b.id)); // Ascending order
 
   return (
