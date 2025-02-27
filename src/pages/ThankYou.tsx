@@ -136,7 +136,7 @@ const ThankYou: React.FC = () => {
             <BlurFade delay={3 * 0.20} yOffset={0}
               className="text-sm md:text-base lg:text-lg text-white/80 text-center max-w-4xl pointer-events-none"
             >
-              Thank you for booking with us! Your appointment has been successfully requested. You'll receive a confirmation email with all the details shortly. We look forward to seeing you!
+              Thank you for booking with us! Your appointment has been successfully requested. You'll receive a confirmation call with all the details shortly. We look forward to seeing you!
             </BlurFade>
 
             <BlurFade delay={4 * 0.20} yOffset={0} className="mt-5 lg:mt-8 flex flex-col items-start gap-2 sm:flex-row sm:gap-3"> 
