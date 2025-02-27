@@ -39,7 +39,7 @@ const Navbar  = () => {
                 <img 
                   src={logoSrc} 
                   alt="Logo" 
-                  className="py-2 h-full max-h-16 sm:max-h-20 w-full max-w-[193px] sm:max-w-[280px]" 
+                  className="py-2 h-full max-h-14 sm:max-h-20 w-full max-w-[193px] sm:max-w-[280px]" 
                 />
               </a>
             </div>
