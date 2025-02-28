@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import ParentForm from "@/components/forms/ParentForm";
+import EZBathForm from "@/components/EZBath/EZBathForm";
 import { useLocation } from 'react-router-dom';
 import { Dialog, DialogContent,
   DialogDescription,
@@ -15,11 +16,26 @@ import { useAppContext } from '@/context/AppContext';
 
 import Navbar from '@/components/NavBar';
 
+// Map of available custom forms
+const formComponents = {
+  ParentForm,
+  EZBathForm,
+  // Add other custom forms here as needed
+};
+
 const RequestQuote = () => {
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [slug, setSlug] = useState('');
   const { user, form, selectedService, contractor, setUser, setForm, setSelectedService } = useAppContext();
+
+    // Determine which form to render
+    const getFormComponent = () => {
+      if (!contractor?.custom_form) return ParentForm;
+      return formComponents[contractor.custom_form as keyof typeof formComponents] || ParentForm;
+    };
+
+    const FormComponent = getFormComponent();
 
   // Load context values from local storage
   useEffect(() => {
@@ -85,7 +101,7 @@ const RequestQuote = () => {
   return (
     <div className='bg-gray-50'>
       <Navbar />
-      <ParentForm />
+      <FormComponent />
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogTrigger asChild>
           <button id='modal' className='hidden'></button>
