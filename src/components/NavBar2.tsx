@@ -11,6 +11,8 @@ const NavBar2 = () => {
 
   const { contractor, setForm, form } = useAppContext();
   const [slug, setSlug] = useState('');
+  // get cta text from contractor.content.hero_cta if it exists, otherwise use default
+  const heroCtaLabel = contractor.content.hero_cta || "Get Free Quote";
 
   useEffect(() => {
     if (contractor) {
@@ -70,6 +72,8 @@ const NavBar2 = () => {
   const currentParams = new URLSearchParams(location.search);
   const newUrl = `/${slug}?${currentParams.toString()}`;
 
+  if (!contractor || !contractor.content) return null;
+
   return (
     <div className="sticky top-0 bg-white z-50 shadow-md">
       <header className="">
@@ -116,7 +120,7 @@ const NavBar2 = () => {
                 </div> */}
               </div>
               <div className="hidden sm:block sm:gap-4">
-                <button className="rounded-lg bg-accentColor px-4 py-3 text-sm font-medium text-white hover:bg-accentDark inline-flex items-center" onClick={handleButtonClick}>Get a Free Quote
+                <button className="rounded-lg bg-accentColor px-4 py-3 text-sm font-medium text-white hover:bg-accentDark inline-flex items-center" onClick={handleButtonClick}>{heroCtaLabel}
                 </button>
               </div>
             </div>
