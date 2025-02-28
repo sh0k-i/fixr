@@ -17,6 +17,7 @@ const useClearFormState = () => {
       phone: null,
       state: null,
       userNs: null,
+      market: null,
       timezone: null,
     }));
 

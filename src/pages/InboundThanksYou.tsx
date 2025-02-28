@@ -42,6 +42,7 @@ const InboundThankYou: React.FC = () => {
           setUser(prevUser => ({
             ...prevUser,
             userNs: form.user_ns,
+            market: form.market,
             firstname: form.firstname,
             lastname: form.lastname,
             email: form.email,

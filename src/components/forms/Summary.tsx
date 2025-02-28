@@ -88,6 +88,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
 						state: user.state,
 						zip: user.zip,
 						user_ns: user.userNs,
+            market: user.market,
 						id: form.formId,
 						service_specification: form.serviceSpecification,
 						promo: form.promo,

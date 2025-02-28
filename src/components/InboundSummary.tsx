@@ -98,6 +98,7 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
 						state: user.state,
 						zip: user.zip,
 						user_ns: user.userNs,
+            market: user.market,
 						id: form.formId,
 						service_specification: form.serviceSpecification,
 						promo: form.promo,

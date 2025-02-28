@@ -44,6 +44,7 @@ const Inbound = () => {
       setUser(prevUser => ({
         ...prevUser,
         userNs: params.get('user_ns'),
+        market: params.get('market'),
         firstname: capitalizeWords(params.get('firstname')),
         lastname: capitalizeWords(params.get('lastname')),
         email: params.get('email'),

@@ -13,6 +13,7 @@ interface UserData {
   phone: string | null;
   state: string | null;
   userNs: string | null;
+  market: string | null;
 }
 
 interface FormData {
@@ -74,6 +75,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
     phone: null,
     state: null,
     userNs: null,
+    market: null,
   });
 
   const [form, setForm] = useState<FormData>({
@@ -97,7 +99,8 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    setUser(prevUser => ({ ...prevUser, userNs: params.get('user_ns') }));
+    setUser(prevUser => ({ ...prevUser, userNs: params.get('user_ns'), market: params.get('market') }));
+
   }, [location.search]);
 
   // Initialize cookiesAccepted from local storage
