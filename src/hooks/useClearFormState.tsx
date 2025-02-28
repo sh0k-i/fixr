@@ -3,7 +3,7 @@ import { useAppContext } from '@/context/AppContext';
 
 const useClearFormState = () => {
 
-  const { setUser, setForm, setSelectedService } = useAppContext();
+  const { setUser, setForm, setSelectedService, services } = useAppContext();
 
   const clearFormState = () => {
     setUser(prev => ({
@@ -34,6 +34,10 @@ const useClearFormState = () => {
     }));
 
     setSelectedService(null);
+
+    if (services.length === 1) {
+      setSelectedService(services[0]);
+    }
   };
 
   return clearFormState;

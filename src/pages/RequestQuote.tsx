@@ -27,7 +27,7 @@ const RequestQuote = () => {
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [slug, setSlug] = useState('');
-  const { user, form, selectedService, contractor, setUser, setForm, setSelectedService } = useAppContext();
+  const { user, form, selectedService, contractor, setUser, setForm, setSelectedService, services } = useAppContext();
 
     // Determine which form to render
     const getFormComponent = () => {
@@ -60,6 +60,13 @@ const RequestQuote = () => {
     localStorage.setItem('selectedService', JSON.stringify(selectedService));
   }, [user, form, selectedService]);  
 
+
+    // If there is only one service, preselect it
+    useEffect(() => {
+      if (services.length === 1) {
+        setSelectedService(services[0]);
+      }
+    }, [services, setSelectedService]);
 
 
   useEffect(() => {
