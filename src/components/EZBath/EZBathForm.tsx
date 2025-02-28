@@ -117,17 +117,17 @@ const EZBathForm = () => {
   };
 
   const handleBackStep = () => {
-    if (currentStep === 5) {
+    if (currentStep === 6) {
       if (contractor.promos && contractor.promos.length > 0) {
         setCurrentStep(currentStep - 1);
       } else {
         setCurrentStep(currentStep - 2);
       }
-    } else if (currentStep === 3) {
+    } else if (currentStep === 4) {
       if (selectedService?.specifications?.length === 1) {
-        setCurrentStep(1);
-      } else {
         setCurrentStep(2);
+      } else {
+        setCurrentStep(3);
       }
     } else {
       setCurrentStep(currentStep - 1);

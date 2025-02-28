@@ -114,6 +114,15 @@ const ScheduleNoNav: React.FC<ScheduleNoNavProps> = ({ onNext }) => {
     setSelectedDayTimeSlots(timeSlots[currentDay]);
   }, [timeSlots]);
 
+  // Utility function to capitalize the first letter
+  const capitalizeFirstLetter = (string: string | null) => {
+    if (!string) return '';
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+  const params = new URLSearchParams(window.location.search);
+  const initial = params.get('firstname');
+  const firstname = capitalizeFirstLetter(initial);
+
   // Normalize holiday dates to midnight in the LOCAL timezone
   const disabledDates = contractor.disabled_dates;
   const holidays = disabledDates.holidays.map((dateStr: string) => {
@@ -128,8 +137,20 @@ const ScheduleNoNav: React.FC<ScheduleNoNavProps> = ({ onNext }) => {
         <div className='flex justify-center text-center mb-8'>
           <div className="max-w-[40rem] text-center">
             <h1 className="heading-form">
-            Pick a  
-            <span className="text-accentColor"> date and time</span> that works for you
+              {firstname ? (
+                <>
+                  Hi {firstname}! Let's bring your{' '}
+                  <span className="text-accentColor">future project</span> to life—<span className="text-accentColor">pick a date and time</span> that works for you
+                </>
+              ) : (
+                <>
+                  Hi there! Let's bring your{' '}
+                  <span className="text-accentColor">future project</span> to life—<span className="text-accentColor">pick a date and time</span> that works for you
+                </>
+              )}
+
+            {/* Pick a  
+            <span className="text-accentColor"> date and time</span> that works for you */}
             </h1>
           </div>
         </div>

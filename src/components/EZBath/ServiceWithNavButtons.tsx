@@ -13,16 +13,6 @@ interface ServiceWithNavButtonsProps {
 const ServiceWithNavButtons: React.FC<ServiceWithNavButtonsProps> = ({ onNext, onBack, onReset  }) => {
   const { services, setSelectedService } = useAppContext(); 
   const [loading, setLoading] = useState<boolean>(false); // State to control spinner
-  const params = new URLSearchParams(window.location.search);
-  const initial = params.get('firstname');
-
-  // Utility function to capitalize the first letter
-  const capitalizeFirstLetter = (string: string | null) => {
-    if (!string) return '';
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
-
-  const firstname = capitalizeFirstLetter(initial);
 
   const handleServiceSelect = async (service: any) => {
     setLoading(true); // Show spinner
@@ -46,17 +36,7 @@ const ServiceWithNavButtons: React.FC<ServiceWithNavButtonsProps> = ({ onNext, o
         <div className='flex justify-center text-center mb-8'>
           <div className="max-w-[40rem] text-center">
             <h1 className="heading-form">
-              {firstname ? (
-                <>
-                  Hi {firstname}! Let's bring your{' '}
-                  <span className="text-accentColor">future project</span> to life—choose what fits your vision below
-                </>
-              ) : (
-                <>
-                  Hi there! Let's bring your{' '}
-                  <span className="text-accentColor">future project</span> to life—choose what fits your vision below
-                </>
-              )}
+              Awesome! Choose a project below to get started
             </h1>
           </div>
         </div>
