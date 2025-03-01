@@ -31,6 +31,7 @@ const useClearFormState = () => {
       time: null,
       concept: null,
       zip: null,
+      timezone: null,
     }));
 
     setSelectedService(null);

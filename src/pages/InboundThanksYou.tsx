@@ -61,7 +61,7 @@ const InboundThankYou: React.FC = () => {
             promo: form.promo,
             date: form.date,
             time: form.time,
-            timezone: contractor?.timezone,
+            timezone: form.timezone,
           }));
           setLoading(false);
         }
@@ -266,10 +266,10 @@ const InboundThankYou: React.FC = () => {
                           <img src="/images/clock.svg" alt="Clock" className="inline mr-2 h-5" />
                           <p className="text-base text-gray-800">{formatTime(form.time)}</p>
                         </div>
-                        {contractor.timezone && (
+                        {timezoneAbbr && (
                           <div className="flex items-center px-8 sm:hidden">
                             <img src="/images/globe.svg" alt="Clock" className="inline mr-2 h-5" />
-                            <p className="text-base text-gray-800">{contractor.timezone}</p>
+                            <p className="text-base text-gray-800">{timezoneAbbr}</p>
                           </div>
                         )}
 

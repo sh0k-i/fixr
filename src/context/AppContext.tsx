@@ -162,10 +162,10 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
 
   // set timezone abbreviation
   useEffect(() => {
-    if (contractor && contractor.timezone) {
-      setTimezoneAbbr(getTimeZoneAbbreviation(contractor.timezone));
+    if (form && form.timezone) {
+      setTimezoneAbbr(getTimeZoneAbbreviation(form.timezone));
     }
-  }, [contractor]);
+  }, [form]);
 
   return (
     <AppContext.Provider

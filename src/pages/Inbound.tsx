@@ -63,7 +63,7 @@ const Inbound = () => {
         promo: params.get('promo'),
         date: params.get('adate'),
         time: params.get('atime'),
-        timezone: contractor?.timezone,
+        timezone: contractor?.timezone_test[0]
       }));
     }
     setInitialFormState();

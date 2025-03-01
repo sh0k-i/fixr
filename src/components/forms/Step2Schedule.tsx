@@ -2,11 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import { useAppContext } from '@/context/AppContext';
-
 import { Calendar } from '@/components/ui/calendar';
-import { format, getDay } from 'date-fns';
+import { format as localFormat, getDay } from 'date-fns';
 import BlurFade from '@/components/ui/blur-fade';
 import NavButtons from '../ui/navButtons';
+import { format } from 'date-fns-tz';
+
 
 interface Step2ScheduleProps {
   onNext: () => void;
@@ -18,7 +19,7 @@ interface Step2ScheduleProps {
 type DayOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
 
 const Step2Schedule: React.FC<Step2ScheduleProps> = ({ onNext, onReset, onBack }) => {
-  const { form, setForm, contractor, timezoneAbbr } = useAppContext();
+  const { form, setForm, contractor } = useAppContext();
   const [loading, setLoading] = useState<boolean>(false); // State to control spinner
   const [selectedDayTimeSlots, setSelectedDayTimeSlots] = useState<string[]>([]); // State to store time slots for the selected day
 
@@ -32,6 +33,15 @@ const Step2Schedule: React.FC<Step2ScheduleProps> = ({ onNext, onReset, onBack }
     Saturday: ['10:00', '11:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00'],
     Sunday: [], // No time slots for Sunday
   };
+
+  useEffect(() => {
+    if (contractor.timezone_test?.length > 0 && !form.timezone) {
+      setForm(prev => ({
+        ...prev,
+        timezone: contractor.timezone_test[0]
+      }));
+    }
+  }, [contractor.timezone_test, setForm]);
 
   // Parse contractor.time_slots if it exists, otherwise use defaultTimeSlots
   const timeSlots: Record<DayOfWeek, string[]> = contractor.time_slots
@@ -60,7 +70,6 @@ const Step2Schedule: React.FC<Step2ScheduleProps> = ({ onNext, onReset, onBack }
         ...prevForm,
         date: values.date,
         time: values.time,
-        timezone: contractor.timezone,
       }));
 
       setLoading(false); // Hide spinner
@@ -70,7 +79,7 @@ const Step2Schedule: React.FC<Step2ScheduleProps> = ({ onNext, onReset, onBack }
   
   const handleDateChange = (date: Date | undefined) => {
     if (date) {
-      const formattedDate = format(date, 'yyyy-MM-dd');
+      const formattedDate = localFormat(date, 'yyyy-MM-dd');
       formik.setFieldValue('date', formattedDate);
   
       const dayOfWeek = getDay(date);
@@ -142,12 +151,37 @@ const Step2Schedule: React.FC<Step2ScheduleProps> = ({ onNext, onReset, onBack }
           <div className="mt-4 rounded-lg px-4 py-4 shadow-lg sm:px-6 sm:py-4 lg:px-8 bg-white">
             <BlurFade delay={0.1} duration={0.4} blur='0px' inView yOffset={0} className="flex-grow">
               {/* Show timezone abbreviation */}
-              <div className="mt-0 text-center text-gray-700 dark:text-neutral-200 justify-center items-center">
+              {/* <div className="mt-0 text-center text-gray-700 dark:text-neutral-200 justify-center items-center">
                 <div className='flex justify-center items-center'>
                   <img src="/images/globe.svg" alt="Clock" className="inline ml-0 mr-2 h-5" />
                   <p>
                     <span className="text-base text-gray-800">{timezoneAbbr}</span>
                   </p>
+                </div>
+              </div> */}
+              <div className="mt-0 text-center text-gray-700 dark:text-neutral-200 justify-center items-center">
+                <div className='flex justify-center items-center'>
+                  <img src="/images/globe.svg" alt="Clock" className="inline ml-0 mr-2 h-5" />
+                  {contractor.timezone_test.length > 1 ? (
+                    <select 
+                      value={form.timezone || ''}
+                      onChange={(e) => setForm(prev => ({ 
+                        ...prev, 
+                        timezone: e.target.value 
+                      }))}
+                      className="bg-transparent border-none text-base text-gray-800 focus:outline-none"
+                    >
+                      {contractor.timezone_test.map((tz: string) => (
+                        <option key={tz} value={tz}>
+                          {format(new Date(), 'zzz', { timeZone: tz })}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <p className="text-base text-gray-800">
+                      {format(new Date(), 'zzz', { timeZone: contractor.timezone_test[0] })}
+                    </p>
+                  )}
                 </div>
               </div>
               <h2 className="text-center mt-2 mb-4 text-xl font-semibold text-gray-800 dark:text-neutral-200">
