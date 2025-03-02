@@ -125,7 +125,7 @@ const Inbound = () => {
     checkBookingStatus();
   }, [form.formId]);
 
-  // If form.isBooked, redirect to thank you page
+  // If form.isBooked, redirect to thank you/ summary page
   useEffect(() => {
     if (form.isBooked == true) {
       navigateWithParams(`/summary-inbound/${slug}`);
