@@ -35,13 +35,13 @@ const Step2Schedule: React.FC<Step2ScheduleProps> = ({ onNext, onReset, onBack }
   };
 
   useEffect(() => {
-    if (contractor.timezone_test?.length > 0 && !form.timezone) {
+    if (contractor.timezone?.length > 0 && !form.timezone) {
       setForm(prev => ({
         ...prev,
-        timezone: contractor.timezone_test[0]
+        timezone: contractor.timezone[0]
       }));
     }
-  }, [contractor.timezone_test, setForm]);
+  }, [contractor.timezone, setForm]);
 
   // Parse contractor.time_slots if it exists, otherwise use defaultTimeSlots
   const timeSlots: Record<DayOfWeek, string[]> = contractor.time_slots
@@ -162,7 +162,7 @@ const Step2Schedule: React.FC<Step2ScheduleProps> = ({ onNext, onReset, onBack }
               <div className="mt-0 text-center text-gray-700 dark:text-neutral-200 justify-center items-center">
                 <div className='flex justify-center items-center'>
                   <img src="/images/globe.svg" alt="Clock" className="inline ml-0 mr-2 h-5" />
-                  {contractor.timezone_test.length > 1 ? (
+                  {contractor.timezone.length > 1 ? (
                     <select 
                       value={form.timezone || ''}
                       onChange={(e) => setForm(prev => ({ 
@@ -171,7 +171,7 @@ const Step2Schedule: React.FC<Step2ScheduleProps> = ({ onNext, onReset, onBack }
                       }))}
                       className="bg-transparent border-none text-base text-gray-800 focus:outline-none"
                     >
-                      {contractor.timezone_test.map((tz: string) => (
+                      {contractor.timezone.map((tz: string) => (
                         <option key={tz} value={tz}>
                           {format(new Date(), 'zzz', { timeZone: tz })}
                         </option>
@@ -179,7 +179,7 @@ const Step2Schedule: React.FC<Step2ScheduleProps> = ({ onNext, onReset, onBack }
                     </select>
                   ) : (
                     <p className="text-base text-gray-800">
-                      {format(new Date(), 'zzz', { timeZone: contractor.timezone_test[0] })}
+                      {format(new Date(), 'zzz', { timeZone: contractor.timezone[0] })}
                     </p>
                   )}
                 </div>
