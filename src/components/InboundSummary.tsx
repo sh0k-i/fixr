@@ -195,14 +195,14 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
 						<div className="max-w-[60rem] text-center">
               {validAppointment ? (
                 <h1 className="section_header">
-                  Almost There, {user.firstname}! <span className="text-accentColor">Confirm Your Appointment</span> Now
+                  Almost There, {user.firstname}! <span className="text-accentColor">Request Your Appointment</span> Now
                 </h1>
               ) : (
                 <h1 className="section_header">
                   Hi, {user.firstname}! let's finish setting up your appointment
                 </h1> )
               }
-              <p className="section_description text-center mt-2 sm:mt-4">Please review the information below and click “Confirm Appointment” to finalize your booking</p>
+              <p className="section_description text-center mt-2 sm:mt-4">Please review the information below and click “Request Appointment” to finalize your booking</p>
             </div>
           </div>
 
@@ -220,7 +220,7 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
                             <path d="m15.8 24.7c-2.3.1-1.9-3.9.3-3.4 2.3-.1 2 3.9-.3 3.4zm.2-5.5c-.6 0-.9-.3-.9-1l-.7-9.2c-.1-.9.6-1.7 1.5-1.8s1.7.6 1.8 1.5v.3l-.7 9.2c-.1.7-.4 1-1 1z" fill="#eee"></path>
                           </g>
                         </svg>
-                        <p className="text-lg font-semibold ml-2">Pending Confirmation</p>
+                        <p className="text-lg font-semibold ml-2">Pending Request</p>
                       </div>
                     </div>
 										<hr className='mb-4'></hr>
@@ -354,14 +354,14 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
                   {loading ? (
                     <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></div>
                   ) : (
-                    'Confirm Appointment'
+                    'Request Appointment'
                   )}
                 </button>
               </div>
             ) : (
               <div className="justify-center sm:mx-8 w-[960px]">
                 <p className="text-center text-sm text-gray-600 dark:text-neutral-400 mt-4">
-                It looks like some details are missing to finalize your appointment. Please click the "edit" on the section with missing details to continue setting it up. Your appointment is not confirmed until all details are complete
+                It looks like some details are missing to finalize your appointment. Please click the "edit" on the section with missing details to continue setting it up. Your appointment is not request until all details are complete
                 </p>
               </div>
             )
@@ -391,7 +391,7 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
 						<ConfirmCheck />
             <h4 className='text-lg sm:text-xl font-semibold text-center py-1'>Awesome!</h4>
             <DialogDescription>
-						Your booking has been confirmed, and you will receive updates shortly regarding your Free Assessment. We look forward to helping you bring your project to life.
+						Your booking has been requested, and you will receive updates shortly regarding your Free Assessment. We look forward to helping you bring your project to life.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
