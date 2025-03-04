@@ -134,7 +134,7 @@ const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
         </div>
         <div className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8 bg-white">
           <div className="mt-2">
-            <form onSubmit={formik.handleSubmit} className="grid gap-4 lg:gap-6">
+            <form onSubmit={formik.handleSubmit} className="grid gap-4 lg:gap-6 plausible-event-name=form_step_complete plausible-event-form_step=3_info">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
                 <div className="relative">
                   <label htmlFor="firstname" className="input-label">First Name</label>
@@ -428,7 +428,7 @@ const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
               <div className="mt-4 grid sticky bottom-4">
                 <button
                   type="submit"
-                  className={`w-full py-5 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent plausible-event-name=form_step_complete plausible-event-form_step=3_info ${
+                  className={`w-full py-5 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent  ${
                     formik.isValid && formik.values.termsAndPrivacyOptIn
                       ? 'bg-accentColor text-white hover:bg-accentDark transform transition-transform'
                       : 'bg-gray-200 text-white cursor-not-allowed'
