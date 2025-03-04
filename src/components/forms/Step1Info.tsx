@@ -428,7 +428,7 @@ const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
               <div className="mt-4 grid sticky bottom-4">
                 <button
                   type="submit"
-                  className={`w-full py-5 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent plausible-event-form_step=3_info plausible-event-name=form_step_start plausible-event-form_step=4_schedule ${
+                  className={`w-full py-5 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent plausible-event-name=form_step_complete plausible-event-form_step=3_info ${
                     formik.isValid && formik.values.termsAndPrivacyOptIn
                       ? 'bg-accentColor text-white hover:bg-accentDark transform transition-transform'
                       : 'bg-gray-200 text-white cursor-not-allowed'

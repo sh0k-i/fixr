@@ -104,7 +104,7 @@ const Step3Specifications: React.FC<Step3SpecificationsProps> = ({ onNext, onBac
                 <button
                   key={spec}
                   type="button"
-                  className="cards-button plausible-event-name=form_step_complete plausible-event-form_step=2_specification plausible-event-name=form_step_start plausible-event-form_step=3_info"
+                  className="cards-button plausible-event-name=form_step_complete plausible-event-form_step=2_specification"
                   onClick={() => handleSelect(spec)}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.boxShadow = `${accent_rgba} 0px 10px 25px -6px`;

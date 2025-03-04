@@ -314,7 +314,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
 							</div>
 							<button
 								onClick={handleConfirmBooking}
-								className={`mt-4 w-full py-5 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent plausible-event-form_step=5_confirm plausible-event-name=appointment_submitted plausible-event-form_id=${form.formId} ${
+								className={`mt-4 w-full py-5 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent plausible-event-name=appointment_submitted plausible-event-form_id=${form.formId} ${
 									form.generalOptIn
 												? 'bg-accentColor text-white hover:bg-accentDark transform transition-transform'
 												: 'bg-gray-200 text-white cursor-not-allowed'
