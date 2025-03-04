@@ -120,7 +120,7 @@ const NavBar2 = () => {
                 </div> */}
               </div>
               <div className="hidden sm:block sm:gap-4">
-                <button className="rounded-lg bg-accentColor px-4 py-3 text-sm font-medium text-white hover:bg-accentDark inline-flex items-center" onClick={handleButtonClick}>{heroCtaLabel}
+                <button className="rounded-lg bg-accentColor px-4 py-3 text-sm font-medium text-white hover:bg-accentDark inline-flex items-center plausible-event-name=CTA_click plausible-event-position=nav_bar" onClick={handleButtonClick}>{heroCtaLabel}
                 </button>
               </div>
             </div>

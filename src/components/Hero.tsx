@@ -156,7 +156,7 @@ const Hero = () => {
 
             <BlurFade delay={6 * 0.25} yOffset={0} className="mt-5 lg:mt-8 flex flex-col items-start gap-2 sm:flex-row sm:gap-3">
               
-              <InteractiveHoverButton className='bg-accentColor text-white border-transparent text-sm rounded-lg py-3' onClick={handleButtonClick} >{buttonText}</InteractiveHoverButton>
+              <InteractiveHoverButton className='bg-accentColor text-white border-transparent text-sm rounded-lg py-3 plausible-event-name=CTA_click plausible-event-position=hero' onClick={handleButtonClick} >{buttonText}</InteractiveHoverButton>
             </BlurFade>
 
           </div>

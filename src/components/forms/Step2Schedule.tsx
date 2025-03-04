@@ -261,7 +261,7 @@ const Step2Schedule: React.FC<Step2ScheduleProps> = ({ onNext, onReset, onBack }
           <div className="mt-4 flex flex-col space-y-4 sticky bottom-4">
             <button
               type="submit"
-              className={`w-full py-5 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent ${
+              className={`w-full py-5 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent plausible-event-form_step=4_schedule plausible-event-name=form_step_start plausible-event-form_step=5_confirm ${
                 formik.values.date && formik.values.time
                   ? 'bg-accentColor text-white hover:bg-accentDark transform transition-transform'
                   : 'bg-gray-200 text-white cursor-not-allowed'
