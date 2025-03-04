@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import CookiePolicy from './pages/CookiePolicy';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import "vanilla-cookieconsent/dist/cookieconsent.css";
-import {central} from '@/lib/supabaseClient';
+import { central } from '@/lib/supabaseClient';
 import { useAppContext } from '@/context/AppContext';
 import ThankYou from './pages/ThankYou';
 import Inbound from './pages/Inbound';
@@ -19,14 +19,51 @@ declare global {
   }
 }
 
+// Custom hook for webhook logic
+const useInitialWebhook = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const userNs = params.get('user_ns');
+
+    // Check if webhook has already been sent (using localStorage)
+    if (userNs && !localStorage.getItem('webhookSent')) {
+      const payload = {
+        workspace_id: params.get('company_id'),
+        user_ns: userNs,
+        market: params.get('market'),
+        event: "stl_link_clicked",
+        timestamp: new Date().toISOString(),
+      };
+
+      // Send to webhook
+      fetch('https://hkdk.events/dd4ps4ew70am0n', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      })
+      .then(() => {
+        // Mark as sent in localStorage
+        localStorage.setItem('webhookSent', 'true');
+      })
+      .catch((error) => console.error('Webhook error:', error));
+    }
+  }, [location.search]);
+};
+
 function App() {
   const location = useLocation();
-  const [loading, setLoading] = useState(false); // State to control rendering
+  const [loading, setLoading] = useState(false);
   const params = new URLSearchParams(location.search);
   const companyId = params.get('company_id');
   const conceptId = params.get('concept_id');
-
   const { setContractor, setServices, setLocations, contractor, setForm, services, form, user, locations } = useAppContext();
+
+  // Initialize the webhook logic
+  useInitialWebhook();
 
   useEffect(() => {
     window.HSStaticMethods.autoInit();
@@ -45,56 +82,56 @@ function App() {
         setLocations(JSON.parse(storedLocations));
         setLoading(false);
       } 
-        // Fetch contractor
-        console.log('Fetching contractor data...');
-        try {
-          const { data, error } = await central
-            .from('contractors')
-            .select('*')
-            .eq('id', companyId)
-            .single();
+      // Fetch contractor
+      console.log('Fetching contractor data...');
+      try {
+        const { data, error } = await central
+          .from('contractors')
+          .select('*')
+          .eq('id', companyId)
+          .single();
 
-          if (error) {
-            return;
-          }
-          if (data) {
-            console.log('Contractor data fetched:', data);
-            setContractor(data);
-            localStorage.setItem('contractor', JSON.stringify(data));
-
-            // Fetch services
-            const { data: servicesData, error: servicesError } = await central
-            .from('contractor_services')
-            .select('*, services(name)')
-            .eq('contractor_id', companyId);
-
-            if (servicesError) {
-              console.error('Error fetching services:', servicesError);
-            } else {
-              setServices(servicesData || []);
-              localStorage.setItem('services', JSON.stringify(servicesData || []));
-              console.log('Services fetched successfully');
-            }
-
-            // Fetch locations
-            const { data: locationsData, error: locationsError } = await central
-            .from('contractor_locations')
-            .select('*')
-            .eq('contractor_id', companyId);
-
-            if (locationsError) {
-              console.error('Error fetching locations:', locationsError);
-            } else {
-              setLocations(locationsData || []);
-              localStorage.setItem('locations', JSON.stringify(locationsData || []));
-              console.log('Locations fetched successfully');
-            }
-            setLoading(false);
-          }
-        } catch (err) {
-          console.error('Unexpected error fetching data:', err);
+        if (error) {
           return;
         }
+        if (data) {
+          console.log('Contractor data fetched:', data);
+          setContractor(data);
+          localStorage.setItem('contractor', JSON.stringify(data));
+
+          // Fetch services
+          const { data: servicesData, error: servicesError } = await central
+          .from('contractor_services')
+          .select('*, services(name)')
+          .eq('contractor_id', companyId);
+
+          if (servicesError) {
+            console.error('Error fetching services:', servicesError);
+          } else {
+            setServices(servicesData || []);
+            localStorage.setItem('services', JSON.stringify(servicesData || []));
+            console.log('Services fetched successfully');
+          }
+
+          // Fetch locations
+          const { data: locationsData, error: locationsError } = await central
+          .from('contractor_locations')
+          .select('*')
+          .eq('contractor_id', companyId);
+
+          if (locationsError) {
+            console.error('Error fetching locations:', locationsError);
+          } else {
+            setLocations(locationsData || []);
+            localStorage.setItem('locations', JSON.stringify(locationsData || []));
+            console.log('Locations fetched successfully');
+          }
+          setLoading(false);
+        }
+      } catch (err) {
+        console.error('Unexpected error fetching data:', err);
+        return;
+      }
     };
     fetchInitialData();
   }, []);
@@ -151,8 +188,7 @@ function App() {
     console.log('locations', locations);
     console.log('form', form);
     console.log('user', user);
-  }
-  , [ contractor, services, locations, form, user]);
+  }, [contractor, services, locations, form, user]);
 
   // Set custom colors from contractor data
   useEffect(() => {
@@ -166,12 +202,12 @@ function App() {
       document.documentElement.style.setProperty('--darker', darker);
       document.documentElement.style.setProperty('--dark', dark);
     }
-  }, [ contractor ]);
+  }, [contractor]);
 
   if (loading || !contractor || !services || !locations) {
     return null; // Render nothing while loading
   }
-  
+
   return (
     <>
       <Routes>
