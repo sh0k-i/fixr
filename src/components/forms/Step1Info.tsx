@@ -261,89 +261,7 @@ const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
                   )}
                 </div>
               </div>
-              
 
-              <div className="grid grid-cols-2 gap-4 lg:gap-6">
-                <div className="relative">
-                  <label htmlFor="zip" className="input-label">ZIP Code</label>
-                  <input
-                    id="zip"
-                    name="zip"
-                    type="text"
-                    onChange={formik.handleChange}
-                    value={formik.values.zip}
-                    onBlur={formik.handleBlur}
-                    maxLength={5}
-                    className="input-field"
-                  />
-                  {formik.errors.zip ? (
-                    <img
-                      src="/images/warning.svg"
-                      alt="Invalid"
-                      className="absolute right-3 top-10 w-6"
-                    />
-                  ) : (
-                    <img
-                      src="/images/tick.svg"
-                      alt="Valid"
-                      className="absolute right-6 top-11 w-4"
-                    />
-                  )}
-                  {formik.touched.zip && formik.errors.zip && (
-                    <div className="error text-sm text-red-500">{formik.errors.zip}</div>
-                  )}
-                </div>
-
-                <div className="relative">
-                  <label htmlFor="state" className="input-label">State</label>
-                  <input
-                    id="state"
-                    name="state"
-                    type="text"
-                    maxLength={2}
-                    onChange={formik.handleChange}
-                    value={formik.values.state}
-                    onBlur={formik.handleBlur}
-                    className="input-field"
-                  />
-                  {formik.errors.state ? (
-                    <img src="/images/warning.svg" alt="Invalid" className="absolute right-3 top-10 w-6" />
-                  ) : (
-                    <img src="/images/tick.svg" alt="Valid" className="absolute right-6 top-11 w-4" />
-                  )}
-                  {formik.touched.state && formik.errors.state && (
-                    <div className="error text-sm text-red-500">{formik.errors.state}</div>
-                  )}
-                </div>
-              </div>
-              <div className="relative">
-                <label htmlFor="city" className="input-label">City</label>
-                <input
-                  id="city"
-                  name="city"
-                  type="text"
-                  onChange={formik.handleChange}
-                  value={formik.values.city}
-                  onBlur={formik.handleBlur}
-                  className="input-field"
-                />
-                {formik.errors.city ? (
-                  <img
-                    src="/images/warning.svg"
-                    alt="Invalid"
-                    className="absolute right-3 top-10 w-6"
-                  />
-                ) : (
-                  <img
-                    src="/images/tick.svg"
-                    alt="Valid"
-                    className="absolute right-6 top-11 w-4"
-                  />
-                )}
-                {formik.touched.city && formik.errors.city && (
-                  <div className="error text-sm text-red-500">{formik.errors.city}</div>
-                )}
-              </div>
               <div className="relative">
                 <label htmlFor="address1" className="input-label">Address Line 1</label>
                 <input
@@ -394,6 +312,89 @@ const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
                 {formik.touched.address2 && formik.errors.address2 && (
                   <div className="error text-sm text-red-500">{formik.errors.address2}</div>
                 )}
+              </div>
+
+              <div className="relative">
+                <label htmlFor="city" className="input-label">City</label>
+                <input
+                  id="city"
+                  name="city"
+                  type="text"
+                  onChange={formik.handleChange}
+                  value={formik.values.city}
+                  onBlur={formik.handleBlur}
+                  className="input-field"
+                />
+                {formik.errors.city ? (
+                  <img
+                    src="/images/warning.svg"
+                    alt="Invalid"
+                    className="absolute right-3 top-10 w-6"
+                  />
+                ) : (
+                  <img
+                    src="/images/tick.svg"
+                    alt="Valid"
+                    className="absolute right-6 top-11 w-4"
+                  />
+                )}
+                {formik.touched.city && formik.errors.city && (
+                  <div className="error text-sm text-red-500">{formik.errors.city}</div>
+                )}
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 lg:gap-6">
+                <div className="relative">
+                  <label htmlFor="state" className="input-label">State</label>
+                  <input
+                    id="state"
+                    name="state"
+                    type="text"
+                    maxLength={2}
+                    onChange={formik.handleChange}
+                    value={formik.values.state}
+                    onBlur={formik.handleBlur}
+                    className="input-field"
+                  />
+                  {formik.errors.state ? (
+                    <img src="/images/warning.svg" alt="Invalid" className="absolute right-3 top-10 w-6" />
+                  ) : (
+                    <img src="/images/tick.svg" alt="Valid" className="absolute right-6 top-11 w-4" />
+                  )}
+                  {formik.touched.state && formik.errors.state && (
+                    <div className="error text-sm text-red-500">{formik.errors.state}</div>
+                  )}
+                </div>
+
+                <div className="relative">
+                  <label htmlFor="zip" className="input-label">ZIP Code</label>
+                  <input
+                    id="zip"
+                    name="zip"
+                    type="text"
+                    onChange={formik.handleChange}
+                    value={formik.values.zip}
+                    onBlur={formik.handleBlur}
+                    maxLength={5}
+                    className="input-field"
+                  />
+                  {formik.errors.zip ? (
+                    <img
+                      src="/images/warning.svg"
+                      alt="Invalid"
+                      className="absolute right-3 top-10 w-6"
+                    />
+                  ) : (
+                    <img
+                      src="/images/tick.svg"
+                      alt="Valid"
+                      className="absolute right-6 top-11 w-4"
+                    />
+                  )}
+                  {formik.touched.zip && formik.errors.zip && (
+                    <div className="error text-sm text-red-500">{formik.errors.zip}</div>
+                  )}
+                </div>
               </div>
 
               <div className="flex items-start mt-4">
