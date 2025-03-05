@@ -80,25 +80,6 @@ const InboundForm = () => {
     setInitialFormState();
   }, [ location.search ]);
 
-   // Load form object from local storage
-   useEffect(() => {
-    const storedForm = localStorage.getItem('form');
-    if (storedForm) {
-      const parsedForm = JSON.parse(storedForm);
-      setForm(prevForm => ({
-        ...prevForm,
-        ...parsedForm,
-      }));
-    }
-  }, [location.search, setForm]);
-
-  // Save form object to local storage
-  useEffect(() => {
-    if (form) {
-      localStorage.setItem('form', JSON.stringify(form));
-    }
-  }, [form]);
-
   const [slug, setSlug] = useState('');
   // Set slug
   useEffect(() => {

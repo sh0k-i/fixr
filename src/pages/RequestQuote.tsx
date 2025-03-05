@@ -41,6 +41,14 @@ const RequestQuote = () => {
 
   const FormComponent = getFormComponent();
 
+  // Load form object from local storage
+  useEffect(() => {
+    const storedForm = localStorage.getItem('form');
+    if (storedForm) {
+      setForm(JSON.parse(storedForm));
+    }
+  }, [setForm]);
+
   // Load context values from local storage
   useEffect(() => {
     if (FormComponent !== InboundForm) {

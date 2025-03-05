@@ -28,16 +28,19 @@ const Inbound = () => {
     }
   }, [contractor]);
 
-  // On load, clear form state and initialize user, form, and service data from url parameters
+  // On load, save formId to form state
   useEffect(() => {
     const setInitialFormState = async () => {
       setForm(prevForm => ({
         ...prevForm,
         formId: params.get('form_id'),
       }));
+
+      // save form data to local storage
+      localStorage.setItem('form', JSON.stringify(form));
     }
     setInitialFormState();
-  }, [ location.search ]);
+  }, []);
 
   // Check if the appointment is already booked if formId is present or changed
   useEffect(() => {
