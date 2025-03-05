@@ -187,22 +187,22 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
   }
 
   return (
-		<div>
+		<div className='bg-gray-50'>
 			<div className="container-form">
 
-				<div className="space-y-8">
+				<div className="space-y-4 sm:space-y-8">
 					<div className='flex justify-center text-center'>
 						<div className="max-w-[60rem] text-center">
               {validAppointment ? (
-                <h1 className="section_header">
+                <h1 className="heading-form">
                   Almost There, {user.firstname}! <span className="text-accentColor">Request Your Appointment</span> Now
                 </h1>
               ) : (
-                <h1 className="section_header">
-                  Hi, {user.firstname}! let's finish setting up your appointment
+                <h1 className="heading-form">
+                  Hi, {user.firstname}, <span className="text-accentColor">ready to get started</span>? Book your consultation today!
                 </h1> )
               }
-              <p className="section_description text-center mt-2 sm:mt-4">Please review the information below and click “Request Appointment” to finalize your booking</p>
+              <p className="hidden sm:block section_description text-center mt-2 sm:mt-4">Get expert guidance tailored to your needs—schedule your appointment at your convenience</p>
             </div>
           </div>
 
@@ -280,7 +280,7 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
                       <div className="flex flex-wrap justify-between my-4 w-auto bg-red-100 rounded-md py-4">
                         <div className="flex items-center px-4 sm:px-8 min-w-[200px]">
                           <img src="/images/warning.svg" alt="warning" className="inline mr-2 h-5" />
-                          <button onClick={onSchedule} className=" text-sm sm:text-base text-red-800 text-accentColor hover:text-red-900  ">Select Date and Time</button>
+                          <button onClick={onSchedule} className=" text-sm sm:text-base text-red-800 text-accentColor hover:text-red-900  ">No schedule is set</button>
                         </div>
                       </div>
                     )}
@@ -361,8 +361,20 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
             ) : (
               <div className="justify-center sm:mx-8 w-[960px]">
                 <p className="text-center text-sm text-gray-600 dark:text-neutral-400 mt-4">
-                It looks like some details are missing to finalize your appointment. Please click the "edit" on the section with missing details to continue setting it up. Your appointment is not request until all details are complete
+                You’re just one step away from getting expert advice tailored to your needs. Pick a date and time that works for you, and we’ll take care of the rest. It’s quick, easy, and completely hassle-free!
                 </p>
+
+                <button
+                      onClick={onSchedule}
+                        className='mt-4 w-full py-5 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-accentColor text-white hover:bg-accentDark transform transition-transform'
+                        disabled={loading }
+                      >
+                        {loading ? (
+                          <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></div>
+                        ) : (
+                          'Select Date and Time'
+                        )}
+                      </button>
               </div>
             )
           }

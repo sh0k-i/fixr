@@ -20,11 +20,25 @@ const InboundThankYou: React.FC = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const serviceId = params.get('service');
-  const formId = params.get('form_id');
   const [loading, setLoading] = useState(true);
+  const [formId, setFormId] = useState('');
+
+  // On load, determine formId. If url has form_id, set formId to that value, otherwise get tempFormId from local storage
+  useEffect(() => {
+    if (params.get('form_id')) {
+      setFormId(params.get('form_id') || '');
+    } else {
+      const tempFormId = localStorage.getItem('tempFormID');
+      if (tempFormId) {
+        setFormId(tempFormId);
+        console.log('UPDATED tempFormId:', tempFormId);
+      }
+    }
+  }, [location.search]);
 
   // On load, fetch form from bookings table in supabase based on form id
   useEffect(() => {
+    console.log ('RUNNING formId:', formId);
     if (formId) {
       const fetchForm = async () => {
         const { data: form, error } = await central
@@ -64,12 +78,13 @@ const InboundThankYou: React.FC = () => {
             timezone: form.timezone,
           }));
           setLoading(false);
+          console.log('Form fetched:', form);
         }
       }
       fetchForm();
     }
 
-  }, [ location.search ]);
+  }, [ location.search, formId ]);
 
   // if service id exisits, set selected service 
   useEffect(() => {

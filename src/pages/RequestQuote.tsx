@@ -13,14 +13,13 @@ import { Dialog, DialogContent,
 import { Button } from '@/components/ui/button';
 import posthog from 'posthog-js';
 import { useAppContext } from '@/context/AppContext';
-
 import Navbar from '@/components/NavBar';
+import InboundForm from '@/components/InboundForm';
 
-// Map of available custom forms
 const formComponents = {
   ParentForm,
   EZBathForm,
-  // Add other custom forms here as needed
+  InboundForm, // Add InboundForm to the component map
 };
 
 const RequestQuote = () => {
@@ -28,28 +27,35 @@ const RequestQuote = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [slug, setSlug] = useState('');
   const { user, form, selectedService, contractor, setUser, setForm, setSelectedService, services } = useAppContext();
+  const params = new URLSearchParams(location.search);
 
-    // Determine which form to render
-    const getFormComponent = () => {
-      if (!contractor?.custom_form) return ParentForm;
+  // Determine which form to render
+  const getFormComponent = () => {
+    if (contractor?.custom_form) {
       return formComponents[contractor.custom_form as keyof typeof formComponents] || ParentForm;
-    };
+    }
+    
+    const hasInboundParams = params.get('service') && params.get('service_specification');
+    return hasInboundParams ? InboundForm : ParentForm;
+  };
 
-    const FormComponent = getFormComponent();
+  const FormComponent = getFormComponent();
 
   // Load context values from local storage
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-    const storedForm = localStorage.getItem('form');
-    if (storedForm) {
-      setForm(JSON.parse(storedForm));
-    }
-    const storedSelectedService = localStorage.getItem('selectedService');
-    if (storedSelectedService) {
-      setSelectedService(JSON.parse(storedSelectedService));
+    if (FormComponent !== InboundForm) {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+      const storedForm = localStorage.getItem('form');
+      if (storedForm) {
+        setForm(JSON.parse(storedForm));
+      }
+      const storedSelectedService = localStorage.getItem('selectedService');
+      if (storedSelectedService) {
+        setSelectedService(JSON.parse(storedSelectedService));
+      }
     }
   }, [setUser, setForm, setSelectedService]);
 
@@ -60,13 +66,14 @@ const RequestQuote = () => {
     localStorage.setItem('selectedService', JSON.stringify(selectedService));
   }, [user, form, selectedService]);  
 
-
-    // If there is only one service, preselect it
-    useEffect(() => {
+  // If there is only one service, preselect it
+  useEffect(() => {
+    if (FormComponent !== InboundForm) {
       if (services.length === 1) {
         setSelectedService(services[0]);
       }
-    }, [services, setSelectedService]);
+    }
+  }, [services, setSelectedService, FormComponent]);
 
 
   useEffect(() => {
@@ -75,6 +82,7 @@ const RequestQuote = () => {
     }
   }, [contractor]);
 
+  // Handle the back button
   useEffect(() => {
     const handlePopState = () => {
       if (!isModalOpen) {
@@ -106,7 +114,7 @@ const RequestQuote = () => {
   }
 
   return (
-    <div className='bg-gray-50'>
+    <div className='min-h-screen bg-gray-50'>
       <Navbar />
       <FormComponent />
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>

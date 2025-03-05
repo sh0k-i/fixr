@@ -5,18 +5,99 @@ import Step2Schedule from './forms/Step2Schedule';
 import Step1Info from './forms/Step1Info';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useClearFormState from '@/hooks/useClearFormState';
+import {central} from '@/lib/supabaseClient';
 
 
 const InboundForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [currentStep, setCurrentStep] = useState<number>(1);
-  const { setForm, contractor } = useAppContext();
+  const { setForm, contractor, setSelectedService, setUser, form } = useAppContext();
   const navigateWithParams = (path: string) => {
     const currentParams = new URLSearchParams(location.search);
     navigate(`${path}?${currentParams.toString()}`);
   };
   const clearFormState = useClearFormState();
+  const params = new URLSearchParams(location.search);
+  const serviceId = params.get('service');
+
+  // if service id exisits, set selected service 
+  useEffect(() => {
+    const fetchService = async () => {
+      const { data: service, error } = await central
+        .from('services')
+        .select('*')
+        .eq('id', serviceId)
+        .single();
+
+      if (error) {
+        console.error('Error fetching service:', error);
+        return;
+      }
+
+      if (service) {
+        setSelectedService(service);
+      }
+    }
+    if (serviceId) {
+      fetchService();
+    }
+  }, [serviceId]);
+
+  const capitalizeWords = (str: string | null) => {
+    if (!str) return '';
+    return str.replace(/\b\w/g, char => char.toUpperCase());
+  };
+
+  // On load, clear form state and initialize user, form, and service data from url parameters
+  useEffect(() => {
+    const setInitialFormState = async () => {
+
+      setUser(prevUser => ({
+        ...prevUser,
+        userNs: params.get('user_ns'),
+        market: params.get('market'),
+        firstname: capitalizeWords(params.get('firstname')),
+        lastname: capitalizeWords(params.get('lastname')),
+        email: params.get('email'),
+        phone: params.get('phone'),
+        zip: params.get('zip'),
+        address1: capitalizeWords(params.get('address1')),
+        address2: capitalizeWords(params.get('address2')),
+        city: capitalizeWords(params.get('city')),
+        state: params.get('state'),
+      }));
+  
+      setForm(prevForm => ({
+        ...prevForm,
+        serviceSpecification: capitalizeWords(params.get('service_specification')),
+        promo: params.get('promo'),
+        date: params.get('adate'),
+        time: params.get('atime'),
+        timezone: contractor?.timezone[0]
+      }));
+    }
+    setInitialFormState();
+  }, [ location.search ]);
+
+   // Load form object from local storage
+   useEffect(() => {
+    const storedForm = localStorage.getItem('form');
+    if (storedForm) {
+      const parsedForm = JSON.parse(storedForm);
+      setForm(prevForm => ({
+        ...prevForm,
+        ...parsedForm,
+      }));
+    }
+  }, [location.search, setForm]);
+
+  // Save form object to local storage
+  useEffect(() => {
+    if (form) {
+      localStorage.setItem('form', JSON.stringify(form));
+    }
+  }, [form]);
 
   const [slug, setSlug] = useState('');
   // Set slug
@@ -45,6 +126,7 @@ const InboundForm = () => {
   const handleSubmit = () => {
     navigateWithParams(`/summary-inbound/${slug}`);
     clearFormState();
+    localStorage.setItem('tempFormID', form.formId || '');
     setForm(prev => ({ ...prev, formId: null })); 
     localStorage.removeItem('formID');
   };

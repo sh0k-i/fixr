@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import useClearFormState from '@/hooks/useClearFormState';
 import { useAppContext } from '@/context/AppContext';
 import {central} from '@/lib/supabaseClient';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -10,18 +9,11 @@ import FAQ from '@/components/FAQ';
 import InboundForm from '@/components/InboundForm';
 
 const Inbound = () => {
-  const clearFormState = useClearFormState();
   const location = useLocation();
   const navigate = useNavigate();
-  const { form, setForm, setUser, selectedService, setSelectedService, contractor } = useAppContext();
+  const { form, setForm, contractor } = useAppContext();
   const params = new URLSearchParams(location.search);
-  const serviceId = params.get('service');
   const [loading, setLoading] = useState(true);
-
-  const capitalizeWords = (str: string | null) => {
-    if (!str) return '';
-    return str.replace(/\b\w/g, char => char.toUpperCase());
-  };
 
   const navigateWithParams = (path: string) => {
     const currentParams = new URLSearchParams(location.search);
@@ -39,58 +31,13 @@ const Inbound = () => {
   // On load, clear form state and initialize user, form, and service data from url parameters
   useEffect(() => {
     const setInitialFormState = async () => {
-      clearFormState();
-
-      setUser(prevUser => ({
-        ...prevUser,
-        userNs: params.get('user_ns'),
-        market: params.get('market'),
-        firstname: capitalizeWords(params.get('firstname')),
-        lastname: capitalizeWords(params.get('lastname')),
-        email: params.get('email'),
-        phone: params.get('phone'),
-        zip: params.get('zip'),
-        address1: capitalizeWords(params.get('address1')),
-        address2: capitalizeWords(params.get('address2')),
-        city: capitalizeWords(params.get('city')),
-        state: params.get('state'),
-      }));
-  
       setForm(prevForm => ({
         ...prevForm,
         formId: params.get('form_id'),
-        serviceSpecification: capitalizeWords(params.get('service_specification')),
-        promo: params.get('promo'),
-        date: params.get('adate'),
-        time: params.get('atime'),
-        timezone: contractor?.timezone[0]
       }));
     }
     setInitialFormState();
   }, [ location.search ]);
-
-  // if service id exisits, set selected service 
-  useEffect(() => {
-    const fetchService = async () => {
-      const { data: service, error } = await central
-        .from('services')
-        .select('*')
-        .eq('id', serviceId)
-        .single();
-
-      if (error) {
-        console.error('Error fetching service:', error);
-        return;
-      }
-
-      if (service) {
-        setSelectedService(service);
-      }
-    }
-    if (serviceId) {
-      fetchService();
-    }
-  }, [serviceId]);
 
   // Check if the appointment is already booked if formId is present or changed
   useEffect(() => {
@@ -141,12 +88,9 @@ const Inbound = () => {
     return null;
   }
 
-  if (!contractor || !selectedService) {
+  if (!contractor) {
     return null;
   }
-  
-
-
 
   return (
     <div className='bg-gray-50'>
