@@ -13,6 +13,7 @@ import { Dialog, DialogContent,
 import { Button } from '@/components/ui/button';
 import ConfirmCheck from './icons/ConfirmCheck';
 import IconComponent from '@/hooks/IconComponent';
+import { useLocation } from 'react-router-dom';
 
 interface InboundSummaryProps {
   onSchedule: () => void;
@@ -25,6 +26,13 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
   const { form, setForm, user, contractor, selectedService, timezoneAbbr } = useAppContext();
   const [loading, setLoading] = useState<boolean>(false);
   const [validAppointment, setValidAppointment] = useState<boolean>(false);
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+
+  const capitalizeWords = (str: string | null) => {
+    if (!str) return '';
+    return str.replace(/\b\w/g, char => char.toUpperCase());
+  };
 
   // Check if form is valid
   useEffect(() => {
@@ -47,6 +55,13 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
       setValidAppointment(false);
     }
   }, [form, user, selectedService]);
+
+  useEffect(() => {
+    setForm(prevForm => ({
+      ...prevForm,
+      serviceSpecification: capitalizeWords(params.get('service_specification')),
+    }));
+  }, [ location.search, setForm ]);
 
   const payload = {
     user,

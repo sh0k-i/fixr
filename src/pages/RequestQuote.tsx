@@ -47,7 +47,7 @@ const RequestQuote = () => {
     if (storedForm) {
       setForm(JSON.parse(storedForm));
     }
-  }, [setForm]);
+  }, []);
 
   // Load context values from local storage
   useEffect(() => {

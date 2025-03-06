@@ -7,7 +7,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import useClearFormState from '@/hooks/useClearFormState';
 import {central} from '@/lib/supabaseClient';
 
-
 const InboundForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -21,6 +20,7 @@ const InboundForm = () => {
   const params = new URLSearchParams(location.search);
   const serviceId = params.get('service');
   const step = params.get('step');
+  const tempSpecification = params.get('service_specification');
 
   // on load, set current step based on url parameter
   useEffect(() => {
@@ -80,7 +80,7 @@ const InboundForm = () => {
   
       setForm(prevForm => ({
         ...prevForm,
-        serviceSpecification: capitalizeWords(params.get('service_specification')),
+        serviceSpecification: tempSpecification,
         promo: params.get('promo'),
         date: params.get('adate'),
         time: params.get('atime'),
@@ -89,6 +89,14 @@ const InboundForm = () => {
     }
     setInitialFormState();
   }, [ location.search ]);
+
+  useEffect(() => {
+    setForm(prevForm => ({
+      ...prevForm,
+      serviceSpecification: params.get('service_specification'),
+    }));
+  }, [ location.search, setForm ]);
+  
 
   const [slug, setSlug] = useState('');
   // Set slug
