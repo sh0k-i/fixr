@@ -12,8 +12,17 @@ const Inbound = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { form, setForm, contractor } = useAppContext();
-  const params = new URLSearchParams(location.search);
   const [loading, setLoading] = useState(true);
+
+  const generateRandomString = (length: number): string => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  };
 
   const navigateWithParams = (path: string) => {
     const currentParams = new URLSearchParams(location.search);
@@ -21,26 +30,31 @@ const Inbound = () => {
   };
 
   const [slug, setSlug] = useState('');
-  // Set slug
+
   useEffect(() => {
     if (contractor) {
       setSlug(contractor.slug);
     }
   }, [contractor]);
 
-  // On load, save formId to form state
+  // Modified form ID handling
   useEffect(() => {
     const setInitialFormState = async () => {
+      let formId = form.formId;
+
+      if (!formId && contractor) {
+        const dateTime = new Date().toISOString().replace(/[-:.T]/g, '').slice(0, 14);
+        const randomString = generateRandomString(6);
+        formId = `${contractor.id}-${dateTime}-${randomString}`;
+      }
+
       setForm(prevForm => ({
         ...prevForm,
-        formId: params.get('form_id'),
+        formId: formId || null,
       }));
-
-      // save form data to local storage
-      localStorage.setItem('form', JSON.stringify(form));
-    }
+    };
     setInitialFormState();
-  }, []);
+  }, [contractor]);
 
   // Check if the appointment is already booked if formId is present or changed
   useEffect(() => {
@@ -55,20 +69,16 @@ const Inbound = () => {
 
           if (error) {
             console.error('Error fetching appointment:', error);
-            
           } else {
-            // form is already booked, save to form
             setForm(prevForm => ({
-                ...prevForm,
-                formId: data.id,
-                isBooked: data.is_booked,
+              ...prevForm,
+              formId: data.id,
+              isBooked: data.is_booked,
             }));
           }
         } catch (err) {
           console.error('Unexpected error:', err);
-          
         }
-      } else {
       }
     };
 
@@ -79,26 +89,19 @@ const Inbound = () => {
   useEffect(() => {
     if (form.isBooked == true) {
       navigateWithParams(`/summary-inbound/${slug}`);
-      console.log('form is booked');
       setLoading(false);
     } else {
-      console.log('form is not booked');
       setLoading(false);
     }
   }, [form.isBooked]);
 
-  if (loading) {
-    return null;
-  }
-
-  if (!contractor) {
+  if (loading || !contractor) {
     return null;
   }
 
   return (
     <div className='bg-gray-50'>
       <Navbar />  
-      
       <div className='max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 lg:py-12 space-y-12 sm:space-y-20 lg:space-y-24'>
         <InboundForm />
         <Testimonials />
@@ -110,5 +113,3 @@ const Inbound = () => {
 }
 
 export default Inbound
-
-

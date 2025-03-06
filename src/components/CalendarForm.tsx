@@ -8,11 +8,11 @@ import useClearFormState from '@/hooks/useClearFormState';
 import {central} from '@/lib/supabaseClient';
 
 
-const InboundForm = () => {
+const CalendarForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [currentStep, setCurrentStep] = useState<number>(0);
-  const { setForm, contractor, setSelectedService, setUser, form, selectedService } = useAppContext();
+  const [currentStep, setCurrentStep] = useState<number>(2);
+  const { setForm, contractor, setSelectedService, setUser, form } = useAppContext();
   const navigateWithParams = (path: string) => {
     const currentParams = new URLSearchParams(location.search);
     navigate(`${path}?${currentParams.toString()}`);
@@ -20,16 +20,6 @@ const InboundForm = () => {
   const clearFormState = useClearFormState();
   const params = new URLSearchParams(location.search);
   const serviceId = params.get('service');
-  const step = params.get('step');
-
-  // on load, set current step based on url parameter
-  useEffect(() => {
-    if (step === 'schedule') {
-      setCurrentStep(2);
-    } else {
-      setCurrentStep(1);
-    }
-  }, [step]);
 
   // if service id exisits, set selected service 
   useEffect(() => {
@@ -130,10 +120,6 @@ const InboundForm = () => {
     });
   }, [currentStep]);
 
-  if (!contractor || !selectedService) {
-    return null;
-  }
-
   return (
     <div>
       {currentStep === 1 && <InboundSummary onInfo={handleInfo} onSchedule={handleSchedule} onSubmit={handleSubmit} />}
@@ -143,4 +129,4 @@ const InboundForm = () => {
   )
 }
 
-export default InboundForm
+export default CalendarForm

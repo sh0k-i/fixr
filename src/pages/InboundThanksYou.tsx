@@ -25,14 +25,10 @@ const InboundThankYou: React.FC = () => {
 
   // On load, determine formId. If url has form_id, set formId to that value, otherwise get tempFormId from local storage
   useEffect(() => {
-    if (params.get('form_id')) {
-      setFormId(params.get('form_id') || '');
-    } else {
-      const tempFormId = localStorage.getItem('tempFormID');
-      if (tempFormId) {
-        setFormId(tempFormId);
-        console.log('UPDATED tempFormId:', tempFormId);
-      }
+    const tempFormId = localStorage.getItem('tempFormID');
+    if (tempFormId) {
+      setFormId(tempFormId);
+      console.log('UPDATED tempFormId:', tempFormId);
     }
   }, [location.search]);
 
