@@ -232,28 +232,25 @@ const DemoForm = () => {
               <div className="sm:col-span-3">
                 <label className="form-label">Services</label>
               </div>
-              <div className="sm:col-span-9 flex flex-wrap gap-x-6">
+              <div className="sm:col-span-9 flex flex-wrap gap-2">
                 {services.map((service) => (
-                  <div key={service.id} className="flex items-center">
-                    <input
-                      type="radio"
-                      id={`service-${service.id}`}
-                      name="serviceId"
-                      value={service.id}
-                      checked={formik.values.serviceId === service.id}
-                      onChange={formik.handleChange}
-                      className="shrink-0 mt-0.5 border-gray-200 rounded-full text-blue-600 focus:ring-blue-500 checked:border-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                    />
-                    <label
-                      htmlFor={`service-${service.id}`}
-                      className="text-sm text-gray-500 ms-2"
-                    >
-                      {service.name}
-                    </label>
-                  </div>
+                  <button
+                  key={service.id}
+                  type="button"
+                  onClick={() => formik.setFieldValue('serviceId', service.id)}
+                  className={`px-4 py-2 text-sm font-medium rounded-lg border transition-colors
+                    ${
+                      formik.values.serviceId === service.id
+                        ? 'bg-blue-600 text-white border-blue-600'
+                        : 'bg-white text-gray-800 border-gray-200 hover:bg-gray-200'
+                    }`}
+                >
+                  {service.name}
+                </button>
                 ))}
                 {formik.touched.serviceId && formik.errors.serviceId && (
-                  <div className="text-red-500 text-sm">{formik.errors.serviceId}</div>
+                  <div className="text-red-500 text-sm w-full mt-1">{formik.errors.serviceId}
+                  </div>
                 )}
               </div>
             </div>
