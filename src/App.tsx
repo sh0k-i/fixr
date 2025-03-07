@@ -12,6 +12,7 @@ import { useAppContext } from '@/context/AppContext';
 import ThankYou from './pages/ThankYou';
 import Inbound from './pages/Inbound';
 import InboundThankYou from './pages/InboundThanksYou';
+import DemoForm from './pages/DemoForm';
 
 declare global {
   interface Window {
@@ -219,6 +220,7 @@ function App() {
         <Route path='/privacy-policy/:slug' element={<PrivacyPolicy />} />
         <Route path='/summary/:slug' element={<ThankYou />} />
         <Route path='/summary-inbound/:slug' element={<InboundThankYou />} />
+        <Route path='/demo-form' element={<DemoForm />} />
         {/* <Route path="*" element={<RequestQuote />} /> */}
       </Routes>
     </>
