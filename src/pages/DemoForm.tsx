@@ -91,7 +91,7 @@ const DemoForm = () => {
       <form onSubmit={formik.handleSubmit}>
         <input type="hidden" name="flow" value={flow} />
         <div className="max-w-4xl px-4 py-10 sm:px-6 lg:px-8 mx-auto">
-          <div className="bg-white rounded-t-xl shadow p-4 sm:p-7">
+          <div className="bg-white rounded-xl shadow p-4 sm:p-7">
             <div className="mb-8">
               <h2 className="text-xl font-bold text-gray-800">
                 Demo Form
@@ -254,10 +254,10 @@ const DemoForm = () => {
                 )}
               </div>
             </div>
-          </div>
 
-          {/* Flow Buttons */}
-          <div className="sticky bottom-0 rounded-b-xl shadow p-4 sm:p-7 border-t border-gray-200 bg-white py-6">
+            {/* divider */}
+            <div className="border-t border-gray-200 my-6"></div>
+
             <div className="flex flex-wrap gap-2 justify-center">
               {['dfcd', 'dfrq', 'lpcd', 'lprq'].map((flowType) => (
                 <button
