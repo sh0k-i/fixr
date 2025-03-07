@@ -18,6 +18,7 @@ import Solar from '@/components/icons/Solar';
 import Insulation from '@/components/icons/Insulation';
 import WalkInTub from '@/components/icons/WalkInTub';
 import GutterHelmet from '@/components/icons/GutterHelmet';
+import Cabinet from '@/components/icons/Cabinet';
 
 const iconMapping: Record<string, React.ElementType> = {
   Bath: Bathtub,
@@ -41,6 +42,7 @@ const iconMapping: Record<string, React.ElementType> = {
   "Walk-In Tub": WalkInTub,
   "Floor Coating": Flooring,
   "Gutter Helmet": GutterHelmet,
+  Cabinet: Cabinet,
 };
 
 export default iconMapping;
