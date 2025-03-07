@@ -2,10 +2,18 @@ import { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { central } from '@/lib/supabaseClient';
+import { useLocation } from 'react-router-dom';
 
 const DemoForm = () => {
   const [services, setServices] = useState<any[]>([]);
   const [flow, setFlow] = useState<string>('');
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+
+  // Get company_id from URL parameters or default to '12347'
+  const companyId = params.get('company_id') || '12347';
+
+  // Set document title and favicon
   document.title = 'Demo Form';
   const favicon = document.querySelector("link[rel~='icon']") as HTMLLinkElement | null;
   if (favicon) {
@@ -32,7 +40,7 @@ const DemoForm = () => {
   // Form validation schema
   const validationSchema = Yup.object({
     firstname: Yup.string().required('First name is required'),
-    lastname: Yup.string().required('Last ID is required'),
+    lastname: Yup.string().required('Last name is required'),
     zip: Yup.string().required('Zip code is required'),
     address1: Yup.string().required('Address is required'),
     city: Yup.string().required('City is required'),
@@ -41,7 +49,7 @@ const DemoForm = () => {
     state: Yup.string().required('State is required'),
     serviceId: Yup.string().required('Service is required'),
   });
-  
+
   useEffect(() => {
     const fetchServices = async () => {
       const { data, error } = await central
@@ -62,7 +70,7 @@ const DemoForm = () => {
     };
 
     const queryParams = new URLSearchParams({
-      company_id: '12347',
+      company_id: companyId,
       service: values.serviceId,
       firstname: values.firstname,
       lastname: values.lastname,
