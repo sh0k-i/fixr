@@ -8,6 +8,7 @@ import { useAppContext } from '@/context/AppContext';
 import { useEffect } from 'react';
 import NavBar2 from '@/components/NavBar2';
 import Feature from '@/components/Feature';
+import SocialProof from '@/components/SocialProof';
 
 const Home = () => {
   const { services, user, form, selectedService, setUser, setForm, setSelectedService} = useAppContext();
@@ -40,12 +41,16 @@ const Home = () => {
       <NavBar2 />
       <Hero/>
       <Testimonials />
+      
       <div className='max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 lg:py-24  space-y-12 sm:space-y-20 lg:space-y-24'>
         {services && services.length > 1 && <ServiceCards />} 
         <Feature />
+      </div>   
+      <SocialProof />   
+      <div className='max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 lg:py-24  space-y-12 sm:space-y-20 lg:space-y-24'>     
         <Benefits />
         <FAQ />
-      </div>      
+      </div>   
 
       <Footer />
       </div>

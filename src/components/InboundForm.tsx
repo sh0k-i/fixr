@@ -24,10 +24,10 @@ const InboundForm = () => {
 
   // on load, set current step based on url parameter
   useEffect(() => {
-    if (step === 'schedule') {
-      setCurrentStep(2);
-    } else {
+    if (step === 'request') {
       setCurrentStep(1);
+    } else {
+      setCurrentStep(2);
     }
   }, [step]);
 

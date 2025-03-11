@@ -99,7 +99,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    setUser(prevUser => ({ ...prevUser, userNs: params.get('user_ns'), market: params.get('market') }));
+    setUser(prevUser => ({ ...prevUser, userNs: params.get('user_ns'), market: params.get('market'), promo: params.get('promo') }));
 
   }, [location.search]);
 

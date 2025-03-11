@@ -40,14 +40,6 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
     if (
       form.date &&
       form.time &&
-      user.firstname &&
-      user.lastname &&
-      user.address1 &&
-      user.city &&
-      user.state &&
-      user.zip &&
-      user.email &&
-      user.phone &&
       selectedService
     ) {
       setValidAppointment(true);
@@ -60,6 +52,7 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
     setForm(prevForm => ({
       ...prevForm,
       serviceSpecification: capitalizeWords(params.get('service_specification')),
+      promo: capitalizeWords(params.get('promo')),
     }));
   }, [ location.search, setForm ]);
 
@@ -235,7 +228,7 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
                             <path d="m15.8 24.7c-2.3.1-1.9-3.9.3-3.4 2.3-.1 2 3.9-.3 3.4zm.2-5.5c-.6 0-.9-.3-.9-1l-.7-9.2c-.1-.9.6-1.7 1.5-1.8s1.7.6 1.8 1.5v.3l-.7 9.2c-.1.7-.4 1-1 1z" fill="#eee"></path>
                           </g>
                         </svg>
-                        <p className="text-lg font-semibold ml-2">Pending Request</p>
+                        <p className="text-base sm:text-lg font-semibold ml-2">Pending Request</p>
                       </div>
                     </div>
 										<hr className='mb-4'></hr>
@@ -243,59 +236,72 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
                     <div className="flex items-center">
                       <IconComponent name={selectedService.name} className="w-14 h-14" />
                       <div className="flex flex-wrap justify-between flex-grow">
-                        <h3 className="text-lg font-medium text-gray-800 dark:text-white pl-6 pr-4">
+                        <h3 className="text-base sm:text-lg font-medium text-gray-800 dark:text-white pl-2 sm:pl-6 pr-4">
                           {selectedService.name} {form.serviceSpecification || "Service"}
                         </h3>
                       </div>
                     </div>
                     </div>
                     {/* Schedule */}
-                    {/* <hr className='mb-4'></hr>
-                    {form.promo }
-                    <p className="text-sm font-semibold text-gray-800 mb-3">Promo</p> */}
-                    <hr className='mb-4'></hr>
-                    <div className='flex mb-3'>
-                      <p className="text-sm font-semibold text-gray-800 ">Scheduled Date and Time</p>
-                      <button onClick={onSchedule} className='ml-auto text-accentColor hover:text-accentDark'>Edit</button>
-                    </div>
                     
-                    {form.date && form.time ? (
-                      <div className="flex flex-wrap justify-between my-4 w-auto bg-gray-100 rounded-md pt-2 pb-4 space-y-2">
-                        <div className="flex items-center px-8 min-w-[200px] mt-2">
-                          <img src="/images/calendar.svg" alt="Calendar" className="inline mr-2 h-5" />
-                          <p className="text-base text-gray-800">{formatDate(form.date)}</p>
+                    {/* If form.promo exists or is not empty, show this div */}
+                    {form.promo && (
+                      <div>
+                        <hr className='mb-4'></hr>
+                        <p className="text-sm font-semibold text-gray-800 mb-3">Promo</p>
+                        <div className="flex flex-wrap justify-between my-4 w-auto bg-green-100 rounded-md py-4">
+                        <div className="flex items-center px-4 sm:px-8 min-w-[200px]">
+                          <i className="fi fi-rr-ticket flex text-green-800 items-center text-center mr-2 h-5"></i>
+                          <p className=" text-sm sm:text-base text-green-800">{form.promo}</p>
                         </div>
-
-                        <div className="hidden sm:flex items-center px-8">
-                          <img src="/images/clock.svg" alt="Clock" className="inline mr-2 h-5" />
-                          <p className="text-base text-gray-800">{formatTime(form.time)}</p>
-                          
-                          {timezoneAbbr && ( 
-                            <div className='flex items-center'>
-                              <img src="/images/globe.svg" alt="Clock" className="inline ml-4 mr-2 h-5" />
-                              <p className="text-base text-gray-800">{timezoneAbbr}</p>
-                            </div>)}
-
-                        </div>
-
-
-                        <div className="flex items-center px-8 sm:hidden">
-                          <img src="/images/clock.svg" alt="Clock" className="inline mr-2 h-5" />
-                          <p className="text-base text-gray-800">{formatTime(form.time)}</p>
-                        </div>
-                        {timezoneAbbr && (
-                          <div className="flex items-center px-8 sm:hidden">
-                            <img src="/images/globe.svg" alt="Clock" className="inline mr-2 h-5" />
-                            <p className="text-base text-gray-800">{timezoneAbbr}</p>
-                          </div>
-                        )}
+                      </div>
 
                       </div>
-                    ) : (
-                      <div className="flex flex-wrap justify-between my-4 w-auto bg-red-100 rounded-md py-4">
-                        <div className="flex items-center px-4 sm:px-8 min-w-[200px]">
-                          <img src="/images/warning.svg" alt="warning" className="inline mr-2 h-5" />
-                          <button onClick={onSchedule} className=" text-sm sm:text-base text-red-800 text-accentColor hover:text-red-900  ">No schedule is set</button>
+                    )}
+                    
+                    
+                    
+                    {form.date && form.time && (
+                      <div>
+                        <hr className='mb-4'></hr>
+                        <div className='flex mb-3'>
+                          <p className="text-sm font-semibold text-gray-800 ">Scheduled Date and Time</p>
+                          <button onClick={onSchedule} className='ml-auto text-accentColor hover:text-accentDark'>Edit</button>
+                        </div>
+                        <div className="my-4 w-auto bg-gray-100 rounded-md pb-4 pt-4 space-y-2">
+                          <div className='flex flex-wrap items-center justify-between' >
+                            <div className="flex items-center pl-4 sm:pl-8 pr-8 min-w-[200px]">
+                              <img src="/images/calendar.svg" alt="Calendar" className="inline mr-2 h-5" />
+                              <p className="text-sm sm:text-base text-gray-800">{formatDate(form.date)}</p>
+                            </div>
+
+                            <div className="hidden sm:flex items-center pl-4 pr-8">
+                              <img src="/images/clock.svg" alt="Clock" className="inline mr-2 h-5" />
+                              <p className="text-sm sm:text-base text-gray-800">{formatTime(form.time)}</p>
+                              
+                              {timezoneAbbr && ( 
+                                <div className='flex items-center'>
+                                  <img src="/images/globe.svg" alt="Clock" className="inline ml-4 mr-2 h-5" />
+                                  <p className="text-sm sm:text-base text-gray-800">{timezoneAbbr}</p>
+                                </div>)}
+
+                            </div>
+                          </div>
+
+                          <div className='sm:hidden pr-8 space-y-2'>
+                            <div className="flex items-center pl-4 pr-8">
+                              <img src="/images/clock.svg" alt="Clock" className="inline mr-2 h-5" />
+                              <p className="text-sm sm:text-base text-gray-800">{formatTime(form.time)} </p>
+                            </div>
+
+                            {timezoneAbbr && (  
+                              <div className="flex items-center pl-4 pr-8">
+                                <img src="/images/globe.svg" alt="Clock" className="inline mr-2 h-5" />
+                                <p className="text-sm sm:text-base text-gray-800">{timezoneAbbr}</p>
+                              </div>
+                            )}
+                          </div>
+
                         </div>
                       </div>
                     )}
@@ -307,31 +313,31 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
 							<div className="flex-grow min-w-[250px] max-w-[100%] bg-white border border-gray-200 rounded-md h-auto">
 								<div className='text-left mx-4 my-4'>
                   <div className="flex items-center mb-3">
-                    <p className='text-lg font-semibold text-gray-800 '>Customer Information</p>
+                    <p className='text-base sm:text-lg font-semibold text-gray-800 '>Customer Information</p>
                     <button onClick={onInfo} className='ml-auto text-accentColor hover:text-accentDark'>Edit</button>
                   </div>
 									<hr className='mb-4'></hr>
-									<p className='text-base text-gray-800 mb-3'>
+									<p className='text-sm sm:text-base text-gray-800 mb-3'>
 										<img src="/images/user.svg" alt="User" className="inline mr-2 h-5" />
 										{user.firstname} {user.lastname}
 									</p>
-									<p className='text-base text-gray-800 mb-3'>
+									<p className='text-sm sm:text-base text-gray-800 mb-3'>
 										<img src="/images/mail.svg" alt="Email" className="inline mr-2 h-5 " />
 										{user.email}
 									</p>
-									<p className='text-base text-gray-800 item-center mb-3'>
+									<p className='text-sm sm:text-base text-gray-800 item-center mb-3'>
 										<img src="/images/telephone.svg" alt="Phone" className="inline mr-2 h-5" />
 										{formatPhoneNumber(user.phone)}
 									</p>
-									<p className='text-base text-gray-800 mb-3'>
+									<p className='text-sm sm:text-base text-gray-800 mb-3'>
 										<img src="/images/home.svg" alt="Location" className="inline mr-2 h-5" />
 										{user.address2 ? `${user.address1}, ${user.address2}` : `${user.address1}`}
 									</p>
-									<p className='text-base text-gray-800 mb-3'>
+									<p className='text-sm sm:text-base text-gray-800 mb-3'>
 										<img src="/images/city.svg" alt="Location" className="inline mr-2 h-5" />
 										{user.city}
 									</p>
-									<p className='text-base text-gray-800 mb-3'>
+									<p className='text-sm sm:text-base text-gray-800 mb-3'>
 										<img src="/images/location.svg" alt="Location" className="inline mr-2 h-5" />
 										{user.zip}, {user.state}
 									</p>
@@ -353,7 +359,7 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
                     onChange={handleGeneralOptInChange}
                     className="size-4 rounded border-gray-300 text-accentColor focus:ring-accentColor"
                   />
-                  <label htmlFor="generalOptIn" className="ml-4 block text-base text-gray-900 dark:text-gray-300">{!form.generalOptIn && <span className="text-red-500">* </span>}
+                  <label htmlFor="generalOptIn" className="ml-4 block text-sm sm:text-base text-gray-900 dark:text-gray-300">{!form.generalOptIn && <span className="text-red-500">* </span>}
                   Yes, I agree to receiving updates about my free assessment. I understand that I can opt-out anytime.
                   </label>
                 </div>
