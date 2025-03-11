@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import ConfirmCheck from './icons/ConfirmCheck';
 import IconComponent from '@/hooks/IconComponent';
 import { useLocation } from 'react-router-dom';
+import { format } from 'date-fns-tz';
 
 interface InboundSummaryProps {
   onSchedule: () => void;
@@ -23,7 +24,7 @@ interface InboundSummaryProps {
 
 
 const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSubmit }) => {
-  const { form, setForm, user, contractor, selectedService, timezoneAbbr } = useAppContext();
+  const { form, setForm, user, contractor, selectedService } = useAppContext();
   const [loading, setLoading] = useState<boolean>(false);
   const [validAppointment, setValidAppointment] = useState<boolean>(false);
   const location = useLocation();
@@ -279,10 +280,10 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
                               <img src="/images/clock.svg" alt="Clock" className="inline mr-2 h-5" />
                               <p className="text-sm sm:text-base text-gray-800">{formatTime(form.time)}</p>
                               
-                              {timezoneAbbr && ( 
+                              {form.timezone && ( 
                                 <div className='flex items-center'>
                                   <img src="/images/globe.svg" alt="Clock" className="inline ml-4 mr-2 h-5" />
-                                  <p className="text-sm sm:text-base text-gray-800">{timezoneAbbr}</p>
+                                  <p className="text-sm sm:text-base text-gray-800">{format(new Date(), 'zzz', { timeZone: form.timezone })}</p>
                                 </div>)}
 
                             </div>
@@ -294,10 +295,10 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
                               <p className="text-sm sm:text-base text-gray-800">{formatTime(form.time)} </p>
                             </div>
 
-                            {timezoneAbbr && (  
+                            {form.timezone && (  
                               <div className="flex items-center pl-4 pr-8">
                                 <img src="/images/globe.svg" alt="Clock" className="inline mr-2 h-5" />
-                                <p className="text-sm sm:text-base text-gray-800">{timezoneAbbr}</p>
+                                <p className="text-sm sm:text-base text-gray-800">{format(new Date(), 'zzz', { timeZone: form.timezone })}</p>
                               </div>
                             )}
                           </div>
