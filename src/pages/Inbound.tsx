@@ -3,11 +3,11 @@ import { useAppContext } from '@/context/AppContext';
 import {central} from '@/lib/supabaseClient';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Navbar from '@/components/NavBar';
-import Testimonials from '@/components/Testimonials';
 import Feature from '@/components/Feature';
 import FAQ from '@/components/FAQ';
 import InboundForm from '@/components/InboundForm';
 import SocialProof from '@/components/SocialProof';
+import TestimonialsGray from '@/components/TestimonialsGray';
 
 const Inbound = () => {
   const location = useLocation();
@@ -105,7 +105,7 @@ const Inbound = () => {
       <Navbar />  
       <div className='max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 lg:py-12 space-y-12 sm:space-y-20 lg:space-y-24'>
         <InboundForm />
-        <Testimonials />
+        <TestimonialsGray />
         <SocialProof />
         <Feature />
         <FAQ />
