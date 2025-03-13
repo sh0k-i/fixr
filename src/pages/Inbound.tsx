@@ -7,6 +7,7 @@ import Testimonials from '@/components/Testimonials';
 import Feature from '@/components/Feature';
 import FAQ from '@/components/FAQ';
 import InboundForm from '@/components/InboundForm';
+import SocialProof from '@/components/SocialProof';
 
 const Inbound = () => {
   const location = useLocation();
@@ -105,6 +106,7 @@ const Inbound = () => {
       <div className='max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 lg:py-12 space-y-12 sm:space-y-20 lg:space-y-24'>
         <InboundForm />
         <Testimonials />
+        <SocialProof />
         <Feature />
         <FAQ />
       </div>
