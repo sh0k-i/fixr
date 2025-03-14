@@ -46,7 +46,7 @@ const TestimonialsGray: React.FC = () => {
 
   return (
     <div>
-      <div className="relative flex w-full flex-col items-center justify-center overflow-hidden pointer-events-none pt-6 sm:pt-10 lg:pt-12">
+      <div className="relative flex w-full flex-col items-center justify-center overflow-hidden pointer-events-none">
         <div className="hidden text-center">
           <BlurFade delay={3 * 0.15} inView yOffset={0} className="section_header mb-[25px]">
             What our <span className="text-accentColor">satisfied</span> clients say about us
