@@ -5,10 +5,8 @@ import { useAppContext } from '@/context/AppContext';
 import useFormPersistence from '@/hooks/useFormPersistence';
 import useClearFormState from '@/hooks/useClearFormState';
 import Step1Selection from './Step1Selection';
-import Step3Specifications from './Step3Specifications';
 import ProgressBar from '../ui/ProgressBar';
 import Step1Info from './Step1Info';
-import Step2PromoOptIn from './Step2PromoOptIn';
 import Step2Schedule from './Step2Schedule';
 import Summary from './Summary';
 
@@ -18,7 +16,7 @@ const ParentForm = () => {
   const clearFormState = useClearFormState();
   // const resetDatabase = useResetDatabase();
 
-  const { setForm, contractor, services, setSelectedService, selectedService } = useAppContext();
+  const { setForm, contractor, services, setSelectedService } = useAppContext();
   // Determine the initial step based on the number of services
   const initialStep = services.length === 1 ? 2 : 1;
   const [currentStep, setCurrentStep, resetCurrentStep] = useFormPersistence('formStep', initialStep);
@@ -37,31 +35,6 @@ const ParentForm = () => {
       }
     }
   }, [services, setSelectedService]);
-
-  // If there is only 1 specification, preselect it
-  useEffect(() => {
-    if (selectedService?.specifications?.length === 1) {
-      setForm((prevForm) => ({
-        ...prevForm,
-        serviceSpecification: selectedService.specifications[0],
-      }));
-    }
-  }, [selectedService]);
-
-  // Modify your existing specification useEffect
-  useEffect(() => {
-    if (selectedService?.specifications?.length === 1) {
-      setForm(prev => ({
-        ...prev,
-        serviceSpecification: selectedService.specifications[0]
-      }));
-      // Add automatic step progression
-      if (currentStep === 2) {
-        setCurrentStep(3);
-      }
-    }
-  }, [selectedService, currentStep, setForm, setCurrentStep]);
-
   
   // Set the slug
   useEffect(() => {
@@ -84,30 +57,7 @@ const ParentForm = () => {
   }, [currentStep]);
 
   const handleNextStep = () => {
-    if (currentStep === 3) {
-      if (contractor.promos && contractor.promos.length > 0) {
-        setCurrentStep(currentStep + 1);
-        console.log('promo exists', contractor.promos);
-      } else {
-        setCurrentStep(currentStep + 2);
-        console.log('promo does not exist');
-      }
-    } else if (currentStep === 1) {
-      if (selectedService?.specifications?.length === 1) {
-        setForm(prev => ({
-          ...prev,
-          serviceSpecification: selectedService.specifications[0]
-        }));
-        setCurrentStep(3);
-        console.log('specifications length is 1');
-      } else {
-        setCurrentStep(2);
-        console.log('specifications length is more than 1');
-      }
-    } else {
-      setCurrentStep(currentStep + 1);
-      console.log('else is triggered');
-    }
+    setCurrentStep(currentStep + 1);
   };
 
   const handleReset = async () => {
@@ -117,21 +67,7 @@ const ParentForm = () => {
   };
 
   const handleBackStep = () => {
-    if (currentStep === 5) {
-      if (contractor.promos && contractor.promos.length > 0) {
-        setCurrentStep(currentStep - 1);
-      } else {
-        setCurrentStep(currentStep - 2);
-      }
-    } else if (currentStep === 3) {
-      if (selectedService?.specifications?.length === 1) {
-        setCurrentStep(1);
-      } else {
-        setCurrentStep(2);
-      }
-    } else {
-      setCurrentStep(currentStep - 1);
-    }
+    setCurrentStep(currentStep - 1);
   };
 
   const handleSubmitted = () => {
@@ -169,11 +105,9 @@ const ParentForm = () => {
       </div>
       <div>
         {currentStep === 1 && <Step1Selection onNext={handleNextStep} />}
-        {currentStep === 2 && <Step3Specifications onNext={handleNextStep} onBack={handleBackStep} onReset={handleReset} />}
-        {currentStep === 3 && <Step1Info onNext={handleNextStep} onReset={handleReset} onBack={handleBackStep} />}
-        {currentStep === 4 && <Step2PromoOptIn onNext={handleNextStep} onBack={handleBackStep} onReset={handleReset} />}
-        {currentStep === 5 && <Step2Schedule onNext={handleNextStep} onReset={handleReset} onBack={handleBackStep} />}
-        {currentStep === 6 && <Summary onNext={handleSubmitted} onReset={handleReset} onBack={handleBackStep} />}
+        {currentStep === 2 && <Step1Info onNext={handleNextStep} onReset={handleReset} onBack={handleBackStep} />}
+        {currentStep === 3 && <Step2Schedule onNext={handleNextStep} onReset={handleReset} onBack={handleBackStep} />}
+        {currentStep === 4 && <Summary onNext={handleSubmitted} onReset={handleReset} onBack={handleBackStep} />}
       </div>
     </div>
   );

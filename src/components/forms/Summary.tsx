@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAppContext } from '@/context/AppContext';
 
 import {central} from '@/lib/supabaseClient';
@@ -15,6 +15,8 @@ import { Button } from '@/components/ui/button';
 import ConfirmCheck from '../icons/ConfirmCheck';
 import NavButtons from '../ui/navButtons';
 import IconComponent from '@/hooks/IconComponent';
+import { useLocation } from 'react-router-dom';
+import { format } from 'date-fns-tz';
 
 // Define props interface
 interface SummaryProps {
@@ -24,8 +26,23 @@ interface SummaryProps {
 }
 
 const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
-  const { form, setForm, user, contractor, selectedService, timezoneAbbr } = useAppContext();
+  const { form, setForm, user, contractor, selectedService } = useAppContext();
   const [loading, setLoading] = useState<boolean>(false);
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+
+  const capitalizeWords = (str: string | null) => {
+    if (!str) return '';
+    return str.replace(/\b\w/g, char => char.toUpperCase());
+  };
+
+  useEffect(() => {
+      setForm(prevForm => ({
+        ...prevForm,
+        promo: capitalizeWords(params.get('promo')),
+        serviceSpecification: capitalizeWords(selectedService?.specifications[0]),
+      }));
+    }, [ location.search, setForm ]);
 
 	const handleRedirect = () => {
 		onNext();
@@ -176,27 +193,27 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
 			<div className="container-form">
       <NavButtons handleBack={handleBack} handleReset={handleReset} />
 
-				<div className="space-y-8">
-					<div className='flex justify-center text-center'>
-						<div className="max-w-[40rem] text-center">
-							<h1 className="heading-form">
-							Almost There! <span className="text-accentColor">Request Your Appointment</span> Now
-							</h1> 
-						</div>
-					</div>
+      <div className="space-y-8">
+        <div className='flex justify-center text-center'>
+          <div className="max-w-[40rem] text-center">
+            <h1 className="heading-form">
+            Almost There! <span className="text-accentColor">Request Your Appointment</span> Now
+            </h1> 
+          </div>
+        </div>
 
-					<div className="flex justify-center mt-10"> 
-						<div className="flex flex-wrap gap-4 max-w-screen-lg w-full sm:px-8">
+        <div className="flex justify-center mt-10"> 
+          <div className="flex flex-wrap gap-4 max-w-screen-lg w-full sm:px-8">
 						<div className="flex flex-col gap-4 flex-grow min-w-[250px] w-[600px] max-w-[100%]">
-								<div className="bg-white border border-gray-200 rounded-md">
-									<div className="text-left mx-4 my-4">
-										<div className="flex items-center">
+              <div className="bg-white border border-gray-200 rounded-md">
+                <div className="text-left mx-4 my-4">
+                  <div className="flex items-center">
 										<div className="flex items-center text-yellow-500 mb-3">
-                        <svg id="fi_9759344" enableBackground="new 0 0 32 32" height="24" viewBox="0 0 32 32" width="24" xmlns="http://www.w3.org/2000/svg"
+                      <svg id="fi_9759344" enableBackground="new 0 0 32 32" height="24" viewBox="0 0 32 32" width="24" xmlns="http://www.w3.org/2000/svg"
                         className='text-yellow-500 h-5'>
-                          <g>
-                            <path d="m28.8 9-5.8-5.8c-.8-.8-1.8-1.2-2.9-1.2h-8.3c-1 0-2 .4-2.8 1.2l-5.8 5.8c-.8.8-1.2 1.8-1.2 2.9v8.3c0 1.1.4 2.1 1.2 2.8l5.8 5.8c.8.7 1.8 1.2 2.8 1.2h8.3c1.1 0 2.1-.4 2.8-1.2l5.9-5.9c.7-.8 1.2-1.8 1.2-2.8v-8.3c0-1-.4-2-1.2-2.8z" fill="#ffc107"></path>
-                            <path d="m15.8 24.7c-2.3.1-1.9-3.9.3-3.4 2.3-.1 2 3.9-.3 3.4zm.2-5.5c-.6 0-.9-.3-.9-1l-.7-9.2c-.1-.9.6-1.7 1.5-1.8s1.7.6 1.8 1.5v.3l-.7 9.2c-.1.7-.4 1-1 1z" fill="#eee"></path>
+                        <g>
+                          <path d="m28.8 9-5.8-5.8c-.8-.8-1.8-1.2-2.9-1.2h-8.3c-1 0-2 .4-2.8 1.2l-5.8 5.8c-.8.8-1.2 1.8-1.2 2.9v8.3c0 1.1.4 2.1 1.2 2.8l5.8 5.8c.8.7 1.8 1.2 2.8 1.2h8.3c1.1 0 2.1-.4 2.8-1.2l5.9-5.9c.7-.8 1.2-1.8 1.2-2.8v-8.3c0-1-.4-2-1.2-2.8z" fill="#ffc107"></path>
+                          <path d="m15.8 24.7c-2.3.1-1.9-3.9.3-3.4 2.3-.1 2 3.9-.3 3.4zm.2-5.5c-.6 0-.9-.3-.9-1l-.7-9.2c-.1-.9.6-1.7 1.5-1.8s1.7.6 1.8 1.5v.3l-.7 9.2c-.1.7-.4 1-1 1z" fill="#eee"></path>
                           </g>
                         </svg>
                         <p className="text-base sm:text-lg font-semibold ml-2">Pending Request</p>
@@ -204,69 +221,77 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
                     </div>
 										<hr className='mb-4'></hr>
 										<div className="flex items-center mb-4 ml-4 md:ml-8 min-w-52">
-                    <div className="flex items-center">
-                      <IconComponent name={selectedService.name || selectedService.services.name} className="w-14 h-14" />
-                      <div className="flex flex-wrap justify-between flex-grow">
-                        <h3 className="text-base sm:text-lg font-medium text-gray-800 dark:text-white pl-2 sm:pl-6 pr-4">
-                          {selectedService.name || selectedService.services.name} {form.serviceSpecification || "Service"}
-                        </h3>
+                      <div className="flex items-center">
+                        <IconComponent name={selectedService.name || selectedService.services.name} className="w-14 h-14" />
+                        <div className="flex flex-wrap justify-between flex-grow">
+                          <h3 className="text-base sm:text-lg font-medium text-gray-800 dark:text-white pl-2 sm:pl-6 pr-4">
+                            {selectedService.name || selectedService.services.name} {form.serviceSpecification || "Service"}
+                          </h3>
+                        </div>
                       </div>
-                    </div>
                     </div>
                     {/* Schedule */}
-                    {/* <hr className='mb-4'></hr>
-                    {form.promo }
-                    <p className="text-sm font-semibold text-gray-800 mb-3">Promo</p> */}
-                    <hr className='mb-4'></hr>
-                    <p className="text-sm font-semibold text-gray-800 mb-3">Scheduled Date and Time</p>
-                    {form.date && form.time ? (
-                      <div className="my-4 w-auto bg-gray-100 rounded-md pb-4 pt-4 space-y-2">
-                        <div className='flex flex-wrap items-center justify-between' >
-                          <div className="flex items-center pl-4 sm:pl-8 pr-8 min-w-[200px]">
-                            <img src="/images/calendar.svg" alt="Calendar" className="inline mr-2 h-5" />
-                            <p className="text-sm sm:text-base text-gray-800">{formatDate(form.date)}</p>
-                          </div>
-
-                          <div className="hidden sm:flex items-center pl-4 pr-8">
-                            <img src="/images/clock.svg" alt="Clock" className="inline mr-2 h-5" />
-                            <p className="text-sm sm:text-base text-gray-800">{formatTime(form.time)}</p>
-                            
-                            {timezoneAbbr && ( 
-                              <div className='flex items-center'>
-                                <img src="/images/globe.svg" alt="Clock" className="inline ml-4 mr-2 h-5" />
-                                <p className="text-sm sm:text-base text-gray-800">{timezoneAbbr}</p>
-                              </div>)}
-
-                          </div>
+                    
+                    {/* If form.promo exists or is not empty, show this div */}
+                    {form.promo && (
+                      <div>
+                        <hr className='mb-4'></hr>
+                        <p className="text-sm font-semibold text-gray-800 mb-3">Promo</p>
+                        <div className="flex flex-wrap justify-between my-4 w-auto bg-green-100 rounded-md py-4">
+                        <div className="flex items-center px-4 sm:px-8 min-w-[200px]">
+                          <i className="fi fi-rr-ticket flex text-green-800 items-center text-center mr-2 h-5"></i>
+                          <p className=" text-sm sm:text-base text-green-800">{form.promo}</p>
                         </div>
-
-                        <div className='sm:hidden pr-8 space-y-2'>
-                          <div className="flex items-center pl-4 pr-8">
-                            <img src="/images/clock.svg" alt="Clock" className="inline mr-2 h-5" />
-                            <p className="text-sm sm:text-base text-gray-800">{formatTime(form.time)} </p>
-                          </div>
-
-                          {timezoneAbbr && (  
-                            <div className="flex items-center pl-4 pr-8">
-                              <img src="/images/globe.svg" alt="Clock" className="inline mr-2 h-5" />
-                              <p className="text-sm sm:text-base text-gray-800">{timezoneAbbr}</p>
-                            </div>
-                          )}
-                        </div>
-
                       </div>
 
-                    ) : (
-                      <div className="flex flex-wrap justify-between my-4 w-auto bg-red-100 rounded-md py-4">
-                        <div className="flex items-center px-8 min-w-[200px]">
-                          <img src="/images/warning.svg" alt="warning" className="inline mr-2 h-5" />
-                          <p className="text-base text-red-800">No schedule is set</p>
+                      </div>
+                    )}
+                    
+
+                    {form.date && form.time && (
+                      <div>
+                        <hr className='mb-4'></hr>
+                        <div className='flex mb-3'>
+                          <p className="text-sm font-semibold text-gray-800 ">Scheduled Date and Time</p>
+                        </div>
+                        <div className="my-4 w-auto bg-gray-100 rounded-md pb-4 pt-4 space-y-2">
+                          <div className='flex flex-wrap items-center justify-between' >
+                            <div className="flex items-center pl-4 sm:pl-8 pr-8 min-w-[200px]">
+                              <img src="/images/calendar.svg" alt="Calendar" className="inline mr-2 h-5" />
+                              <p className="text-sm sm:text-base text-gray-800">{formatDate(form.date)}</p>
+                            </div>
+
+                            <div className="hidden sm:flex items-center pl-4 pr-8">
+                              <img src="/images/clock.svg" alt="Clock" className="inline mr-2 h-5" />
+                              <p className="text-sm sm:text-base text-gray-800">{formatTime(form.time)}</p>
+                              
+                              {form.timezone && ( 
+                                <div className='flex items-center'>
+                                  <img src="/images/globe.svg" alt="Clock" className="inline ml-4 mr-2 h-5" />
+                                  <p className="text-sm sm:text-base text-gray-800">{format(new Date(), 'zzz', { timeZone: form.timezone })}</p>
+                                </div>)}
+
+                            </div>
+                          </div>
+
+                          <div className='sm:hidden pr-8 space-y-2'>
+                            <div className="flex items-center pl-4 pr-8">
+                              <img src="/images/clock.svg" alt="Clock" className="inline mr-2 h-5" />
+                              <p className="text-sm sm:text-base text-gray-800">{formatTime(form.time)} </p>
+                            </div>
+
+                            {form.timezone && (  
+                              <div className="flex items-center pl-4 pr-8">
+                                <img src="/images/globe.svg" alt="Clock" className="inline mr-2 h-5" />
+                                <p className="text-sm sm:text-base text-gray-800">{format(new Date(), 'zzz', { timeZone: form.timezone })}</p>
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </div>
                     )}
                   </div>
                 </div>
-								
 							</div>
 
 							<div className="flex-grow min-w-[250px] max-w-[100%] bg-white border border-gray-200 rounded-md h-auto">

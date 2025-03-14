@@ -234,7 +234,7 @@ const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
                       country="US"
                       id="phone"
                       name="phone"
-                      maxLength={14}
+                      maxLength={15}
                       value={formik.values.phone}
                       onChange={value => formik.setFieldValue('phone', value || '')}
                       onBlur={formik.handleBlur}

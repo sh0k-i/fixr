@@ -52,10 +52,12 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
   useEffect(() => {
     setForm(prevForm => ({
       ...prevForm,
-      serviceSpecification: capitalizeWords(params.get('service_specification')),
       promo: capitalizeWords(params.get('promo')),
+      serviceSpecification: capitalizeWords(selectedService?.specifications[0]),
     }));
   }, [ location.search, setForm ]);
+
+
 
   const payload = {
     user,
@@ -114,7 +116,7 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
 						opt_in: form.generalOptIn,
 						date: form.date,
 						time: form.time,
-						service_name: selectedService.name,
+						service_name: selectedService.name || selectedService.services.name,
 						service_id: selectedService.id,
             is_booked: true,
             timezone: form.timezone,
@@ -235,10 +237,10 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
 										<hr className='mb-4'></hr>
 										<div className="flex items-center mb-4 ml-4 md:ml-8 min-w-52">
                     <div className="flex items-center">
-                      <IconComponent name={selectedService.name} className="w-14 h-14" />
+                      <IconComponent name={selectedService.name || selectedService.services.name} className="w-14 h-14" />
                       <div className="flex flex-wrap justify-between flex-grow">
                         <h3 className="text-base sm:text-lg font-medium text-gray-800 dark:text-white pl-2 sm:pl-6 pr-4">
-                          {selectedService.name} {form.serviceSpecification || "Service"}
+                          {selectedService.name || selectedService.services.name} {form.serviceSpecification || "Service"}
                         </h3>
                       </div>
                     </div>

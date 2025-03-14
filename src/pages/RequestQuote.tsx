@@ -35,7 +35,7 @@ const RequestQuote = () => {
       return formComponents[contractor.custom_form as keyof typeof formComponents] || ParentForm;
     }
     
-    const hasInboundParams = params.get('service') && params.get('service_specification');
+    const hasInboundParams = params.get('service');
     return hasInboundParams ? InboundForm : ParentForm;
   };
 

@@ -5,13 +5,12 @@ import Step2Schedule from './forms/Step2Schedule';
 import Step1Info from './forms/Step1Info';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useClearFormState from '@/hooks/useClearFormState';
-import {central} from '@/lib/supabaseClient';
 
 const InboundForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [currentStep, setCurrentStep] = useState<number>(0);
-  const { setForm, contractor, setSelectedService, setUser, form, selectedService } = useAppContext();
+  const { setForm, contractor, setSelectedService, setUser, form, selectedService, services } = useAppContext();
   const navigateWithParams = (path: string) => {
     const currentParams = new URLSearchParams(location.search);
     navigate(`${path}?${currentParams.toString()}`);
@@ -20,7 +19,6 @@ const InboundForm = () => {
   const params = new URLSearchParams(location.search);
   const serviceId = params.get('service');
   const step = params.get('step');
-  const tempSpecification = params.get('service_specification');
 
   // on load, set current step based on url parameter
   useEffect(() => {
@@ -31,28 +29,22 @@ const InboundForm = () => {
     }
   }, [step]);
 
-  // if service id exisits, set selected service 
   useEffect(() => {
-    const fetchService = async () => {
-      const { data: service, error } = await central
-        .from('services')
-        .select('*')
-        .eq('id', serviceId)
-        .single();
-
-      if (error) {
-        console.error('Error fetching service:', error);
-        return;
-      }
-
-      if (service) {
-        setSelectedService(service);
+    if (serviceId && services?.length) {
+      // Convert serviceId to number and find matching service
+      const numericServiceId = parseInt(serviceId, 10);
+      const selectedService = services.find((service: any) => 
+        service.service_id === numericServiceId
+      );
+  
+      if (selectedService) {
+        console.log('Found service:', selectedService);
+        setSelectedService(selectedService);
+      } else {
+        console.error(`Service with ID ${numericServiceId} not found. Available services:`, services);
       }
     }
-    if (serviceId) {
-      fetchService();
-    }
-  }, [serviceId]);
+  }, [serviceId, services, setSelectedService]);
 
   const capitalizeWords = (str: string | null) => {
     if (!str) return '';
@@ -80,7 +72,6 @@ const InboundForm = () => {
   
       setForm(prevForm => ({
         ...prevForm,
-        serviceSpecification: tempSpecification,
         promo: params.get('promo'),
         date: params.get('adate'),
         time: params.get('atime'),
