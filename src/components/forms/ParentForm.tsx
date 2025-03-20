@@ -21,7 +21,7 @@ const ParentForm = () => {
   const initialStep = services.length === 1 ? 2 : 1;
   const [currentStep, setCurrentStep, resetCurrentStep] = useFormPersistence('formStep', initialStep);
 
-  const progress = (currentStep - 1) * 16.66;
+  const progress = (currentStep ) * 25;
   const [slug, setSlug] = useState('');
 
   // If there is only one service, preselect it

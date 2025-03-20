@@ -43,6 +43,7 @@ const iconMapping: Record<string, React.ElementType> = {
   "Floor Coating": Flooring,
   "Gutter Helmet": GutterHelmet,
   Cabinet: Cabinet,
+  Bathtub: Bathtub,
 };
 
 export default iconMapping;
