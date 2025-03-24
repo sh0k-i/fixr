@@ -155,7 +155,7 @@ const Benefits: React.FC = () => {
             Accurate Estimates
             </h3>
             <p className="mt-1 text-gray-600 dark:text-neutral-400">
-            Receive an accurate, itemized breakdown of services, materials, and costs to help you make an informed decision.
+            Receive an accurate estimate to help you make an informed decision.
             </p>
           </div>
         </BlurFade>
