@@ -18,8 +18,7 @@ const InboundThankYou: React.FC = () => {
   const confettiRef = useRef<ConfettiRef>(null);
   const [slug, setSlug] = useState('');
   const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const serviceId = params.get('service');
+  const [serviceId, setServiceId] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const [formId, setFormId] = useState('');
 
@@ -73,6 +72,8 @@ const InboundThankYou: React.FC = () => {
             time: form.time,
             timezone: form.timezone,
           }));
+
+          setServiceId(form.service_id);
           setLoading(false);
           console.log('Form fetched:', form);
         }

@@ -14,6 +14,7 @@ import Inbound from './pages/Inbound';
 import InboundThankYou from './pages/InboundThanksYou';
 import DemoForm from './pages/DemoForm';
 import Iframe from './pages/Iframe';
+import ConfirmationForm from './pages/ConfirmationForm';
 
 declare global {
   interface Window {
@@ -62,7 +63,7 @@ function App() {
   const params = new URLSearchParams(location.search);
   const companyId = params.get('company_id');
   const conceptId = params.get('concept_id');
-  const { setContractor, setServices, setLocations, contractor, setForm, services, form, user, locations } = useAppContext();
+  const { setContractor, setServices, setLocations, contractor, setForm, services, form, user, locations, selectedService } = useAppContext();
 
   // Initialize the webhook logic
   useInitialWebhook();
@@ -190,7 +191,8 @@ function App() {
     console.log('locations', locations);
     console.log('form', form);
     console.log('user', user);
-  }, [contractor, services, locations, form, user]);
+    console.log('selected service', selectedService);
+  }, [contractor, services, locations, form, user, selectedService]);
 
   // Set custom colors from contractor data
   useEffect(() => {
@@ -223,6 +225,7 @@ function App() {
         <Route path='/summary-inbound/:slug' element={<InboundThankYou />} />
         <Route path='/demo-form' element={<DemoForm />} />
         <Route path='/iframe/:slug' element={<Iframe />} />
+        <Route path='/confirmation/:slug' element={<ConfirmationForm />} />
         {/* <Route path="*" element={<RequestQuote />} /> */}
       </Routes>
     </>

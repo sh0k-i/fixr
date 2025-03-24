@@ -117,7 +117,7 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
 						date: form.date,
 						time: form.time,
 						service_name: selectedService.name || selectedService.services.name,
-						service_id: selectedService.id,
+						service_id: selectedService.service_id,
             is_booked: true,
             timezone: form.timezone,
             contractor_id: contractor.id,

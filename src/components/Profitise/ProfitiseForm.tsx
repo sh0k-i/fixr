@@ -1,0 +1,156 @@
+import { useEffect, useState } from 'react';
+import { useAppContext } from '@/context/AppContext';
+import Step2Schedule from '../forms/Step2Schedule';
+import Step1Info from '../forms/Step1Info';
+import { useNavigate, useLocation } from 'react-router-dom';
+import useClearFormState from '@/hooks/useClearFormState';
+import Step1 from './Step1';
+import Step1Selection from '../forms/Step1Selection';
+import ProgressBar from '../ui/ProgressBar';
+import Summary from '../forms/Summary';
+import Stepper2 from '../ui/Stepper2';
+
+const ProfitiseForm = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [currentStep, setCurrentStep] = useState<number>(0);
+  const { setForm, contractor, setSelectedService, setUser, form } = useAppContext();
+  const navigateWithParams = (path: string) => {
+    const currentParams = new URLSearchParams(location.search);
+    navigate(`${path}?${currentParams.toString()}`);
+  };
+  const clearFormState = useClearFormState();
+  const params = new URLSearchParams(location.search);
+  const test = params.get('test');
+  const [stepsPercentage, setStepsPercentage] = useState<number>(0);
+  const [temp, setTemp] = useState<number>(0);
+  const progress = (currentStep - temp) * (stepsPercentage);
+
+  // on load, set current step based on url parameter
+  useEffect(() => {
+    if (test === 'B' || test === 'b') {
+      setCurrentStep(1);
+      setStepsPercentage(25);
+      setTemp(1);
+    } else {
+      setCurrentStep(2);
+      setStepsPercentage(33.99);
+      setTemp(2);
+    }
+  }, [test]);
+
+
+  const capitalizeWords = (str: string | null) => {
+    if (!str) return '';
+    return str.replace(/\b\w/g, char => char.toUpperCase());
+  };
+
+  // On load, clear form state and initialize user, form, and service data from url parameters
+  useEffect(() => {
+    const setInitialFormState = async () => {
+
+      setUser(prevUser => ({
+        ...prevUser,
+        userNs: params.get('user_ns'),
+        market: params.get('market'),
+        firstname: capitalizeWords(params.get('firstname')),
+        lastname: capitalizeWords(params.get('lastname')),
+        email: params.get('email'),
+        phone: params.get('phone'),
+        zip: params.get('zip'),
+        address1: capitalizeWords(params.get('address1')),
+        address2: capitalizeWords(params.get('address2')),
+        city: capitalizeWords(params.get('city')),
+        state: params.get('state'),
+      }));
+  
+      setForm(prevForm => ({
+        ...prevForm,
+        promo: params.get('promo'),
+        date: params.get('adate'),
+        time: params.get('atime'),
+        timezone: contractor?.timezone[0]
+      }));
+    }
+    setInitialFormState();
+  }, [ location.search ]);
+  
+  const [slug, setSlug] = useState('');
+  // Set slug
+  useEffect(() => {
+    if (contractor) {
+      setSlug(contractor.slug);
+    }
+  }, [contractor]);
+
+  const handleNext = () => {
+    setCurrentStep(currentStep + 1);
+  }
+
+  const handleSubmit = () => {
+    navigateWithParams(`/summary-inbound/${slug}`);
+    clearFormState();
+    localStorage.setItem('tempFormID', form.formId || '');
+    setForm(prev => ({ ...prev, formId: null })); 
+    localStorage.removeItem('formID');
+  };
+
+  const handleBack = () => {
+    setCurrentStep(currentStep - 1);
+  };
+
+  const handleReset = () => {
+    if (test === 'B' || test === 'b') {
+      setCurrentStep(1);
+    } else {
+      setCurrentStep(2);
+    }
+    setSelectedService(null);
+    // clear
+    setForm(prevForm => ({
+      ...prevForm,
+      date: null,
+      time: null,
+    }));
+
+  }
+
+  // Scroll to top when the step changes
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth', // Use smooth scrolling
+    });
+  }, [currentStep]);
+
+
+  if (!contractor) {
+    return null;
+  }
+
+  return (
+    <div>
+      <div className="mx-auto max-w-screen-xl px-4 pb-2 custom-smallest:pb-3 small-stepper:pb-3 sm:pb-4 md:pb-6 pt-2 sm:px-6 lg:px-8">
+        <div className="flex justify-center">
+          <Stepper2 currentStep={currentStep} />
+        </div>
+      </div>
+      <div className={`mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 ${contractor.content.avatar ? 'py-6' : 'py-0'} relative`}>
+        <div className="flex justify-center">
+          <div className="w-[600px]">
+            <ProgressBar progress={progress} />
+          </div>
+          <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          </div>
+        </div>
+      </div>
+      {currentStep === 1 && <Step1 onNext={(nextStep) => setCurrentStep(nextStep)} /> }
+      {currentStep === 2 && <Step1Selection onNext={handleNext} />}
+      {currentStep === 3 && <Step1Info onNext={handleNext} onReset={handleReset} onBack={handleBack} />}
+      {currentStep === 4 && <Step2Schedule onNext={handleNext} onBack={handleBack} onReset={handleReset} />}
+      {currentStep === 5 && <Summary onNext={handleSubmit} onReset={handleReset} onBack={handleBack} />}
+    </div>
+  )
+}
+
+export default ProfitiseForm

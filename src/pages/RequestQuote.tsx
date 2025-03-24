@@ -15,11 +15,13 @@ import posthog from 'posthog-js';
 import { useAppContext } from '@/context/AppContext';
 import Navbar from '@/components/NavBar';
 import InboundForm from '@/components/InboundForm';
+import ProfitiseForm from '@/components/Profitise/ProfitiseForm';
 
 const formComponents = {
   ParentForm,
   EZBathForm,
-  InboundForm, // Add InboundForm to the component map
+  InboundForm,
+  ProfitiseForm
 };
 
 const RequestQuote = () => {

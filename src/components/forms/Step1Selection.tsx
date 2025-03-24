@@ -12,6 +12,7 @@ const Step1Selection: React.FC<Step1SelectionProps> = ({ onNext }) => {
   const [loading, setLoading] = useState<boolean>(false); // State to control spinner
   const params = new URLSearchParams(window.location.search);
   const initial = params.get('firstname');
+  const test = params.get('test');
 
   // Utility function to capitalize the first letter
   const capitalizeFirstLetter = (string: string | null) => {
@@ -19,7 +20,7 @@ const Step1Selection: React.FC<Step1SelectionProps> = ({ onNext }) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
-  const firstname = capitalizeFirstLetter(initial);
+  const firstname = capitalizeFirstLetter(initial) || 'there'; ;
 
   const handleServiceSelect = async (service: any) => {
     setLoading(true); // Show spinner
@@ -34,17 +35,8 @@ const Step1Selection: React.FC<Step1SelectionProps> = ({ onNext }) => {
         <div className='flex justify-center text-center mb-8'>
           <div className="max-w-[40rem] text-center">
             <h1 className="heading-form">
-              {firstname ? (
-                <>
-                  Hi {firstname}! Let's bring your{' '}
-                  <span className="text-accentColor">future project</span> to life—choose what fits your vision below
-                </>
-              ) : (
-                <>
-                  Hi there! Let's bring your{' '}
-                  <span className="text-accentColor">future project</span> to life—choose what fits your vision below
-                </>
-              )}
+              {test !== 'B' && test !== 'b' ? `Hi ${firstname}! ` : ''}
+               Let's bring your{' '} <span className="text-accentColor">future project</span> to life—choose what fits your vision below
             </h1>
           </div>
         </div>

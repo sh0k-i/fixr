@@ -27,7 +27,6 @@ const Services: React.FC<ServicesProps> = ({ services, handleServiceSelect }) =>
             services.map((service, index) => (
               <BlurFade
                 key={service.id}
-                inView
                 delay={(index + 1) * 0.2} // Incremental delay for staggered effect
                 yOffset={0}
                 className="flex flex-row sm:flex-col items-center justify-start sm:justify-center w-full sm:w-[210px] h-[80px] sm:h-[156px] border border-transparent rounded-xl shadow-md p-4 transition-transform transform hover:scale-100 sm:hover:scale-105 bg-white"

@@ -19,6 +19,7 @@ import Insulation from '@/components/icons/Insulation';
 import WalkInTub from '@/components/icons/WalkInTub';
 import GutterHelmet from '@/components/icons/GutterHelmet';
 import Cabinet from '@/components/icons/Cabinet';
+import House from '@/components/icons/House';
 
 const iconMapping: Record<string, React.ElementType> = {
   Bath: Bathtub,
@@ -44,6 +45,7 @@ const iconMapping: Record<string, React.ElementType> = {
   "Gutter Helmet": GutterHelmet,
   Cabinet: Cabinet,
   Bathtub: WalkInTub,
+  House: House,
 };
 
 export default iconMapping;
