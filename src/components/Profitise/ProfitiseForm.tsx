@@ -7,8 +7,8 @@ import useClearFormState from '@/hooks/useClearFormState';
 import Step1 from './Step1';
 import Step1Selection from '../forms/Step1Selection';
 import ProgressBar from '../ui/ProgressBar';
-import Summary from '../forms/Summary';
 import Stepper2 from '../ui/Stepper2';
+import SummaryProfitise from './SummaryProfitise';
 
 const ProfitiseForm = () => {
   const navigate = useNavigate();
@@ -123,6 +123,7 @@ const ProfitiseForm = () => {
     });
   }, [currentStep]);
 
+  const avatar = contractor.content.avatar || null;
 
   if (!contractor) {
     return null;
@@ -141,6 +142,13 @@ const ProfitiseForm = () => {
             <ProgressBar progress={progress} />
           </div>
           <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          {contractor.content.avatar && (
+            <img
+            src={avatar}
+            alt="Avatar"
+            className="w-12 h-12 custom-smallest:w-14 custom-smallest:h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full border-2 border-gray-200 object-cover"
+          />
+          )}
           </div>
         </div>
       </div>
@@ -148,7 +156,7 @@ const ProfitiseForm = () => {
       {currentStep === 2 && <Step1Selection onNext={handleNext} />}
       {currentStep === 3 && <Step1Info onNext={handleNext} onReset={handleReset} onBack={handleBack} />}
       {currentStep === 4 && <Step2Schedule onNext={handleNext} onBack={handleBack} onReset={handleReset} />}
-      {currentStep === 5 && <Summary onNext={handleSubmit} onReset={handleReset} onBack={handleBack} />}
+      {currentStep === 5 && <SummaryProfitise onNext={handleSubmit} onReset={handleReset} onBack={handleBack} />}
     </div>
   )
 }

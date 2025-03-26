@@ -19,13 +19,13 @@ import { useLocation } from 'react-router-dom';
 import { format } from 'date-fns-tz';
 
 // Define props interface
-interface SummaryProps {
+interface SummaryProfitiseProps {
   onNext: () => void;
   onBack: () => void;
   onReset: () => void;
 }
 
-const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
+const SummaryProfitise: React.FC<SummaryProfitiseProps> = ({ onNext, onBack, onReset }) => {
   const { form, setForm, user, contractor, selectedService } = useAppContext();
   const [loading, setLoading] = useState<boolean>(false);
   const location = useLocation();
@@ -87,7 +87,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
     } catch (err) {
       console.error('Error sending appointments:', err);
     }
-    document.getElementById("dialog")?.click();
+    
 
 	// insert data into bookings table
 		try {
@@ -125,6 +125,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
 			} else {
 				console.log('Data inserted successfully:', data);
         setLoading(false);
+        document.getElementById("dialog")?.click();
 			}
 		} catch (err) {
 			console.error('Unexpected error:', err);
@@ -193,16 +194,20 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
 			<div className="container-form">
       <NavButtons handleBack={handleBack} handleReset={handleReset} />
 
-      <div className="space-y-8">
+      <div className="space-y-4 sm:space-y-8">
         <div className='flex justify-center text-center'>
-          <div className="max-w-[40rem] text-center">
+          <div className="max-w-[60rem] text-center space-y-2 sm:space-y-4">
             <h1 className="heading-form">
-            Almost There! <span className="text-accentColor">Request Your Appointment</span> Now
+            You're Almost Done! Get Matched with <span className="text-accentColor">Top Local Experts</span>
             </h1> 
+            <p className="text-xs sm:text-base text-gray-600  dark:text-neutral-400">
+            We'll connect you with the best local professionals, and you'll receive updates and matches via text or email.
+            </p>
           </div>
+          
         </div>
 
-        <div className="flex justify-center mt-10"> 
+        <div className="flex justify-center"> 
           <div className="flex flex-wrap gap-4 max-w-screen-lg w-full sm:px-8">
 						<div className="flex flex-col gap-4 flex-grow min-w-[250px] w-[600px] max-w-[100%]">
               <div className="bg-white border border-gray-200 rounded-md">
@@ -354,7 +359,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
 								{loading ? (
 									<div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></div>
 								) : (
-									'Request Booking'
+									'Get My Matches'
 								)}
 							</button>
 						</div>
@@ -396,4 +401,4 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
   );
 };
 
-export default Summary;
+export default SummaryProfitise;

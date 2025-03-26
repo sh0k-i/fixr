@@ -44,8 +44,7 @@ const Step1: React.FC<Step1Props> = ({ onNext }) => {
         <div className='flex justify-center text-center mb-8 px-4'>
           <div className="max-w-[60rem] text-center">
             <h1 className="heading-form">
-              Hi {firstname}! Are you still interested in <span className="text-accentColor">Solar </span>projects? 
-              <span className="block mt-4 "> Or do you want to check other <span className="text-accentColor">Home Improvement</span> projects?</span>
+              Hi <span className="text-accentColor">{firstname}</span>! Tell us what you're looking for 
             </h1>
           </div>
         </div>
@@ -67,7 +66,7 @@ const Step1: React.FC<Step1Props> = ({ onNext }) => {
             >
               <IconComponent name={'Solar'} className="w-14 h-14" />
               <span className="cards-text text-center ">
-                Interested in Solar projects
+                Interested in <span className="text-accentColor">Solar</span> projects
               </span>
             </button>
 
@@ -86,7 +85,7 @@ const Step1: React.FC<Step1Props> = ({ onNext }) => {
             >
               <IconComponent name={'House'} className="w-14 h-14" />
               <span className="cards-text text-center">
-                Check out Home Improvement projects
+                See Other <span className="text-accentColor">Home Improvement</span> projects
               </span>
             </button>
           </div>

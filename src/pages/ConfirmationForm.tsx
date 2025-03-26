@@ -3,6 +3,16 @@ import { useAppContext } from '@/context/AppContext';
 import Navbar from '@/components/NavBar';
 import { useRef } from 'react';
 import { Player } from '@lottiefiles/react-lottie-player';
+import { Dialog, DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTrigger,
+  DialogClose,
+  DialogTitle
+} from '@/components/ui/dialog2';
+import { Button } from '@/components/ui/button';
+import ConfirmCheck from '@/components/icons/ConfirmCheck';
 
 
 const ConfirmationForm = () => {
@@ -265,6 +275,26 @@ const ConfirmationForm = () => {
           </div>
         </form>
       </div>
+      <Dialog>
+        <DialogTrigger asChild>
+          <button id='dialog' className='hidden'></button>
+        </DialogTrigger>
+        <DialogTitle></DialogTitle>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader className='items-center'>
+						<ConfirmCheck />
+            <h4 className='text-lg sm:text-xl font-semibold text-center py-1'>Awesome!</h4>
+            <DialogDescription>
+						Your booking has been requested, and you will receive updates shortly regarding your Free Assessment. We look forward to helping you bring your project to life.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <DialogClose asChild className='items-center'>
+              <Button className='bg-accentColor hover:bg-accentDark w-full' >OK</Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
