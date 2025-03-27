@@ -81,6 +81,7 @@ const DemoForm = () => {
       zip: values.zip,
       state: values.state,
       service_specification: 'Remodel',
+      promo: 'Remodel Now, Pay Later',
       step: flow === 'dfcd' || flow === 'lpcd' ? 'schedule' : 'request'
     }).toString();
 
