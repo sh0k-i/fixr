@@ -11,86 +11,89 @@ import BlurFade from '@/components/ui/blur-fade';
 import IconComponent from '@/hooks/IconComponent';
 import { useLocation } from 'react-router-dom';
 import {central} from '@/lib/supabaseClient';
-import ConfirmCTA from '@/components/ConfirmCTA';
 
-const InboundThankYou: React.FC = () => {
+const ConfirmationSummary: React.FC = () => {
   const { contractor } = useAppContext();
   const navigate = useNavigate();
+  const location = useLocation();
   const confettiRef = useRef<ConfettiRef>(null);
   const [slug, setSlug] = useState('');
-  const location = useLocation();
   const [loading, setLoading] = useState(true);
-  const [formId, setFormId] = useState('');
 
   // Local state variables
   const [localUser, setLocalUser] = useState<any>(null);
   const [localForm, setLocalForm] = useState<any>(null);
   const [localSelectedService, setLocalSelectedService] = useState<any>(null);
 
-  // On load, determine formId
+  // Get form_id from URL parameters
+  const params = new URLSearchParams(location.search);
+  const formId = params.get('form_id');
+
+  // Fetch form data from Supabase
   useEffect(() => {
-    const tempFormId = localStorage.getItem('tempFormID');
-    if (tempFormId) setFormId(tempFormId);
-  }, [location.search]);
-
-  // Fetch form data
-  useEffect(() => {
-    const fetchForm = async () => {
-      if (!formId) return;
-
-      const { data: form, error } = await central
-        .from('bookings')
-        .select('*')
-        .eq('id', formId)
-        .single();
-
-      if (error || !form) {
-        console.error('Error fetching form:', error);
+    const fetchFormData = async () => {
+      if (!formId) {
+        setLoading(false);
         return;
       }
-      console.log('Form data fetched:', form);
-      // Set local user state
-      setLocalUser({
-        userNs: form.user_ns,
-        market: form.market,
-        firstname: form.firstname,
-        lastname: form.lastname,
-        email: form.email,
-        phone: form.phone,
-        zip: form.zip,
-        address1: form.address1,
-        address2: form.address2,
-        city: form.city,
-        state: form.state,
-      });
 
-      // Set local form state
-      setLocalForm({
-        formId: form.id,
-        serviceSpecification: form.service_specification,
-        promo: form.promo,
-        date: form.date,
-        time: form.time,
-        timezone: form.timezone,
-        timezoneAbbr: form.timezoneAbbr,
-      });
+      try {
+        const { data: form, error } = await central
+          .from('bookings')
+          .select('*')
+          .eq('id', formId)
+          .single();
 
-      // Set selected service directly from form data
-      if (form.selected_service) {
-        try {
-          const serviceData = typeof form.selected_service === 'string' 
-            ? JSON.parse(form.selected_service)
-            : form.selected_service;
-          setLocalSelectedService(serviceData);
-        } catch (error) {
-          console.error('Error parsing selected service:', error);
+        if (error || !form) {
+          console.error('Error fetching form:', error);
+          setLoading(false);
+          return;
         }
-      }
 
-      setLoading(false);
+        // Initialize local state with fetched data
+        setLocalUser({
+          userNs: form.user_ns,
+          market: form.market,
+          firstname: form.firstname,
+          lastname: form.lastname,
+          email: form.email,
+          phone: form.phone,
+          zip: form.zip,
+          address1: form.address1,
+          address2: form.address2,
+          city: form.city,
+          state: form.state,
+        });
+
+        setLocalForm({
+          formId: form.id,
+          serviceSpecification: form.service_specification,
+          promo: form.promo,
+          date: form.date,
+          time: form.time,
+          timezone: form.timezone,
+          timezoneAbbr: form.timezoneAbbr,
+        });
+
+        if (form.selected_service) {
+          try {
+            const serviceData = typeof form.selected_service === 'string' 
+              ? JSON.parse(form.selected_service)
+              : form.selected_service;
+            setLocalSelectedService(serviceData);
+          } catch (error) {
+            console.error('Error parsing selected service:', error);
+          }
+        }
+
+      } catch (error) {
+        console.error('Error fetching form data:', error);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    fetchForm();
+    fetchFormData();
   }, [formId]);
 
   // Set slug based on contractor
@@ -190,13 +193,13 @@ const InboundThankYou: React.FC = () => {
           <div className="z-10 flex items-center justify-center flex-col px-4 sm:pl-16 mt-0 space-y-6 md:space-y-8 py-14 md:py-16 lg:py-20">
             <BlurFade delay={2 * 0.20} yOffset={0}
               className="block font-display text-center text-4xl md:text-5xl lg:text-6xl font-semibold text-white max-w-4xl pointer-events-none">
-              Your Appointment is Requested - Talk to You Soon!
+              Your Appointment is Confirmed - See You Soon!
             </BlurFade>
 
             <BlurFade delay={3 * 0.20} yOffset={0}
               className="text-sm md:text-base lg:text-lg text-white/80 text-center max-w-4xl pointer-events-none"
             >
-              Thank you for booking with us! Your appointment has been successfully requested. You'll receive a confirmation email with all the details shortly. We look forward to seeing you!
+              Thank you for booking with us! Your appointment is confirmed. You'll receive a confirmation email with all the details shortly. We look forward to seeing you!
             </BlurFade>
           </div>
         </div>
@@ -220,7 +223,7 @@ const InboundThankYou: React.FC = () => {
                         <path clipRule="evenodd" d="m256 0c-141.2 0-256 114.8-256 256s114.8 256 256 256 256-114.8 256-256-114.8-256-256-256z" fill="currentColor" fillRule="evenodd"></path>
                         <path d="m206.7 373.1c-32.7-32.7-65.2-65.7-98-98.4-3.6-3.6-3.6-9.6 0-13.2l37.7-37.7c3.6-3.6 9.6-3.6 13.2 0l53.9 53.9 138.6-138.7c3.7-3.6 9.6-3.6 13.3 0l37.8 37.8c3.7 3.7 3.7 9.6 0 13.2l-183.3 183.1c-3.6 3.7-9.5 3.7-13.2 0z" fill="#fff"></path>
                       </svg>
-                        <p className="text-lg font-semibold ml-2">Appointment Requested</p>
+                        <p className="text-lg font-semibold ml-2">Appointment Confirmed</p>
                       </div>
                     </div>
                     <hr className='mb-4'></hr>
@@ -313,7 +316,6 @@ const InboundThankYou: React.FC = () => {
           </div>
         </div>
 
-        <ConfirmCTA />
         <HowItWorks />
       </div>
       <Footer />
@@ -321,4 +323,4 @@ const InboundThankYou: React.FC = () => {
   );
 };
 
-export default InboundThankYou;
+export default ConfirmationSummary;

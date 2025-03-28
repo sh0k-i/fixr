@@ -37,12 +37,21 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
   };
 
   useEffect(() => {
+    setForm(prevForm => ({
+      ...prevForm,
+      promo: capitalizeWords(params.get('promo')),
+      serviceSpecification: capitalizeWords(selectedService?.specifications[0]),
+    }));
+  }, [ location.search, setForm ]);
+
+  useEffect(() => {
+    if (form.timezone) {
       setForm(prevForm => ({
         ...prevForm,
-        promo: capitalizeWords(params.get('promo')),
-        serviceSpecification: capitalizeWords(selectedService?.specifications[0]),
+        timezoneAbbr: format(new Date(), 'zzz', { timeZone: form.timezone || '' })
       }));
-    }, [ location.search, setForm ]);
+    }
+  }, [form.timezone, setForm]);
 
 	const handleRedirect = () => {
 		onNext();
@@ -87,7 +96,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
     } catch (err) {
       console.error('Error sending appointments:', err);
     }
-    document.getElementById("dialog")?.click();
+    
 
 	// insert data into bookings table
 		try {
@@ -117,6 +126,8 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
             is_booked: true,
             timezone: form.timezone,
             contractor_id: contractor.id,
+            selected_service: selectedService,
+            timezoneAbbr: form.timezoneAbbr,
 					},
 				]);
 	
@@ -126,6 +137,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
 				console.log('Data inserted successfully:', data);
         setLoading(false);
 			}
+      document.getElementById("dialog")?.click();
 		} catch (err) {
 			console.error('Unexpected error:', err);
 		}	
@@ -268,7 +280,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
                               {form.timezone && ( 
                                 <div className='flex items-center'>
                                   <img src="/images/globe.svg" alt="Clock" className="inline ml-4 mr-2 h-5" />
-                                  <p className="text-sm sm:text-base text-gray-800">{format(new Date(), 'zzz', { timeZone: form.timezone })}</p>
+                                  <p className="text-sm sm:text-base text-gray-800">{form.timezoneAbbr}</p>
                                 </div>)}
 
                             </div>
@@ -283,7 +295,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
                             {form.timezone && (  
                               <div className="flex items-center pl-4 pr-8">
                                 <img src="/images/globe.svg" alt="Clock" className="inline mr-2 h-5" />
-                                <p className="text-sm sm:text-base text-gray-800">{format(new Date(), 'zzz', { timeZone: form.timezone })}</p>
+                                <p className="text-sm sm:text-base text-gray-800">{form.timezoneAbbr}</p>
                               </div>
                             )}
                           </div>

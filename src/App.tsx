@@ -15,6 +15,7 @@ import InboundThankYou from './pages/InboundThanksYou';
 import DemoForm from './pages/DemoForm';
 import Iframe from './pages/Iframe';
 import ConfirmationForm from './pages/ConfirmationForm';
+import ConfirmationSummary from './pages/ConfirmationSummary';
 
 declare global {
   interface Window {
@@ -226,6 +227,7 @@ function App() {
         <Route path='/demo-form' element={<DemoForm />} />
         <Route path='/iframe/:slug' element={<Iframe />} />
         <Route path='/confirmation/:slug' element={<ConfirmationForm />} />
+        <Route path='/confirmation-summary/:slug' element={<ConfirmationSummary />} />
         {/* <Route path="*" element={<RequestQuote />} /> */}
       </Routes>
     </>

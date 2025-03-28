@@ -22,7 +22,6 @@ interface InboundSummaryProps {
   onSubmit: () => void;
 }
 
-
 const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSubmit }) => {
   const { form, setForm, user, contractor, selectedService } = useAppContext();
   const [loading, setLoading] = useState<boolean>(false);
@@ -57,7 +56,14 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
     }));
   }, [ location.search, setForm ]);
 
-
+  useEffect(() => {
+    if (form.timezone) {
+      setForm(prevForm => ({
+        ...prevForm,
+        timezoneAbbr: format(new Date(), 'zzz', { timeZone: form.timezone || '' })
+      }));
+    }
+  }, [form.timezone, setForm]);
 
   const payload = {
     user,
@@ -91,8 +97,6 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
       console.error('Error sending appointments:', err);
     }
 
-    document.getElementById("dialog")?.click();
-
 	  // insert data into bookings table
 		try {
 			const { data, error } = await central
@@ -121,6 +125,8 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
             is_booked: true,
             timezone: form.timezone,
             contractor_id: contractor.id,
+            selected_service: selectedService,
+            timezoneAbbr: form.timezoneAbbr,
 					},
 				]);
 	
@@ -130,6 +136,7 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
 				console.log('Data inserted successfully:', data);
         setLoading(false);
 			}
+      document.getElementById("dialog")?.click();
 		} catch (err) {
 			console.error('Unexpected error:', err);
 		}	
@@ -166,7 +173,6 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
   
     return `${hour}:${minutes} ${period}`;
   };
-
 
   const formatPhoneNumber = (phone: any) => {
     if (!phone || phone.length !== 10) {
@@ -285,7 +291,7 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
                               {form.timezone && ( 
                                 <div className='flex items-center'>
                                   <img src="/images/globe.svg" alt="Clock" className="inline ml-4 mr-2 h-5" />
-                                  <p className="text-sm sm:text-base text-gray-800">{format(new Date(), 'zzz', { timeZone: form.timezone })}</p>
+                                  <p className="text-sm sm:text-base text-gray-800">{form.timezoneAbbr}</p>
                                 </div>)}
 
                             </div>
@@ -300,7 +306,7 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
                             {form.timezone && (  
                               <div className="flex items-center pl-4 pr-8">
                                 <img src="/images/globe.svg" alt="Clock" className="inline mr-2 h-5" />
-                                <p className="text-sm sm:text-base text-gray-800">{format(new Date(), 'zzz', { timeZone: form.timezone })}</p>
+                                <p className="text-sm sm:text-base text-gray-800">{form.timezoneAbbr}</p>
                               </div>
                             )}
                           </div>
@@ -342,7 +348,7 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
 									</p>
 									<p className='text-sm sm:text-base text-gray-800 mb-3'>
 										<img src="/images/location.svg" alt="Location" className="inline mr-2 h-5" />
-										{user.zip}, {user.state}
+										{user.state} {user.zip}
 									</p>
 								</div>
 							</div>

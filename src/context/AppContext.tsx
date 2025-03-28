@@ -27,6 +27,7 @@ interface FormData {
   isBooked: boolean;
   concept: any | null;
   timezone: string | null;
+  timezoneAbbr: string | null;
 }
 
 interface AppContextType {
@@ -89,6 +90,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
     isBooked: false,
     concept: null,
     timezone: null,
+    timezoneAbbr: null,
   });
 
   const [selectedService, setSelectedService] = useState<any>(null);
