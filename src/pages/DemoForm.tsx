@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { central } from '@/lib/supabaseClient';
 import { useLocation } from 'react-router-dom';
+import { useAppContext } from '@/context/AppContext';
 
 const DemoForm = () => {
-  const [services, setServices] = useState<any[]>([]);
+  const { services } = useAppContext();
   const [flow, setFlow] = useState<string>('');
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -49,17 +49,6 @@ const DemoForm = () => {
     state: Yup.string().required('State is required'),
     serviceId: Yup.string().required('Service is required'),
   });
-
-  useEffect(() => {
-    const fetchServices = async () => {
-      const { data, error } = await central
-        .from('services')
-        .select('*');
-      
-      if (!error) setServices(data || []);
-    };
-    fetchServices();
-  }, []);
 
   const handleSubmit = (values: typeof initialValues) => {
     const baseUrls: Record<string, string> = {
@@ -242,19 +231,19 @@ const DemoForm = () => {
                 <label className="form-label">Services</label>
               </div>
               <div className="sm:col-span-9 flex flex-wrap gap-2">
-                {services.map((service) => (
+                {services.map((service: any) => (
                   <button
                   key={service.id}
                   type="button"
-                  onClick={() => formik.setFieldValue('serviceId', service.id)}
+                  onClick={() => formik.setFieldValue('serviceId', service.service_id)}
                   className={`px-4 py-2 text-sm font-medium rounded-lg border transition-colors
                     ${
-                      formik.values.serviceId === service.id
+                      formik.values.serviceId === service.service_id
                         ? 'bg-blue-600 text-white border-blue-600'
                         : 'bg-white text-gray-800 border-gray-200 hover:bg-gray-200'
                     }`}
                 >
-                  {service.name}
+                  {service.services.name}
                 </button>
                 ))}
                 {formik.touched.serviceId && formik.errors.serviceId && (
