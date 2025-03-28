@@ -20,10 +20,11 @@ interface InboundSummaryProps {
   onSchedule: () => void;
   onInfo: () => void;
   onSubmit: () => void;
+  onService: () => void;
 }
 
-const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSubmit }) => {
-  const { form, setForm, user, contractor, selectedService } = useAppContext();
+const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSubmit, onService }) => {
+  const { form, setForm, user, contractor, selectedService, services } = useAppContext();
   const [loading, setLoading] = useState<boolean>(false);
   const [validAppointment, setValidAppointment] = useState<boolean>(false);
   const location = useLocation();
@@ -242,12 +243,17 @@ const InboundSummary: React.FC<InboundSummaryProps> = ({onSchedule, onInfo, onSu
                     </div>
 										<hr className='mb-4'></hr>
 										<div className="flex items-center mb-4 ml-4 md:ml-8 min-w-52">
-                    <div className="flex items-center">
+                    <div className="flex items-center w-full">
                       <IconComponent name={selectedService.name || selectedService.services.name} className="w-14 h-14" />
                       <div className="flex flex-wrap justify-between flex-grow">
                         <h3 className="text-base sm:text-lg font-medium text-gray-800 dark:text-white pl-2 sm:pl-6 pr-4">
                           {selectedService.name || selectedService.services.name} {form.serviceSpecification || "Service"}
                         </h3>
+                        {services && services.length > 1 && (
+                          <button onClick={onService} className='ml-auto text-accentColor hover:text-accentDark'>Edit</button>
+
+                        )}
+                        
                       </div>
                     </div>
                     </div>

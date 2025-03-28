@@ -5,6 +5,7 @@ import Step2Schedule from './forms/Step2Schedule';
 import Step1Info from './forms/Step1Info';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useClearFormState from '@/hooks/useClearFormState';
+import Step1Selection from './forms/Step1Selection';
 
 const InboundForm = () => {
   const navigate = useNavigate();
@@ -109,6 +110,10 @@ const InboundForm = () => {
     setCurrentStep(3);
   };
 
+  const handleService = () => {
+    setCurrentStep(4);
+  };
+
   const handleTest = () => {
     console.log('');
   };
@@ -135,9 +140,10 @@ const InboundForm = () => {
 
   return (
     <div>
-      {currentStep === 1 && <InboundSummary onInfo={handleInfo} onSchedule={handleSchedule} onSubmit={handleSubmit} />}
+      {currentStep === 1 && <InboundSummary onInfo={handleInfo} onSchedule={handleSchedule} onSubmit={handleSubmit} onService={handleService} />}
       {currentStep === 2 && <Step2Schedule onNext={handleUpdate} onBack={handleTest} onReset={handleTest} />}
       {currentStep === 3 && <Step1Info onNext={handleUpdate} onBack={handleTest} onReset={handleTest} />}
+      {currentStep === 4 && <Step1Selection onNext={handleUpdate} />}
     </div>
   )
 }
