@@ -10,7 +10,7 @@ import Step1Selection from '../forms/Step1Selection';
 const USAShowersForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [currentStep, setCurrentStep] = useState<number>(0);
+  const [currentStep, setCurrentStep] = useState<number>(1);
   const { setForm, contractor, setSelectedService, setUser, form, selectedService, services } = useAppContext();
   const navigateWithParams = (path: string) => {
     const currentParams = new URLSearchParams(location.search);
@@ -19,16 +19,6 @@ const USAShowersForm = () => {
   const clearFormState = useClearFormState();
   const params = new URLSearchParams(location.search);
   const serviceId = params.get('service');
-  const step = params.get('step');
-
-  // on load, set current step based on url parameter
-  useEffect(() => {
-    if (step === 'request') {
-      setCurrentStep(1);
-    } else {
-      setCurrentStep(2);
-    }
-  }, [step]);
 
   useEffect(() => {
     if (serviceId && services?.length) {
