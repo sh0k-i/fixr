@@ -55,7 +55,7 @@ const RequestQuote = () => {
 
   // Load context values from local storage
   useEffect(() => {
-    if (FormComponent !== InboundForm) {
+    if (FormComponent === ParentForm) {
       const storedUser = localStorage.getItem('user');
       if (storedUser) {
         setUser(JSON.parse(storedUser));

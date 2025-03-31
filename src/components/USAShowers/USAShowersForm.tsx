@@ -21,10 +21,6 @@ const USAShowersForm = () => {
   const serviceId = params.get('service');
 
   useEffect(() => {
-    setCurrentStep(1);
-  }, []);
-
-  useEffect(() => {
     if (serviceId && services?.length) {
       // Convert serviceId to number and find matching service
       const numericServiceId = parseInt(serviceId, 10);
@@ -33,10 +29,8 @@ const USAShowersForm = () => {
       );
   
       if (selectedService) {
-        console.log('Found service:', selectedService);
         setSelectedService(selectedService);
       } else {
-        console.error(`Service with ID ${numericServiceId} not found. Available services:`, services);
       }
     }
   }, [serviceId, services, setSelectedService]);
@@ -132,9 +126,8 @@ const USAShowersForm = () => {
     });
   }, [currentStep]);
 
-  if (!contractor || !selectedService) {
-    console.log('FLAG: Contractor or selected service not found');
-    return null;
+  if (!contractor || !services?.length || !selectedService) {
+    return null; // Or a loading spinner
   }
 
   return (
