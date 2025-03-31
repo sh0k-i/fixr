@@ -16,12 +16,14 @@ import { useAppContext } from '@/context/AppContext';
 import Navbar from '@/components/NavBar';
 import InboundForm from '@/components/InboundForm';
 import ProfitiseForm from '@/components/Profitise/ProfitiseForm';
+import USAShowersForm from '@/components/USAShowers/USAShowersForm';
 
 const formComponents = {
   ParentForm,
   EZBathForm,
   InboundForm,
-  ProfitiseForm
+  ProfitiseForm,
+  USAShowersForm
 };
 
 const RequestQuote = () => {
