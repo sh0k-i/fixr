@@ -21,6 +21,10 @@ const USAShowersForm = () => {
   const serviceId = params.get('service');
 
   useEffect(() => {
+    setCurrentStep(1);
+  }, []);
+
+  useEffect(() => {
     if (serviceId && services?.length) {
       // Convert serviceId to number and find matching service
       const numericServiceId = parseInt(serviceId, 10);
