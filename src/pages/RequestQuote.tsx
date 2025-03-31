@@ -122,6 +122,7 @@ const RequestQuote = () => {
   };
 
   if (!contractor) {
+    console.error('FLAG: Contractor not found');
     return null;
   }
 

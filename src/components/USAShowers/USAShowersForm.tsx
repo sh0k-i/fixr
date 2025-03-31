@@ -133,6 +133,7 @@ const USAShowersForm = () => {
   }, [currentStep]);
 
   if (!contractor || !selectedService) {
+    console.log('FLAG: Contractor or selected service not found');
     return null;
   }
 
