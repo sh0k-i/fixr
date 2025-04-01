@@ -40,8 +40,14 @@ const SummaryProfitise: React.FC<SummaryProfitiseProps> = ({ onNext, onBack, onR
       setForm(prevForm => ({
         ...prevForm,
         promo: capitalizeWords(params.get('promo')),
-        serviceSpecification: capitalizeWords(selectedService?.specifications[0]),
       }));
+
+      if (selectedService?.service_id !== 17) {
+        setForm(prevForm => ({
+          ...prevForm,
+          serviceSpecification: capitalizeWords(selectedService?.specifications[0]),
+        }));
+      }
     }, [ location.search, setForm ]);
 
 	const handleRedirect = () => {
@@ -226,14 +232,30 @@ const SummaryProfitise: React.FC<SummaryProfitiseProps> = ({ onNext, onBack, onR
                     </div>
 										<hr className='mb-4'></hr>
 										<div className="flex items-center mb-4 ml-4 md:ml-8 min-w-52">
-                      <div className="flex items-center">
-                        <IconComponent name={selectedService.name || selectedService.services.name} className="w-14 h-14" />
-                        <div className="flex flex-wrap justify-between flex-grow">
-                          <h3 className="text-base sm:text-lg font-medium text-gray-800 dark:text-white pl-2 sm:pl-6 pr-4">
-                            {selectedService.name || selectedService.services.name} {form.serviceSpecification || "Service"}
-                          </h3>
+                      {selectedService?.service_id === 17 ? 
+                      (
+                        <div className="flex items-center">
+                          <IconComponent name={form.serviceSpecification || ''} className="w-14 h-14" />
+                          <div className="flex flex-wrap justify-between flex-grow">
+                            <h3 className="text-base sm:text-lg font-medium text-gray-800 dark:text-white pl-2 sm:pl-6 pr-4">
+                              {form.serviceSpecification || "Service"}
+                            </h3>
+                          </div>
                         </div>
-                      </div>
+                      ):
+                      (
+                        <div className="flex items-center">
+                          <IconComponent name={selectedService.name || selectedService.services.name} className="w-14 h-14" />
+                          <div className="flex flex-wrap justify-between flex-grow">
+                            <h3 className="text-base sm:text-lg font-medium text-gray-800 dark:text-white pl-2 sm:pl-6 pr-4">
+                              {selectedService.name || selectedService.services.name} {form.serviceSpecification || "Service"}
+                            </h3>
+                          </div>
+                        </div>
+
+                      )
+                      }
+                      
                     </div>
                     {/* Schedule */}
                     

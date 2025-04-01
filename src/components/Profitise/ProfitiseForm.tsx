@@ -5,16 +5,17 @@ import Step1Info from '../forms/Step1Info';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useClearFormState from '@/hooks/useClearFormState';
 import Step1 from './Step1';
-import Step1Selection from '../forms/Step1Selection';
 import ProgressBar from '../ui/ProgressBar';
 import Stepper2 from '../ui/Stepper2';
 import SummaryProfitise from './SummaryProfitise';
+import SubService from './SubService';
+import OtherServices from './OtherServices';
 
 const ProfitiseForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [currentStep, setCurrentStep] = useState<number>(0);
-  const { setForm, contractor, setSelectedService, setUser, form } = useAppContext();
+  const { setForm, contractor, setSelectedService, setUser, form, selectedService } = useAppContext();
   const navigateWithParams = (path: string) => {
     const currentParams = new URLSearchParams(location.search);
     navigate(`${path}?${currentParams.toString()}`);
@@ -30,11 +31,11 @@ const ProfitiseForm = () => {
   useEffect(() => {
     if (test === 'B' || test === 'b') {
       setCurrentStep(1);
-      setStepsPercentage(25);
+      setStepsPercentage(20);
       setTemp(1);
     } else {
       setCurrentStep(2);
-      setStepsPercentage(33.99);
+      setStepsPercentage(25);
       setTemp(2);
     }
   }, [test]);
@@ -84,7 +85,8 @@ const ProfitiseForm = () => {
   }, [contractor]);
 
   const handleNext = () => {
-    setCurrentStep(currentStep + 1);
+      setCurrentStep(currentStep + 1);
+    
   }
 
   const handleSubmit = () => {
@@ -96,7 +98,25 @@ const ProfitiseForm = () => {
   };
 
   const handleBack = () => {
-    setCurrentStep(currentStep - 1);
+    if (currentStep === 3) {
+      if (test === 'B' || test === 'b') {
+       setCurrentStep(1);
+      }
+      else {
+        setCurrentStep(2);
+      }
+    }
+    else if (currentStep === 4) {
+      if (selectedService?.service_id === 17) {
+        setCurrentStep(3);
+      }
+      else {
+        setCurrentStep(2);
+      }
+    }
+    else {
+      setCurrentStep(currentStep - 1);
+    }
   };
 
   const handleReset = () => {
@@ -153,10 +173,11 @@ const ProfitiseForm = () => {
         </div>
       </div>
       {currentStep === 1 && <Step1 onNext={(nextStep) => setCurrentStep(nextStep)} /> }
-      {currentStep === 2 && <Step1Selection onNext={handleNext} />}
-      {currentStep === 3 && <Step1Info onNext={handleNext} onReset={handleReset} onBack={handleBack} />}
-      {currentStep === 4 && <Step2Schedule onNext={handleNext} onBack={handleBack} onReset={handleReset} />}
-      {currentStep === 5 && <SummaryProfitise onNext={handleSubmit} onReset={handleReset} onBack={handleBack} />}
+      {currentStep === 2 && <OtherServices onNext={(nextStep) => setCurrentStep(nextStep)} />}
+      {currentStep === 3 && <SubService onNext={handleNext} onReset={handleReset} onBack={handleBack} />}
+      {currentStep === 4 && <Step1Info onNext={handleNext} onReset={handleReset} onBack={handleBack} />}
+      {currentStep === 5 && <Step2Schedule onNext={handleNext} onBack={handleBack} onReset={handleReset} />}
+      {currentStep === 6 && <SummaryProfitise onNext={handleSubmit} onReset={handleReset} onBack={handleBack} />}
     </div>
   )
 }
