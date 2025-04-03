@@ -66,7 +66,7 @@ const ProfitiseForm = () => {
       }));
     };
     setInitialFormState();
-  }, [setForm]);
+  }, [contractor, setForm]);
 
 
   const capitalizeWords = (str: string | null) => {
