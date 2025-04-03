@@ -313,7 +313,11 @@ const InboundThankYou: React.FC = () => {
           </div>
         </div>
 
-        <ConfirmCTA />
+        <BlurFade delay={8 * 0.15} yOffset={0}>
+          <ConfirmCTA />
+        </BlurFade>
+
+        
         <HowItWorks />
       </div>
       <Footer />

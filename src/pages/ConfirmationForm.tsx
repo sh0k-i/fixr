@@ -104,8 +104,38 @@ const ConfirmationForm = () => {
       } catch (error) {
         console.error('Webhook error:', error);
       }
-      document.getElementById('dialog')?.click();
+
+      // update the database
+      try {
+        const { data, error } = await central
+          .from('bookings')
+          .update([
+            {
+              confirmed: true,
+              homeowner: values.homeowner,
+              home_owners_present: values.HomeOwnersPresent,
+              address_verified: values.AddressVerified,
+              address1: values.address1,
+              address2: values.address2,
+              city: values.city,
+              state: values.state,
+              zip: values.zip,
+            },
+          ])
+          .eq('id', formData.id);
+    
+        if (error) {
+          console.error('Error inserting data:', error);
+        } else {
+          console.log('Data inserted successfully:', data);
+        }
+        document.getElementById("dialog")?.click();
+      } catch (err) {
+        console.error('Unexpected error:', err);
+      }	
     },
+
+    
   });
 
   const capitalizeWords = (str: string | null) => {

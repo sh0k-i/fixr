@@ -40,6 +40,34 @@ const ProfitiseForm = () => {
     }
   }, [test]);
 
+  const generateRandomString = (length: number): string => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  };
+
+  useEffect(() => {
+    const setInitialFormState = async () => {
+      let formId = form.formId;
+
+      if (!formId) {
+        const dateTime = new Date().toISOString().replace(/[-:.T]/g, '').slice(0, 14);
+        const randomString = generateRandomString(6);
+        formId = `${contractor.id}-${dateTime}-${randomString}`;
+      }
+
+      setForm(prevForm => ({
+        ...prevForm,
+        formId: formId || null,
+      }));
+    };
+    setInitialFormState();
+  }, [setForm]);
+
 
   const capitalizeWords = (str: string | null) => {
     if (!str) return '';
