@@ -162,6 +162,10 @@ const InboundThankYou: React.FC = () => {
   const bRoll = contractor.content.b_roll || 'https://storage.googleapis.com/channel_automation/Webassets/video/homeprojectparterns-hero_9.0.10.webm';
 
   if (!localSelectedService || !localUser || !contractor || loading) {
+    console.log('loading:', loading);
+    console.log('localSelectedService:', localSelectedService);
+    console.log('localUser:', localUser);
+    console.log('contractor:', contractor);
     return null;
   }
 

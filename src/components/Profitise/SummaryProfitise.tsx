@@ -123,6 +123,8 @@ const SummaryProfitise: React.FC<SummaryProfitiseProps> = ({ onNext, onBack, onR
             is_booked: true,
             timezone: form.timezone,
             contractor_id: contractor.id,
+            selected_service: selectedService,
+            timezoneAbbr: form.timezoneAbbr,
 					},
 				]);
 	
