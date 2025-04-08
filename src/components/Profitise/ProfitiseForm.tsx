@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useAppContext } from '@/context/AppContext';
-import Step2Schedule from '../forms/Step2Schedule';
 import Step1Info from '../forms/Step1Info';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useClearFormState from '@/hooks/useClearFormState';
 import Step1 from './Step1';
-import ProgressBar from '../ui/ProgressBar';
 import Stepper2 from '../ui/Stepper2';
 import SummaryProfitise from './SummaryProfitise';
 import SubService from './SubService';
 import OtherServices from './OtherServices';
+import ScheduleWithTimezone from './ScheduleWithTimezone';
+import AppointmentPreferences from './AppointmentPreferences';
 
 const ProfitiseForm = () => {
   const navigate = useNavigate();
@@ -23,20 +23,13 @@ const ProfitiseForm = () => {
   const clearFormState = useClearFormState();
   const params = new URLSearchParams(location.search);
   const test = params.get('test');
-  const [stepsPercentage, setStepsPercentage] = useState<number>(0);
-  const [temp, setTemp] = useState<number>(0);
-  const progress = (currentStep - temp) * (stepsPercentage);
 
   // on load, set current step based on url parameter
   useEffect(() => {
     if (test === 'B' || test === 'b') {
       setCurrentStep(1);
-      setStepsPercentage(20);
-      setTemp(1);
     } else {
       setCurrentStep(2);
-      setStepsPercentage(25);
-      setTemp(2);
     }
   }, [test]);
 
@@ -98,7 +91,6 @@ const ProfitiseForm = () => {
         promo: params.get('promo'),
         date: params.get('adate'),
         time: params.get('atime'),
-        timezone: contractor?.timezone[0]
       }));
     }
     setInitialFormState();
@@ -113,7 +105,18 @@ const ProfitiseForm = () => {
   }, [contractor]);
 
   const handleNext = () => {
+    if (currentStep === 4) {
+      if (selectedService?.service_id === 17) {
+        setCurrentStep(5);
+      }
+      else {
+        setCurrentStep(6);
+      }
+    }
+    else {
       setCurrentStep(currentStep + 1);
+    }
+      
     
   }
 
@@ -140,6 +143,14 @@ const ProfitiseForm = () => {
       }
       else {
         setCurrentStep(2);
+      }
+    }
+    else if (currentStep === 6) {
+      if (selectedService?.service_id === 17) {
+        setCurrentStep(5);
+      }
+      else {
+        setCurrentStep(4);
       }
     }
     else {
@@ -186,9 +197,6 @@ const ProfitiseForm = () => {
       </div>
       <div className={`mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 ${contractor.content.avatar ? 'py-6' : 'py-0'} relative`}>
         <div className="flex justify-center">
-          <div className="w-[600px]">
-            <ProgressBar progress={progress} />
-          </div>
           <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2">
           {contractor.content.avatar && (
             <img
@@ -204,8 +212,9 @@ const ProfitiseForm = () => {
       {currentStep === 2 && <OtherServices onNext={(nextStep) => setCurrentStep(nextStep)} />}
       {currentStep === 3 && <SubService onNext={handleNext} onReset={handleReset} onBack={handleBack} />}
       {currentStep === 4 && <Step1Info onNext={handleNext} onReset={handleReset} onBack={handleBack} />}
-      {currentStep === 5 && <Step2Schedule onNext={handleNext} onBack={handleBack} onReset={handleReset} />}
-      {currentStep === 6 && <SummaryProfitise onNext={handleSubmit} onReset={handleReset} onBack={handleBack} />}
+      {currentStep === 5 && <AppointmentPreferences onNext={handleNext} onReset={handleReset} onBack={handleBack} />}
+      {currentStep === 6 && <ScheduleWithTimezone onNext={handleNext} onBack={handleBack} onReset={handleReset} />}
+      {currentStep === 7 && <SummaryProfitise onNext={handleSubmit} onReset={handleReset} onBack={handleBack} />}
     </div>
   )
 }

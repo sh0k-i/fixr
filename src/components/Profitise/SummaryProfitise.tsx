@@ -73,6 +73,7 @@ const SummaryProfitise: React.FC<SummaryProfitiseProps> = ({ onNext, onBack, onR
         value: form.generalOptIn,
       },
     },
+    'appointment-preference': localStorage.getItem('appointmentPreference') || 'noPreference',
   };
 
   const handleConfirmBooking = async () => {
