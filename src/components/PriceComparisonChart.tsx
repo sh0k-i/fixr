@@ -23,7 +23,7 @@ const PriceComparisonChart = () => {
         borderRadius: 0,
       }
     },
-    colors: ['#2563eb', '#2563eb', '#ff0000'], // Changed last color to pure red
+    colors: ['#2563eb', '#2563eb', '#ff0000'],
     dataLabels: {
       enabled: false
     },
@@ -48,12 +48,15 @@ const PriceComparisonChart = () => {
       max: 1000,
       tickAmount: 5,
       labels: {
-        formatter: (value: number) => `$${value}`,
+        align: 'left',
+        minWidth: 0,
+        maxWidth: 140,
         style: {
           colors: '#6b7280',
           fontSize: '12px',
           fontFamily: 'Inter, sans-serif',
-        }
+        },
+        formatter: (value: number) => `$${value}`
       }
     },
     grid: {
@@ -72,12 +75,17 @@ const PriceComparisonChart = () => {
       }
     },
     tooltip: {
-      custom: ({ seriesIndex, dataPointIndex, w }: any) => {
-        const category = w.globals.categoryLabels[dataPointIndex];
+      y: {
+        formatter: (value: number) => `$${value}`
+      },
+      custom: function ({ seriesIndex, dataPointIndex, w }: any) {
+        const categories = w.config.xaxis.categories;
         const value = w.globals.series[seriesIndex][dataPointIndex];
+        const title = categories[dataPointIndex];
+        
         return `
-          <div class="apexcharts-tooltip-custom bg-white rounded-md shadow-lg p-2 border border-gray-200">
-            <div class="font-semibold text-gray-700">${category}</div>
+          <div class="bg-white shadow-lg rounded-lg p-2 border border-gray-200">
+            <div class="text-sm font-semibold text-gray-700">${title}</div>
             <div class="text-lg font-bold text-gray-900">$${value}</div>
           </div>
         `;
