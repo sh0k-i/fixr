@@ -34,7 +34,7 @@ const ImageCard = ({ img }: { img: string }) => {
 
 export function GalleryMarquee() {
   return (
-    <div className="relative min-h-screen flex h-96 w-full flex-row items-center justify-center gap-4 overflow-hidden [perspective:2000px]">
+    <div className="relative min-h-screen h-full flex w-full flex-row items-center justify-center gap-4 overflow-hidden [perspective:2000px]">
       <div
         className="flex flex-row items-center gap-4"
         style={{
