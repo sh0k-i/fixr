@@ -16,6 +16,7 @@ import DemoForm from './pages/DemoForm';
 import Iframe from './pages/Iframe';
 import ConfirmationForm from './pages/ConfirmationForm';
 import ConfirmationSummary from './pages/ConfirmationSummary';
+import RehashPage from './pages/RehashPage';
 
 declare global {
   interface Window {
@@ -226,6 +227,7 @@ function App() {
         <Route path='/summary-inbound/:slug' element={<InboundThankYou />} />
         <Route path='/demo-form' element={<DemoForm />} />
         <Route path='/iframe/:slug' element={<Iframe />} />
+        <Route path='/rehash/:slug' element={<RehashPage />} />
         <Route path='/confirmation/:slug' element={<ConfirmationForm />} />
         <Route path='/confirmation-summary/:slug' element={<ConfirmationSummary />} />
         {/* <Route path="*" element={<RequestQuote />} /> */}
