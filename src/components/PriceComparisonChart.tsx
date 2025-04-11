@@ -130,7 +130,7 @@ const PriceComparisonChart = () => {
         options={chartOptions as any}
         series={chartOptions.series}
         type="bar"
-        height={350}
+        height={250}
       />
     </div>
   );

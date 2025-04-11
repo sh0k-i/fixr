@@ -69,7 +69,7 @@ const RehashPage = () => {
       <div className='min-h-screen grid grid-cols-1 md:grid-cols-2 gap-4'>
 
         {/* First column/row item */}
-        <div className=' p-4 rounded-lg space-y-10 mt-10'>
+        <div className=' p-4 rounded-lg space-y-8 mt-4'>
           {/* logo */}
           <img src='https://project-starfish.s3.us-east-005.backblazeb2.com/logo/PJ+Logolight.png' alt="Contractor Logo" className='w-full h-auto mb-4' />
           <p className='section_header'>Maximize Your Investment With PJ Fitzpatrick</p>
