@@ -72,10 +72,10 @@ const RehashPage = () => {
         <div className=' p-4 rounded-lg space-y-10 mt-10'>
           {/* logo */}
           <img src='https://project-starfish.s3.us-east-005.backblazeb2.com/logo/PJ+Logolight.png' alt="Contractor Logo" className='w-full h-auto mb-4' />
-          <p className='section_header'>Maximize your investment with PJ Fitzpatrick</p>
+          <p className='section_header'>Maximize Your Investment With PJ Fitzpatrick</p>
           <PriceComparisonChart />
           <button className='bg-[#FFE124] text-gray-800 font-semibold hover:bg-[#E1C934] text-lg border-transparent rounded-lg py-4 px-6 plausible-event-name=CTA_click plausible-event-position=hero' onClick={handleButtonClick} >Book Appointment</button>
-          <p className='text-base sm:text-lg  text-gray-800'>Whether you're looking for energy efficiency, style, or durability, start your journey towards a smarter window replacement project with us today.</p>
+
 
 
 
