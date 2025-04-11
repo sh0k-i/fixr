@@ -14,7 +14,11 @@ const PriceComparisonChart = () => {
     },
     series: [{
       name: 'Prices',
-      data: [700, 1000, 800]
+      data: [
+        { x: 'Typical Window Project', y: 700, fillColor: '#d1d5db' },
+        { x: 'Competitor Price', y: 1000, fillColor: '#d1d5db' },
+        { x: 'Our Company', y: 800, fillColor: '#01A94F' }
+      ]
     }],
     plotOptions: {
       bar: {
@@ -23,7 +27,7 @@ const PriceComparisonChart = () => {
         borderRadius: 0,
       }
     },
-    colors: ['#2563eb', '#2563eb', '#ff0000'],
+    // Removed colors array from here
     dataLabels: {
       enabled: false
     },
