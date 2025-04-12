@@ -23,6 +23,7 @@ import House from '@/components/icons/House';
 import SolarWall from '@/components/icons/SolarWall';
 import SolarPanel from '@/components/icons/SolarPanel';
 import SolarAccessories from '@/components/icons/SolarAccessories';
+import Lighting from '@/components/icons/Lighting';
 
 const iconMapping: Record<string, React.ElementType> = {
   Bath: Bathtub,
@@ -52,6 +53,7 @@ const iconMapping: Record<string, React.ElementType> = {
   'Solar Power Wall': SolarWall,
   'Solar Panel': SolarPanel,
   'Solar Accessories': SolarAccessories,
+  'Lighting': Lighting,
 };
 
 export default iconMapping;
