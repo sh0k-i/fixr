@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useAppContext } from '@/context/AppContext';
-import {central} from '@/lib/supabaseClient';
-import { useNavigate, useLocation } from 'react-router-dom';
 import Navbar from '@/components/NavBar';
 import Feature from '@/components/Feature';
 import FAQ from '@/components/FAQ';
@@ -10,10 +8,8 @@ import SocialProof from '@/components/SocialProof';
 import TestimonialsGray from '@/components/TestimonialsGray';
 
 const Inbound = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
   const { form, setForm, contractor } = useAppContext();
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   const generateRandomString = (length: number): string => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -24,19 +20,6 @@ const Inbound = () => {
     }
     return result;
   };
-
-  const navigateWithParams = (path: string) => {
-    const currentParams = new URLSearchParams(location.search);
-    navigate(`${path}?${currentParams.toString()}`);
-  };
-
-  const [slug, setSlug] = useState('');
-
-  useEffect(() => {
-    if (contractor) {
-      setSlug(contractor.slug);
-    }
-  }, [contractor]);
 
   // Modified form ID handling
   useEffect(() => {
@@ -57,46 +40,7 @@ const Inbound = () => {
     setInitialFormState();
   }, [contractor]);
 
-  // Check if the appointment is already booked if formId is present or changed
-  useEffect(() => {
-    const checkBookingStatus = async () => {
-      if (form.formId) {
-        try {
-          const { data, error } = await central
-            .from('bookings') 
-            .select('*')
-            .eq('id', form.formId)
-            .single();
-
-          if (error) {
-            console.error('Error fetching appointment:', error);
-          } else {
-            setForm(prevForm => ({
-              ...prevForm,
-              formId: data.id,
-              isBooked: data.is_booked,
-            }));
-          }
-        } catch (err) {
-          console.error('Unexpected error:', err);
-        }
-      }
-    };
-
-    checkBookingStatus();
-  }, [form.formId]);
-
-  // If form.isBooked, redirect to thank you/ summary page
-  useEffect(() => {
-    if (form.isBooked == true) {
-      navigateWithParams(`/summary-inbound/${slug}`);
-      setLoading(false);
-    } else {
-      setLoading(false);
-    }
-  }, [form.isBooked]);
-
-  if (loading || !contractor) {
+  if (!contractor) {
     return null;
   }
 

@@ -11,7 +11,7 @@ const InboundForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [currentStep, setCurrentStep] = useState<number>(0);
-  const { setForm, contractor, setSelectedService, setUser, form, selectedService, services } = useAppContext();
+  const { setForm, contractor, setSelectedService, setUser, form, services } = useAppContext();
   const navigateWithParams = (path: string) => {
     const currentParams = new URLSearchParams(location.search);
     navigate(`${path}?${currentParams.toString()}`);
@@ -30,16 +30,25 @@ const InboundForm = () => {
     }
   }, [step]);
 
+  // Service selection logic with fallbacks
   useEffect(() => {
-    if (serviceId && services?.length) {
-      // Convert serviceId to number and find matching service
-      const numericServiceId = parseInt(serviceId, 10);
-      const selectedService = services.find((service: any) => 
-        service.service_id === numericServiceId
-      );
-  
+    if (services?.length) {
+      let selectedService = null;
+      const numericServiceId = serviceId ? parseInt(serviceId, 10) : null;
+
+      // Fallback logic
+      if (!numericServiceId) {
+        // Case 1: No service ID in URL - use first service
+        selectedService = services[0];
+      } else {
+        // Case 2: Try to find matching service
+        selectedService = services.find((service: any) => 
+          service.service_id === numericServiceId
+        ) || services[0]; // Fallback to first service if not found
+      }
+
       if (selectedService) {
-        console.log('Found service:', selectedService);
+        console.log('Setting service:', selectedService);
         setSelectedService(selectedService);
       } else {
         console.error(`Service with ID ${numericServiceId} not found. Available services:`, services);
@@ -134,7 +143,7 @@ const InboundForm = () => {
     });
   }, [currentStep]);
 
-  if (!contractor || !selectedService) {
+  if (!contractor ) {
     return null;
   }
 
