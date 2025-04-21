@@ -24,6 +24,7 @@ import SolarWall from '@/components/icons/SolarWall';
 import SolarPanel from '@/components/icons/SolarPanel';
 import SolarAccessories from '@/components/icons/SolarAccessories';
 import Lighting from '@/components/icons/Lighting';
+import Callback from '@/components/icons/Callback';
 
 const iconMapping: Record<string, React.ElementType> = {
   Bath: Bathtub,
@@ -54,6 +55,7 @@ const iconMapping: Record<string, React.ElementType> = {
   'Solar Panel': SolarPanel,
   'Solar Accessories': SolarAccessories,
   'Lighting': Lighting,
+  Callback: Callback,
 };
 
 export default iconMapping;

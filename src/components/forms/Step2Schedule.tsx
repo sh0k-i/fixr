@@ -35,7 +35,7 @@ const Step2Schedule: React.FC<Step2ScheduleProps> = ({ onNext, onReset, onBack }
   };
 
   useEffect(() => {
-    if (contractor.timezone?.length > 0 && !form.timezone) {
+    if (contractor.timezone?.length > 0 ) {
       setForm(prev => ({
         ...prev,
         timezone: contractor.timezone[0]

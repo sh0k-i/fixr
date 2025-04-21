@@ -12,7 +12,44 @@ const RehashPage = () => {
   const clearFormState = useClearFormState();
   const navigate = useNavigate();
   const location = useLocation();
-   const [slug, setSlug] = useState('');
+  const [slug, setSlug] = useState('');
+
+  const useInitialWebhook = () => {
+    const location = useLocation();
+  
+    useEffect(() => {
+      const params = new URLSearchParams(location.search);
+      const userNs = params.get('user_ns');
+  
+      // Check if webhook has already been sent (using localStorage)
+      if (userNs && !localStorage.getItem('rehashWebhookSent')) {
+        const payload = {
+          workspace_id: params.get('company_id'),
+          user_ns: userNs,
+          market: params.get('market'),
+          event: "rehash_link_clicked",
+          timestamp: new Date().toISOString(),
+        };
+  
+        // Send to webhook
+        fetch('https://hkdk.events/dd4ps4ew70am0n', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        })
+        .then(() => {
+          // Mark as sent in localStorage
+          localStorage.setItem('rehashWebhookSent', 'true');
+        })
+        .catch((error) => console.error('Webhook error:', error));
+      }
+    }, [location.search]);
+    
+  };
+
+  useInitialWebhook();
 
   useEffect(() => {
     if (contractor) {

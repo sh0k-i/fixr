@@ -17,6 +17,7 @@ import Iframe from './pages/Iframe';
 import ConfirmationForm from './pages/ConfirmationForm';
 import ConfirmationSummary from './pages/ConfirmationSummary';
 import RehashPage from './pages/RehashPage';
+import RehashHomePride from './pages/RehashHomePride';
 
 declare global {
   interface Window {
@@ -25,39 +26,39 @@ declare global {
 }
 
 // Custom hook for webhook logic
-const useInitialWebhook = () => {
-  const location = useLocation();
+// const useInitialWebhook = () => {
+//   const location = useLocation();
 
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const userNs = params.get('user_ns');
+//   useEffect(() => {
+//     const params = new URLSearchParams(location.search);
+//     const userNs = params.get('user_ns');
 
-    // Check if webhook has already been sent (using localStorage)
-    if (userNs && !localStorage.getItem('webhookSent')) {
-      const payload = {
-        workspace_id: params.get('company_id'),
-        user_ns: userNs,
-        market: params.get('market'),
-        event: "stl_link_clicked",
-        timestamp: new Date().toISOString(),
-      };
+//     // Check if webhook has already been sent (using localStorage)
+//     if (userNs && !localStorage.getItem('webhookSent')) {
+//       const payload = {
+//         workspace_id: params.get('company_id'),
+//         user_ns: userNs,
+//         market: params.get('market'),
+//         event: "stl_link_clicked",
+//         timestamp: new Date().toISOString(),
+//       };
 
-      // Send to webhook
-      fetch('https://hkdk.events/dd4ps4ew70am0n', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      })
-      .then(() => {
-        // Mark as sent in localStorage
-        localStorage.setItem('webhookSent', 'true');
-      })
-      .catch((error) => console.error('Webhook error:', error));
-    }
-  }, [location.search]);
-};
+//       // Send to webhook
+//       fetch('https://hkdk.events/dd4ps4ew70am0n', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify(payload),
+//       })
+//       .then(() => {
+//         // Mark as sent in localStorage
+//         localStorage.setItem('webhookSent', 'true');
+//       })
+//       .catch((error) => console.error('Webhook error:', error));
+//     }
+//   }, [location.search]);
+// };
 
 function App() {
   const location = useLocation();
@@ -68,7 +69,7 @@ function App() {
   const { setContractor, setServices, setLocations, contractor, setForm, services, form, user, locations, selectedService } = useAppContext();
 
   // Initialize the webhook logic
-  useInitialWebhook();
+  // useInitialWebhook();
 
   useEffect(() => {
     window.HSStaticMethods.autoInit();
@@ -230,6 +231,7 @@ function App() {
         <Route path='/rehash/:slug' element={<RehashPage />} />
         <Route path='/confirmation/:slug' element={<ConfirmationForm />} />
         <Route path='/confirmation-summary/:slug' element={<ConfirmationSummary />} />
+        <Route path='/rehash-hp/:slug' element={<RehashHomePride />} />
         {/* <Route path="*" element={<RequestQuote />} /> */}
       </Routes>
     </>

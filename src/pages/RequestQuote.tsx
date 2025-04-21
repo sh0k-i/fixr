@@ -11,7 +11,6 @@ import { Dialog, DialogContent,
   DialogTitle
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import posthog from 'posthog-js';
 import { useAppContext } from '@/context/AppContext';
 import Navbar from '@/components/NavBar';
 import InboundForm from '@/components/InboundForm';
@@ -32,6 +31,42 @@ const RequestQuote = () => {
   const [slug, setSlug] = useState('');
   const { user, form, selectedService, contractor, setUser, setForm, setSelectedService, services } = useAppContext();
   const params = new URLSearchParams(location.search);
+
+  const useInitialWebhook = () => {
+    const location = useLocation();
+  
+    useEffect(() => {
+      const params = new URLSearchParams(location.search);
+      const userNs = params.get('user_ns');
+  
+      // Check if webhook has already been sent (using localStorage)
+      if (userNs && !localStorage.getItem('webhookSent')) {
+        const payload = {
+          workspace_id: params.get('company_id'),
+          user_ns: userNs,
+          market: params.get('market'),
+          event: "stl_link_clicked",
+          timestamp: new Date().toISOString(),
+        };
+  
+        // Send to webhook
+        fetch('https://hkdk.events/dd4ps4ew70am0n', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        })
+        .then(() => {
+          // Mark as sent in localStorage
+          localStorage.setItem('webhookSent', 'true');
+        })
+        .catch((error) => console.error('Webhook error:', error));
+      }
+    }, [location.search]);
+  };
+
+  useInitialWebhook();
 
   // Determine which form to render
   const getFormComponent = () => {
@@ -112,7 +147,6 @@ const RequestQuote = () => {
   }, [location.pathname, location.search, isModalOpen]);
 
   const handleLeave = () => {
-    posthog.capture('page_exit test in request',);
     const params = window.location.search;
     window.location.href = `/${slug}` + params;
   };
