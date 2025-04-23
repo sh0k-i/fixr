@@ -15,9 +15,9 @@ const PriceComparisonChart = () => {
     series: [{
       name: 'Prices',
       data: [
-        { x: 'Typical Window Project', y: 700, fillColor: '#d1d5db' },
-        { x: 'Competitor Price', y: 1000, fillColor: '#d1d5db' },
-        { x: 'Our Company', y: 800, fillColor: '#01A94F' }
+        { x: 'National Avg.', y: 700, fillColor: '#d1d5db' },
+        { x: 'Competitor', y: 1000, fillColor: '#d1d5db' },
+        { x: 'Your Quote', y: 800, fillColor: '#01A94F' }
       ]
     }],
     plotOptions: {
@@ -32,7 +32,7 @@ const PriceComparisonChart = () => {
       enabled: false
     },
     xaxis: {
-      categories: ['Typical Window Project', 'Competitor Price', 'Our Company'],
+      categories: ['National Avg.', 'Competitor', 'Your Quote'],
       axisBorder: {
         show: false
       },
