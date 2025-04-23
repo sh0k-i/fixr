@@ -143,7 +143,7 @@ const RehashPage = () => {
     }).format(value || 0);
   };
 
-  if (!contractor) {
+  if (!contractor || !services || !selectedService) {
     return null; // or a loading spinner
   }
   return (
@@ -160,7 +160,7 @@ const RehashPage = () => {
             {/* logo */}
             
             <div className='space-y-4 sm:space-y-6'>
-              <p className='font-bold text-3xl sm:text-4xl lg:text-5xl text-gray-800'>Hi Tricia, Your <span className='text-accentColor'>Kitchen Remodel</span> Quote is Still Waiting!</p>
+              <p className='font-bold text-3xl sm:text-4xl lg:text-5xl text-gray-800'>Hi Tricia, Your <span className='text-accentColor'>{selectedService?.services?.name} Remodel</span> Quote is Still Waiting!</p>
               <p className='text-base sm:text-lg text-gray-800'>Not quite ready? Let's discuss options—no pressure, just answers.</p>
 
             </div>
@@ -195,8 +195,8 @@ const RehashPage = () => {
             {/* <GalleryMarquee /> */}
             <div >
               <ComparisonSlider
-                beforeImage="https://project-starfish.s3.us-east-005.backblazeb2.com/feature/before-bath3.png"
-                afterImage="https://project-starfish.s3.us-east-005.backblazeb2.com/feature/after-bath3.png"
+                beforeImage={selectedService?.content?.before || 'https://project-starfish.s3.us-east-005.backblazeb2.com/feature/before-bath3.png'}
+                afterImage={selectedService?.content?.after || 'https://project-starfish.s3.us-east-005.backblazeb2.com/feature/after-bath3.png'}
                 containerWidth="w-auto"
               />
             </div>
@@ -230,10 +230,10 @@ const RehashPage = () => {
 
               <ul className="marker:text-accentColor list-disc ps-5 space-y-2 sm:space-y-4 text-sm sm:text-base text-gray-500">
                 <li>
-                  Most homeowners spend around <span className='font-bold text-accentColor'> {formatCurrency(selectedService?.services.national_avg)} </span> on bathroom remodeling.
+                  Most homeowners spend around <span className='font-bold text-accentColor'> {formatCurrency(selectedService?.services.national_avg)} </span> on a typical {selectedService?.services?.name} Remodel project.
                 </li>
                 <li>
-                  Bathroom size, labor, and materials are the biggest cost factors.
+                  Size, labor, and materials are the biggest cost factors.
                 </li>
                 <li>
                   Costs vary significantly based on materials
