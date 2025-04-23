@@ -108,7 +108,7 @@ function App() {
           // Fetch services
           const { data: servicesData, error: servicesError } = await central
           .from('contractor_services')
-          .select('*, services(name)')
+          .select('*, services(name, national_avg)')
           .eq('contractor_id', companyId);
 
           if (servicesError) {

@@ -68,7 +68,7 @@ export const ComparisonSlider = ({
 
         {/* Slider Control */}
         <div
-          className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize"
+          className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize shadow-lg"
           style={{
             left: `calc(${sliderPosition}% - 1px)`,
           }}
