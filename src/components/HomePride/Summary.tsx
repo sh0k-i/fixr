@@ -34,9 +34,54 @@ const Summary: React.FC<SummaryProps> = ({ onSchedule, onInfo, onSubmit }) => {
     ? format(new Date(), 'zzz', { timeZone: contractor.timezone[0] })
     : '';
 
+  const payload = {
+    user,
+    date,
+    time,
+    timezone: contractor?.timezone?.[0] || '',
+    timezoneAbbr,
+    connor_phone: '+15709726531'
+  };
+
   const handleConfirmBooking = async () => {
     setLoading(true);
+
+    // Save to local storage
+    localStorage.setItem('rehash_hp_request', JSON.stringify({
+      user: {
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+        phone: user.phone,
+        zip: user.zip,
+        address1: user.address1,
+        address2: user.address2,
+        city: user.city,
+        state: user.state,
+      },
+      date,
+      time,
+      timezoneAbbr
+    }));
+
+    // Webhook request
+    try {
+      const response = await fetch('https://app.channelautomation.com/api/iwh/74611753b71abd61c243c638c06d5213', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send appointments');
+      }
+    } catch (err) {
+      console.error('Error sending appointments:', err);
+    }
     
+    // Database insertion
     try {
       // Save to homepride_rehash table
       const { error } = await central

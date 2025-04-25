@@ -40,7 +40,7 @@ const Schedule: React.FC<ScheduleProps> = ({ onNext, onBack, onReset }) => {
 
   const getSlotsForDate = (date: Date) => {
     const day = getDay(date);
-    return day === 0 ? [] : ['10 AM', '3 PM']; // Sunday = 0
+    return [0, 5, 6].includes(day) ? [] : ['10 AM', '3 PM'];
   };
 
   const handleDateChange = async (date: Date | undefined) => {
@@ -84,7 +84,7 @@ const Schedule: React.FC<ScheduleProps> = ({ onNext, onBack, onReset }) => {
           <div className="max-w-[40rem] text-center">
             <h1 className="heading-form">
               Pick a  
-              <span className="text-accentColor"> date and time</span> that works for you
+              <span className="text-accentColor"> date and time</span> for Connor to contact you
             </h1>
           </div>
         </div>
@@ -110,7 +110,10 @@ const Schedule: React.FC<ScheduleProps> = ({ onNext, onBack, onReset }) => {
                   mode="single"
                   selected={formik.values.date ? new Date(formik.values.date) : undefined}
                   onSelect={handleDateChange}
-                  disabled={{ before: new Date() }}
+                  disabled={{ 
+                    before: new Date(),
+                    dayOfWeek: [0, 5, 6] // Disable Sundays (0), Fridays (5), Saturdays (6)
+                  }}      
                 />
               </div>
             </div>

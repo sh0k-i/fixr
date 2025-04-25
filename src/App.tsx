@@ -18,6 +18,7 @@ import ConfirmationForm from './pages/ConfirmationForm';
 import ConfirmationSummary from './pages/ConfirmationSummary';
 import RehashPage from './pages/RehashPage';
 import RehashHomePride from './pages/RehashHomePride';
+import RehashThankYou from './pages/RehashThankYou';
 
 declare global {
   interface Window {
@@ -218,6 +219,10 @@ function App() {
   return (
     <>
       <Routes>
+        <Route path='/rehash-hp/:slug/' element={<RehashHomePride />} />
+        <Route path='/rehash/:slug/' element={<RehashPage />} />
+        <Route path='/rehash-summary/:slug/' element={<RehashThankYou />} />
+
         <Route path='/' element={<Home />} />
         <Route path='/:slug' element={<Home />} />
         <Route path='/inbound/:slug' element={<Inbound />} />
@@ -228,10 +233,10 @@ function App() {
         <Route path='/summary-inbound/:slug' element={<InboundThankYou />} />
         <Route path='/demo-form' element={<DemoForm />} />
         <Route path='/iframe/:slug' element={<Iframe />} />
-        <Route path='/rehash/:slug' element={<RehashPage />} />
+        
         <Route path='/confirmation/:slug' element={<ConfirmationForm />} />
         <Route path='/confirmation-summary/:slug' element={<ConfirmationSummary />} />
-        <Route path='/rehash-hp/:slug' element={<RehashHomePride />} />
+        
         {/* <Route path="*" element={<RequestQuote />} /> */}
       </Routes>
     </>

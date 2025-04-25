@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppContext } from '@/context/AppContext';
 import Schedule from './Schedule';
 import Summary from './Summary';
@@ -11,6 +11,7 @@ import Step1Info from '../forms/Step1Info';
 const RehashHomePrideForm = () => {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const location = useLocation();
+  const navigate = useNavigate();
   const params = new URLSearchParams(location.search);
   const { setUser, contractor } = useAppContext();
 
@@ -42,6 +43,14 @@ const RehashHomePrideForm = () => {
     setInitialFormState();
   }, [ location.search ]);
 
+  const [slug, setSlug] = useState('');
+  // Set slug
+  useEffect(() => {
+    if (contractor) {
+      setSlug(contractor.slug);
+    }
+  }, [contractor]);
+
   const handleTest = () => {
     console.log('');
   };
@@ -50,8 +59,13 @@ const RehashHomePrideForm = () => {
     setCurrentStep(currentStep + 1);
   };
 
+  const navigateWithParams = (path: string) => {
+    const currentParams = new URLSearchParams(location.search);
+    navigate(`${path}?${currentParams.toString()}`);
+  };
+
   const handleSubmit = () => {
-    console.log('Submitted');
+    navigateWithParams(`/rehash-summary/${slug}`);
   };
 
   const handleUpdate = () => {
@@ -59,11 +73,11 @@ const RehashHomePrideForm = () => {
   };
 
   const handleSchedule = () => {
-    setCurrentStep(2);
+    setCurrentStep(3);
   };
 
   const handleInfo = () => {
-    setCurrentStep(3);
+    setCurrentStep(4);
   };
 
   // Scroll to top when the step changes
