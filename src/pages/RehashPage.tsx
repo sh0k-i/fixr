@@ -218,7 +218,7 @@ const RehashPage = () => {
 
       <div className='  max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 lg:py-24  space-y-12 sm:space-y-20 lg:space-y-24'>
         
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-4 '>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-0 '>
           {/* First column/row item */}
           <div className=' p-4 rounded-lg space-y-6 sm:space-y-8 mt-4 justify-center flex flex-col '>
           <div className='space-y-6 sm:space-y-8'>
