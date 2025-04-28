@@ -5,9 +5,6 @@ import Schedule from './Schedule';
 import Summary from './Summary';
 import Step1Info from '../forms/Step1Info';
 
-
-
-
 const RehashHomePrideForm = () => {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const location = useLocation();

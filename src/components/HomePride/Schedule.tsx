@@ -83,8 +83,8 @@ const Schedule: React.FC<ScheduleProps> = ({ onNext, onBack, onReset }) => {
         <div className='flex justify-center text-center mb-8'>
           <div className="max-w-[40rem] text-center">
             <h1 className="heading-form">
-              Pick a  
-              <span className="text-accentColor"> date and time</span> for Connor to contact you
+              Let's discuss your project — pick a
+              <span className="text-accentColor"> date and time</span> for your callback
             </h1>
           </div>
         </div>

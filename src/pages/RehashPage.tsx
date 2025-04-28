@@ -1,6 +1,5 @@
 import PriceComparisonChart from '@/components/PriceComparisonChart'
 import { useAppContext } from '@/context/AppContext';
-import useClearFormState from '@/hooks/useClearFormState.tsx';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { ComparisonSlider } from '@/components/ComparisonSlider';
@@ -11,18 +10,19 @@ import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
 import BlurFade from '@/components/ui/blur-fade';
 import SocialProof from '@/components/SocialProof';
+import { RehashOptions } from '@/components/RehashOptions';
 
 
 
 const RehashPage = () => {
-  const { contractor, form, setForm, services, setSelectedService, selectedService } = useAppContext();
-  const clearFormState = useClearFormState();
+  const { contractor, services, setSelectedService, selectedService } = useAppContext();
   const navigate = useNavigate();
   const location = useLocation();
   const [slug, setSlug] = useState('');
   const params = new URLSearchParams(location.search);
   const serviceId = params.get('service');
   const socialProof: string[] = contractor.social_proof;
+  const yourQuote = params.get('quote');
 
   const useInitialWebhook = () => {
     const location = useLocation();
@@ -93,16 +93,16 @@ const RehashPage = () => {
     }
   }, [contractor]);
 
-  // Function to generate a random string
-  const generateRandomString = (length: number): string => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-  };
+  // // Function to generate a random string
+  // const generateRandomString = (length: number): string => {
+  //   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  //   let result = '';
+  //   const charactersLength = characters.length;
+  //   for (let i = 0; i < length; i++) {
+  //     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  //   }
+  //   return result;
+  // };
 
   // Function to append current URL parameters
   const navigateWithParams = (path: string) => {
@@ -111,27 +111,27 @@ const RehashPage = () => {
   };
 
   const handleButtonClick = () => {
-    let formId = form.formId;
+    // let formId = form.formId;
 
-    // If formId is not set, create a new formId
-    if (!formId) {
-      clearFormState();
+    // // If formId is not set, create a new formId
+    // if (!formId) {
+    //   clearFormState();
 
-      const dateTime = new Date().toISOString().replace(/[-:.T]/g, '').slice(0, 14); // YYYYMMDDHHMMSS format
-      const randomString = generateRandomString(6);
+    //   const dateTime = new Date().toISOString().replace(/[-:.T]/g, '').slice(0, 14); // YYYYMMDDHHMMSS format
+    //   const randomString = generateRandomString(6);
 
-      formId = `${contractor.id}-${dateTime}-${randomString}`;
-      console.log('Generated formId:', formId);
-    } else {
-      console.log('Using existing form ID:', formId);
-    }
+    //   formId = `${contractor.id}-${dateTime}-${randomString}`;
+    //   console.log('Generated formId:', formId);
+    // } else {
+    //   console.log('Using existing form ID:', formId);
+    // }
 
-    // Update the form and user object in context
-    setForm((prevForm) => ({
-      ...prevForm,
-      formId: formId,
-    }));
-    navigateWithParams(`/request-quotes/${slug}`);
+    // // Update the form and user object in context
+    // setForm((prevForm) => ({
+    //   ...prevForm,
+    //   formId: formId,
+    // }));
+    navigateWithParams(`/rehash-hp/${slug}`);
   };
 
   // Format national average as currency
@@ -165,7 +165,7 @@ const RehashPage = () => {
 
             </div>
             
-            <button className='bg-accentColor text-white font-semibold hover:bg-accentDark text-lg border-transparent rounded-lg py-4 px-6 w-60' onClick={handleButtonClick} >Book Appointment</button>
+            <button className='bg-accentColor text-white font-semibold hover:bg-accentDark text-lg border-transparent rounded-lg py-4 px-6 w-60' onClick={handleButtonClick} >Request Callback</button>
 
             <div className="hidden sm:flex flex-wrap justify-left gap-2 sm:gap-4 md:gap-6">
               {socialProof.map((proof: string, index: number) => (
@@ -204,12 +204,13 @@ const RehashPage = () => {
 
           </div>
         </div>
+
+        <RehashOptions quote={yourQuote || ''} />
       </div>
 
       <TestimonialsGray />
 
       <div className='  max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 lg:py-24  space-y-12 sm:space-y-20 lg:space-y-24'>
-
         
         <div className='grid grid-cols-1 md:grid-cols-2 gap-4 '>
           {/* First column/row item */}
@@ -256,28 +257,15 @@ const RehashPage = () => {
           </div>
         </div>
 
-        
-
-
-
-
-
-
-
-        
         <Feature />
+
         <div className='flex sm:hidden'>
           <SocialProof />
-
         </div>
-        
+
         <FAQ  />
-        
-        
+
       </div>
-
-      
-
       <Footer />
 
 

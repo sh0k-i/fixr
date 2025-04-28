@@ -145,7 +145,7 @@ const Summary: React.FC<SummaryProps> = ({ onSchedule, onInfo, onSubmit }) => {
 						<div className="max-w-[60rem] text-center">
               {validAppointment ? (
                 <h1 className="heading-form">
-                  Almost There, {user.firstname}! <span className="text-accentColor">Request Your Callback</span> Now
+                  Almost there, {user.firstname}! <span className="text-accentColor">request your callback</span> now
                 </h1>
               ) : (
                 <h1 className="heading-form">
