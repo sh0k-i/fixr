@@ -24,11 +24,17 @@ const RehashPage = () => {
   const socialProof: string[] = contractor.social_proof;
   const yourQuote = params.get('quote');
 
+  const capitalizeWords = (str: string | null) => {
+    if (!str) return '';
+    return str.replace(/\b\w/g, char => char.toUpperCase());
+  };
+
+  const firstname = capitalizeWords(params.get('firstname')) || '';
+
   const useInitialWebhook = () => {
     const location = useLocation();
   
     useEffect(() => {
-      const params = new URLSearchParams(location.search);
       const userNs = params.get('user_ns');
   
       // Check if webhook has already been sent (using localStorage)
@@ -160,7 +166,7 @@ const RehashPage = () => {
             {/* logo */}
             
             <div className='space-y-4 sm:space-y-6'>
-              <p className='font-bold text-3xl sm:text-4xl lg:text-5xl text-gray-800'>Hi Tricia, Your <span className='text-accentColor'>{selectedService?.services?.name} Remodel</span> Quote is Still Waiting!</p>
+              <p className='font-bold text-3xl sm:text-4xl lg:text-5xl text-gray-800'>Hi {firstname}, Your <span className='text-accentColor'>{selectedService?.services?.name} Remodel</span> Quote is Still Waiting!</p>
               <p className='text-base sm:text-lg text-gray-800'>Not quite ready? Let's discuss options—no pressure, just answers.</p>
 
             </div>

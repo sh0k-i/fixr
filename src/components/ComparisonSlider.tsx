@@ -15,6 +15,13 @@ export const ComparisonSlider = ({
 }: ComparisonSliderProps) => {
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(true);
+
+  // Hide overlay on first interaction
+  const handleOverlayClick = () => {
+    setShowOverlay(false);
+  };
+
 
   const handleMove = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (!isDragging) return;
@@ -28,11 +35,13 @@ export const ComparisonSlider = ({
 
   const handleMouseDown = () => {
     setIsDragging(true);
+    setShowOverlay(false);
   };
 
   const handleMouseUp = () => {
     setIsDragging(false);
   };
+  
 
   return (
     <div className={`${containerWidth} relative`} onMouseUp={handleMouseUp}>
@@ -73,9 +82,41 @@ export const ComparisonSlider = ({
             left: `calc(${sliderPosition}% - 1px)`,
           }}
         >
-          <div className="bg-white absolute rounded-full h-3 w-3 -left-1 top-[calc(50%-5px)]" />
+          <div className="absolute -left-5 top-[calc(50%-25px)] w-10 h-10 rounded-full border-2 border-white bg-transparent flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+            <div className="flex space-x-1">
+              <svg 
+                className="w-4 h-4 text-white"
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              <svg 
+                className="w-4 h-4 text-white"
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
         </div>
       </div>
+      
+      {/* Overlay for drag instruction */}
+      {showOverlay && (
+          <div 
+            className="absolute inset-0 flex items-center justify-center bg-black/30 animate-pulse rounded-lg cursor-pointer"
+            onClick={handleOverlayClick}
+          >
+            <div className="text-center text-white mt-20">
+              <p className="font-medium">Drag to compare</p>
+              <p className="text-sm mt-1">← Click anywhere to start →</p>
+            </div>
+          </div>
+        )}
     </div>
   );
 };
