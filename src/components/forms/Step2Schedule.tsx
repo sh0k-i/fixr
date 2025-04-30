@@ -6,8 +6,6 @@ import { Calendar } from '@/components/ui/calendar';
 import { format as localFormat, getDay } from 'date-fns';
 import BlurFade from '@/components/ui/blur-fade';
 import NavButtons from '../ui/navButtons';
-import { format } from 'date-fns-tz';
-
 
 interface Step2ScheduleProps {
   onNext: () => void;
@@ -173,13 +171,13 @@ const Step2Schedule: React.FC<Step2ScheduleProps> = ({ onNext, onReset, onBack }
                     >
                       {contractor.timezone.map((tz: string) => (
                         <option key={tz} value={tz}>
-                          {format(new Date(), 'zzz', { timeZone: tz })}
+                          PHT
                         </option>
                       ))}
                     </select>
                   ) : (
                     <p className="text-base text-gray-800">
-                      {format(new Date(), 'zzz', { timeZone: contractor.timezone[0] })}
+                      PHT
                     </p>
                   )}
                 </div>

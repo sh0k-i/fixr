@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import ParentForm from "@/components/forms/ParentForm";
-import EZBathForm from "@/components/EZBath/EZBathForm";
 import { useLocation } from 'react-router-dom';
 import { Dialog, DialogContent,
   DialogDescription,
@@ -12,74 +11,12 @@ import { Dialog, DialogContent,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useAppContext } from '@/context/AppContext';
-import Navbar from '@/components/NavBar';
-import InboundForm from '@/components/InboundForm';
-import ProfitiseForm from '@/components/Profitise/ProfitiseForm';
-import USAShowersForm from '@/components/USAShowers/USAShowersForm';
-
-const formComponents = {
-  ParentForm,
-  EZBathForm,
-  InboundForm,
-  ProfitiseForm,
-  USAShowersForm
-};
+import NavBar2 from '@/components/NavBar2';
 
 const RequestQuote = () => {
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [slug, setSlug] = useState('');
-  const { user, form, selectedService, contractor, setUser, setForm, setSelectedService, services } = useAppContext();
-  const params = new URLSearchParams(location.search);
-
-  const useInitialWebhook = () => {
-    const location = useLocation();
-  
-    useEffect(() => {
-      const params = new URLSearchParams(location.search);
-      const userNs = params.get('user_ns');
-  
-      // Check if webhook has already been sent (using localStorage)
-      if (userNs && !localStorage.getItem('webhookSent')) {
-        const payload = {
-          workspace_id: params.get('company_id'),
-          user_ns: userNs,
-          market: params.get('market'),
-          event: "stl_link_clicked",
-          timestamp: new Date().toISOString(),
-        };
-  
-        // Send to webhook
-        fetch('https://hkdk.events/dd4ps4ew70am0n', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-        })
-        .then(() => {
-          // Mark as sent in localStorage
-          localStorage.setItem('webhookSent', 'true');
-        })
-        .catch((error) => console.error('Webhook error:', error));
-      }
-    }, [location.search]);
-  };
-
-  useInitialWebhook();
-
-  // Determine which form to render
-  const getFormComponent = () => {
-    if (contractor?.custom_form) {
-      return formComponents[contractor.custom_form as keyof typeof formComponents] || ParentForm;
-    }
-    
-    const hasInboundParams = params.get('service');
-    return hasInboundParams ? InboundForm : ParentForm;
-  };
-
-  const FormComponent = getFormComponent();
-
+  const { user, form, selectedService, contractor, setUser, setForm, setSelectedService } = useAppContext();
   // Load form object from local storage
   useEffect(() => {
     const storedForm = localStorage.getItem('form');
@@ -90,19 +27,17 @@ const RequestQuote = () => {
 
   // Load context values from local storage
   useEffect(() => {
-    if (FormComponent === ParentForm) {
-      const storedUser = localStorage.getItem('user');
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      }
-      const storedForm = localStorage.getItem('form');
-      if (storedForm) {
-        setForm(JSON.parse(storedForm));
-      }
-      const storedSelectedService = localStorage.getItem('selectedService');
-      if (storedSelectedService) {
-        setSelectedService(JSON.parse(storedSelectedService));
-      }
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+    const storedForm = localStorage.getItem('form');
+    if (storedForm) {
+      setForm(JSON.parse(storedForm));
+    }
+    const storedSelectedService = localStorage.getItem('selectedService');
+    if (storedSelectedService) {
+      setSelectedService(JSON.parse(storedSelectedService));
     }
   }, [setUser, setForm, setSelectedService]);
 
@@ -112,22 +47,6 @@ const RequestQuote = () => {
     localStorage.setItem('form', JSON.stringify(form));
     localStorage.setItem('selectedService', JSON.stringify(selectedService));
   }, [user, form, selectedService]);  
-
-  // If there is only one service, preselect it
-  useEffect(() => {
-    if (FormComponent !== InboundForm) {
-      if (services.length === 1) {
-        setSelectedService(services[0]);
-      }
-    }
-  }, [services, setSelectedService, FormComponent]);
-
-
-  useEffect(() => {
-    if (contractor) {
-      setSlug(contractor.slug);
-    }
-  }, [contractor]);
 
   // Handle the back button
   useEffect(() => {
@@ -148,7 +67,7 @@ const RequestQuote = () => {
 
   const handleLeave = () => {
     const params = window.location.search;
-    window.location.href = `/${slug}` + params;
+    window.location.href = `/` + params;
   };
 
   const handleCloseModal = () => {
@@ -162,8 +81,8 @@ const RequestQuote = () => {
 
   return (
     <div className='min-h-screen bg-gray-50'>
-      <Navbar />
-      <FormComponent />
+      <NavBar2 />
+      <ParentForm />
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogTrigger asChild>
           <button id='modal' className='hidden'></button>

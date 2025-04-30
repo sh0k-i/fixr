@@ -6,7 +6,6 @@ import Footer from '@/components/Footer';
 import ServiceCards from '@/components/ServiceCards';
 import { useAppContext } from '@/context/AppContext';
 import { useEffect } from 'react';
-import NavBar2 from '@/components/NavBar2';
 import Feature from '@/components/Feature';
 import SocialProof from '@/components/SocialProof';
 
@@ -38,7 +37,7 @@ const Home = () => {
 
   return (
     <div className='bg-white'>
-      <NavBar2 />
+      {/* <NavBar2 /> */}
       <Hero/>
       <Testimonials />
       

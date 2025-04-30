@@ -9,7 +9,7 @@ import Footer from '@/components/Footer';
 import BlurFade from '@/components/ui/blur-fade';
 import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
 import IconComponent from '@/hooks/IconComponent';
-import NavBar2 from '@/components/NavBar2';
+import NavBar from '@/components/NavBar';
 
 
 
@@ -121,7 +121,7 @@ const ThankYou: React.FC = () => {
         ref={confettiRef}
         className="absolute left-0 top-0 z-50 w-full h-full pointer-events-none"
       />
-      <NavBar2 />
+      {/* <NavBar2 /> */}
       {/* hero */}
       <div className="relative flex items-center">
         <div className="absolute inset-0">
@@ -144,16 +144,17 @@ const ThankYou: React.FC = () => {
         <div className="absolute inset-0 bg-[#12121d99] opacity-100 z-[1]"></div> {/* Moved overlay after video and added z-index */}
 
         <div className="relative z-[2] w-full overflow-hidden"> 
+          <NavBar />
           <div className="z-10 flex items-center justify-center flex-col px-4 sm:pl-16 mt-0 space-y-6 md:space-y-8 py-14 md:py-16 lg:py-20">
             <BlurFade delay={2 * 0.20} yOffset={0}
               className="block font-display text-center text-4xl md:text-5xl lg:text-6xl font-semibold text-white max-w-4xl pointer-events-none">
-              Your Appointment is Requested - Talk to You Soon!
+              Your Appointment is Confirmed - Talk to You Soon!
             </BlurFade>
 
             <BlurFade delay={3 * 0.20} yOffset={0}
               className="text-sm md:text-base lg:text-lg text-white/80 text-center max-w-4xl pointer-events-none"
             >
-              Thank you for booking with us! Your appointment has been successfully requested. You'll receive a confirmation call with all the details shortly. We look forward to seeing you!
+              Thank you for booking with us! Your appointment has been successfully confirmed. You'll receive a call with all the details shortly. We look forward to seeing you!
             </BlurFade>
 
             <BlurFade delay={4 * 0.20} yOffset={0} className="mt-5 lg:mt-8 flex flex-col items-start gap-2 sm:flex-row sm:gap-3"> 
@@ -186,7 +187,7 @@ const ThankYou: React.FC = () => {
                         <path clipRule="evenodd" d="m256 0c-141.2 0-256 114.8-256 256s114.8 256 256 256 256-114.8 256-256-114.8-256-256-256z" fill="currentColor" fillRule="evenodd"></path>
                         <path d="m206.7 373.1c-32.7-32.7-65.2-65.7-98-98.4-3.6-3.6-3.6-9.6 0-13.2l37.7-37.7c3.6-3.6 9.6-3.6 13.2 0l53.9 53.9 138.6-138.7c3.7-3.6 9.6-3.6 13.3 0l37.8 37.8c3.7 3.7 3.7 9.6 0 13.2l-183.3 183.1c-3.6 3.7-9.5 3.7-13.2 0z" fill="#fff"></path>
                       </svg>
-                        <p className="text-lg font-semibold ml-2">Appointment Requested</p>
+                        <p className="text-lg font-semibold ml-2">Appointment Confirmed</p>
                       </div>
                     </div>
                     <hr className='mb-4'></hr>
@@ -218,7 +219,7 @@ const ThankYou: React.FC = () => {
                           {timezoneAbbr && ( 
                             <div className='flex items-center'>
                               <img src="/images/globe.svg" alt="Clock" className="inline ml-4 mr-2 h-5" />
-                              <p className="text-base text-gray-800">{timezoneAbbr}</p>
+                              <p className="text-base text-gray-800">PHT</p>
                             </div>)}
 
                         </div>
@@ -231,7 +232,7 @@ const ThankYou: React.FC = () => {
                         {timezoneAbbr && (
                           <div className="flex items-center px-8 sm:hidden">
                             <img src="/images/globe.svg" alt="Clock" className="inline mr-2 h-5" />
-                            <p className="text-base text-gray-800">{timezoneAbbr}</p>
+                            <p className="text-base text-gray-800">PHT</p>
                           </div>
                         )}
 

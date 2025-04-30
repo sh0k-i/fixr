@@ -1,8 +1,6 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useAppContext } from '@/context/AppContext';
-
-import {central} from '@/lib/supabaseClient';
 import { Dialog, DialogContent,
   DialogDescription,
   DialogFooter,
@@ -15,10 +13,6 @@ import { Button } from '@/components/ui/button';
 import ConfirmCheck from '../icons/ConfirmCheck';
 import NavButtons from '../ui/navButtons';
 import IconComponent from '@/hooks/IconComponent';
-import { useLocation } from 'react-router-dom';
-import { format } from 'date-fns-tz';
-
-// Define props interface
 interface SummaryProps {
   onNext: () => void;
   onBack: () => void;
@@ -28,30 +22,6 @@ interface SummaryProps {
 const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
   const { form, setForm, user, contractor, selectedService } = useAppContext();
   const [loading, setLoading] = useState<boolean>(false);
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-
-  const capitalizeWords = (str: string | null) => {
-    if (!str) return '';
-    return str.replace(/\b\w/g, char => char.toUpperCase());
-  };
-
-  useEffect(() => {
-    setForm(prevForm => ({
-      ...prevForm,
-      promo: capitalizeWords(params.get('promo')),
-      serviceSpecification: capitalizeWords(selectedService?.specifications[0]),
-    }));
-  }, [ location.search, setForm ]);
-
-  useEffect(() => {
-    if (form.timezone) {
-      setForm(prevForm => ({
-        ...prevForm,
-        timezoneAbbr: format(new Date(), 'zzz', { timeZone: form.timezone || '' })
-      }));
-    }
-  }, [form.timezone, setForm]);
 
 	const handleRedirect = () => {
 		onNext();
@@ -65,82 +35,83 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
     onReset();
   };
 
-  const payload = {
-    user,
-    form,
-    contractor,
-    selectedService,
-    consent: {
-      general: {
-        description: 'By checking the box above, I provide my ESIGN and express written consent for {appContext.contractor.name} and its authorized partners to contact me at the phone number and email address I have provided in this form. This may include marketing communications sent using automated technology, such as calls, texts, or emails. I understand that this consent is not required to make a purchase.',
-        value: form.generalOptIn,
-      },
-    },
-  };
+  // const payload = {
+  //   user,
+  //   form,
+  //   contractor,
+  //   selectedService,
+  //   consent: {
+  //     general: {
+  //       description: 'By checking the box above, I provide my ESIGN and express written consent for {appContext.contractor.name} and its authorized partners to contact me at the phone number and email address I have provided in this form. This may include marketing communications sent using automated technology, such as calls, texts, or emails. I understand that this consent is not required to make a purchase.',
+  //       value: form.generalOptIn,
+  //     },
+  //   },
+  // };
 
   const handleConfirmBooking = async () => {
-		setLoading(true);
+		setLoading(false);
+    document.getElementById("dialog")?.click();
 
-		try {
-      const response = await fetch('https://hkdk.events/w8wqxy2op6oty4', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
+		// try {
+    //   const response = await fetch('https://hkdk.events/w8wqxy2op6oty4', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(payload),
+    //   });
 
-      if (!response.ok) {
-        throw new Error('Failed to send appointments');
-      }
-    } catch (err) {
-      console.error('Error sending appointments:', err);
-    }
+    //   if (!response.ok) {
+    //     throw new Error('Failed to send appointments');
+    //   }
+    // } catch (err) {
+    //   console.error('Error sending appointments:', err);
+    // }
     
 
-	// insert data into bookings table
-		try {
-			const { data, error } = await central
-				.from('bookings')
-				.insert([
-					{
-						firstname: user.firstname,
-						lastname: user.lastname,
-						email: user.email,
-						phone: user.phone,
-						address1: user.address1,
-						address2: user.address2,
-						city: user.city,
-						state: user.state,
-						zip: user.zip,
-						user_ns: user.userNs,
-            market: user.market,
-						id: form.formId,
-						service_specification: form.serviceSpecification,
-						promo: form.promo,
-						opt_in: form.generalOptIn,
-						date: form.date,
-						time: form.time,
-						service_name: selectedService.name || selectedService.services.name,
-						service_id: selectedService.service_id,
-            is_booked: true,
-            timezone: form.timezone,
-            contractor_id: contractor.id,
-            selected_service: selectedService,
-            timezoneAbbr: form.timezoneAbbr,
-					},
-				]);
+	  // insert data into bookings table
+		// try {
+		// 	const { data, error } = await central
+		// 		.from('bookings')
+		// 		.insert([
+		// 			{
+		// 				firstname: user.firstname,
+		// 				lastname: user.lastname,
+		// 				email: user.email,
+		// 				phone: user.phone,
+		// 				address1: user.address1,
+		// 				address2: user.address2,
+		// 				city: user.city,
+		// 				state: user.state,
+		// 				zip: user.zip,
+		// 				user_ns: user.userNs,
+    //         market: user.market,
+		// 				id: form.formId,
+		// 				service_specification: form.serviceSpecification,
+		// 				promo: form.promo,
+		// 				opt_in: form.generalOptIn,
+		// 				date: form.date,
+		// 				time: form.time,
+		// 				service_name: selectedService.name || selectedService.services.name,
+		// 				service_id: selectedService.service_id,
+    //         is_booked: true,
+    //         timezone: form.timezone,
+    //         contractor_id: contractor.id,
+    //         selected_service: selectedService,
+    //         timezoneAbbr: form.timezoneAbbr,
+		// 			},
+		// 		]);
 	
-			if (error) {
-				console.error('Error inserting data:', error);
-			} else {
-				console.log('Data inserted successfully:', data);
-        setLoading(false);
-			}
-      document.getElementById("dialog")?.click();
-		} catch (err) {
-			console.error('Unexpected error:', err);
-		}	
+		// 	if (error) {
+		// 		console.error('Error inserting data:', error);
+		// 	} else {
+		// 		console.log('Data inserted successfully:', data);
+    //     setLoading(false);
+		// 	}
+    //   document.getElementById("dialog")?.click();
+		// } catch (err) {
+		// 	console.error('Unexpected error:', err);
+		// }	
 	};
 
   const formatDate = (dateString: string) => {
@@ -209,7 +180,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
         <div className='flex justify-center text-center'>
           <div className="max-w-[40rem] text-center">
             <h1 className="heading-form">
-            Almost There! <span className="text-accentColor">Request Your Appointment</span> Now
+            Almost There! <span className="text-accentColor">Confirm Your Appointment</span> Now
             </h1> 
           </div>
         </div>
@@ -228,7 +199,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
                           <path d="m15.8 24.7c-2.3.1-1.9-3.9.3-3.4 2.3-.1 2 3.9-.3 3.4zm.2-5.5c-.6 0-.9-.3-.9-1l-.7-9.2c-.1-.9.6-1.7 1.5-1.8s1.7.6 1.8 1.5v.3l-.7 9.2c-.1.7-.4 1-1 1z" fill="#eee"></path>
                           </g>
                         </svg>
-                        <p className="text-base sm:text-lg font-semibold ml-2">Pending Request</p>
+                        <p className="text-base sm:text-lg font-semibold ml-2">Pending Confirmation</p>
                       </div>
                     </div>
 										<hr className='mb-4'></hr>
@@ -280,7 +251,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
                               {form.timezone && ( 
                                 <div className='flex items-center'>
                                   <img src="/images/globe.svg" alt="Clock" className="inline ml-4 mr-2 h-5" />
-                                  <p className="text-sm sm:text-base text-gray-800">{form.timezoneAbbr}</p>
+                                  <p className="text-sm sm:text-base text-gray-800">PHT</p>
                                 </div>)}
 
                             </div>
@@ -295,7 +266,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
                             {form.timezone && (  
                               <div className="flex items-center pl-4 pr-8">
                                 <img src="/images/globe.svg" alt="Clock" className="inline mr-2 h-5" />
-                                <p className="text-sm sm:text-base text-gray-800">{form.timezoneAbbr}</p>
+                                <p className="text-sm sm:text-base text-gray-800">PHT</p>
                               </div>
                             )}
                           </div>
@@ -366,7 +337,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
 								{loading ? (
 									<div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></div>
 								) : (
-									'Request Booking'
+									'Confirm Booking'
 								)}
 							</button>
 						</div>
@@ -394,7 +365,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
 						<ConfirmCheck />
             <h4 className='text-lg sm:text-xl font-semibold text-center py-1'>Awesome!</h4>
             <DialogDescription>
-						Your booking has been requested, and you will receive updates shortly regarding your Free Assessment. We look forward to helping you bring your project to life.
+						Your booking has been confirmed, and you will receive updates shortly regarding your Free Assessment. We look forward to helping you bring your project to life.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

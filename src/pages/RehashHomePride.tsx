@@ -1,4 +1,3 @@
-import RehashHomePrideForm from '@/components/HomePride/RehashHomePrideForm'
 import Navbar from '@/components/NavBar'
 
 const RehashHomePride = () => {
@@ -7,7 +6,7 @@ const RehashHomePride = () => {
     <div className='bg-gray-50 min-h-screen'>
       <Navbar />
       <div className='max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 lg:py-12 space-y-12 sm:space-y-20 lg:space-y-24'>
-       <RehashHomePrideForm />
+       {/* <RehashHomePrideForm /> */}
       </div>
     </div>
   )

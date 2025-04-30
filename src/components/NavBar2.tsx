@@ -1,5 +1,4 @@
 "use client";
-import { useEffect, useState } from 'react'; 
 import { useAppContext } from '@/context/AppContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useClearFormState from '@/hooks/useClearFormState.tsx';
@@ -10,22 +9,9 @@ const NavBar2 = () => {
   const clearFormState = useClearFormState();
 
   const { contractor, setForm, form } = useAppContext();
-  const [slug, setSlug] = useState('');
-  // get cta text from contractor.content.hero_cta if it exists, otherwise use default
   const heroCtaLabel = contractor.content.hero_cta || "Get Free Quote";
-
-  useEffect(() => {
-    if (contractor) {
-      setSlug(contractor.slug);
-    }
-  }, [contractor]);
-
-
-  // Extract bot_number from URL parameters
-  const searchParams = new URLSearchParams(location.search);
-  const companyPhone = searchParams.get('bot_number') || '+18594075999'; // Fallback to default if not provided
-
-  const logoSrc = contractor.content.logo || '/images/logo.png';
+  const companyPhone = +63999999999; 
+  const logoSrc = '/fixr-logo.png'; 
 
   // Function to append current URL parameters
   const navigateWithParams = (path: string) => {
@@ -65,12 +51,12 @@ const NavBar2 = () => {
       ...prevForm,
       formId: formId,
     }));
-    navigateWithParams(`/request-quotes/${slug}`);
+    navigateWithParams(`/request-quotes/`);
   };
 
   // Create the new URL with preserved query parameters
   const currentParams = new URLSearchParams(location.search);
-  const newUrl = `/${slug}?${currentParams.toString()}`;
+  const newUrl = `/?${currentParams.toString()}`;
 
   if (!contractor || !contractor.content) return null;
 
@@ -85,7 +71,7 @@ const NavBar2 = () => {
                 <img 
                   src={logoSrc} 
                   alt="Logo" 
-                  className="py-2 sm:py-3 h-full max-h-16 sm:max-h-20 w-full max-w-[193px] sm:max-w-[280px]" 
+                  className="py-2 sm:py-3 h-full max-h-16 sm:max-h-20" 
                 />
               </a>
             </div>
@@ -102,22 +88,6 @@ const NavBar2 = () => {
                     Call Us
                   </a>
                 </div>
-                
-
-                {/* <div className="block md:hidden">
-                <button className="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="size-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                  </svg>
-                </button>
-                </div> */}
               </div>
               <div className="hidden sm:block sm:gap-4">
                 <button className="rounded-lg bg-accentColor px-4 py-3 text-sm font-medium text-white hover:bg-accentDark inline-flex items-center plausible-event-name=CTA_click plausible-event-position=nav_bar" onClick={handleButtonClick}>{heroCtaLabel}

@@ -13,11 +13,6 @@ interface Step3SpecificationsProps {
   onReset: () => void;
 }
 
-// Component mapping object
-const specificationComponents = {
-  Repair: Repair,
-  Remodel: Remodel,
-};
 
 const Step3Specifications: React.FC<Step3SpecificationsProps> = ({ onNext, onBack, onReset }) => {
   const { setForm, contractor, services, selectedService } = useAppContext();
@@ -97,29 +92,54 @@ const Step3Specifications: React.FC<Step3SpecificationsProps> = ({ onNext, onBac
 
         <div className="mt-12 flex flex-col h-full">
           <div className="container-cards">
-            {selectedService.specifications.map((spec: string) => {
-              const SpecificationIcon = specificationComponents[spec as keyof typeof specificationComponents];
-              
-              return (
-                <button
-                  key={spec}
-                  type="button"
-                  className="cards-button plausible-event-name=form_step_complete plausible-event-form_step=2_specification"
-                  onClick={() => handleSelect(spec)}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.boxShadow = `${accent_rgba} 0px 10px 25px -6px`;
-                    e.currentTarget.style.borderColor = accent_rgba;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.boxShadow = 'rgba(0, 0, 0, 0.07) 0px 10px 25px -6px';
-                    e.currentTarget.style.borderColor = 'rgba(157, 176, 197, 0.25)';
-                  }}
-                >
-                  {SpecificationIcon && <SpecificationIcon />}
-                  <span className="cards-text">{spec}</span>
-                </button>
-              );
-            })}
+            <button
+              type="button"
+              className="cards-button plausible-event-name=form_step_complete plausible-event-form_step=2_specification"
+              onClick={() => handleSelect('Repair')}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = `${accent_rgba} 0px 10px 25px -6px`;
+                e.currentTarget.style.borderColor = accent_rgba;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = 'rgba(0, 0, 0, 0.07) 0px 10px 25px -6px';
+                e.currentTarget.style.borderColor = 'rgba(157, 176, 197, 0.25)';
+              }}
+            >
+              <Repair />
+              <span className="cards-text">Repair</span>
+            </button>
+            <button
+              type="button"
+              className="cards-button plausible-event-name=form_step_complete plausible-event-form_step=2_specification"
+              onClick={() => handleSelect('Remodel')}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = `${accent_rgba} 0px 10px 25px -6px`;
+                e.currentTarget.style.borderColor = accent_rgba;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = 'rgba(0, 0, 0, 0.07) 0px 10px 25px -6px';
+                e.currentTarget.style.borderColor = 'rgba(157, 176, 197, 0.25)';
+              }}
+            >
+              <Remodel />
+              <span className="cards-text">Remodel</span>
+            </button>
+            <button
+              type="button"
+              className="cards-button plausible-event-name=form_step_complete plausible-event-form_step=2_specification"
+              onClick={() => handleSelect('Installation')}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = `${accent_rgba} 0px 10px 25px -6px`;
+                e.currentTarget.style.borderColor = accent_rgba;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = 'rgba(0, 0, 0, 0.07) 0px 10px 25px -6px';
+                e.currentTarget.style.borderColor = 'rgba(157, 176, 197, 0.25)';
+              }}
+            >
+              <img className="w-12 h-12 sm:w-14 sm:h-14 sm:mb-4 ml-2 mr-4 sm:ml-0 sm:mr-0" src='/install.png' />
+              Installation
+            </button>
           </div>
           {loading && (
             <div className="flex justify-center pt-20">

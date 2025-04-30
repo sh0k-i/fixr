@@ -7,6 +7,7 @@ import { InteractiveHoverButton } from './ui/interactive-hover-button';
 import {PromoModal, DialogTitle, Dialog} from '@/components/PromoModal';
 import useFormPersistence from '@/hooks/useFormPersistence';
 import BlurFade from './ui/blur-fade';
+import NavBar from './NavBar';
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -22,40 +23,21 @@ const Hero = () => {
   const urlParams = new URLSearchParams(location.search);
   const firstnameParam = capitalizeWords(urlParams.get('firstname')) || '';
   const conceptParam = urlParams.get('concept_id') || '';
-  const [slug, setSlug] = useState('');
   const initialStep = services.length > 1 ? 1 : 2;
   const [, , resetCurrentStep] = useFormPersistence('formStep', initialStep);
-  const [heroMedia, setHeroMedia] = useState('');
+  const heroMedia = 'https://storage.googleapis.com/channel_automation/Webassets/video/homeprojectparterns-hero_9.0.10.webm';
 
   // Default content
   const defaultLede = firstnameParam
     ? `Receive a customized assessment of your home’s specific needs and expert recommendations tailored just for you by our experienced team`
       : "Hi there, receive a customized assessment of your home’s specific needs and expert recommendations tailored just for you by our experienced team";
 
-  const heroH1 = contractor.content.hero_h1 || "Building Better Spaces for Better Living";
   const heroLede = contractor.content.hero_lede || defaultLede;
   const heroCtaLabel = contractor.content.hero_cta || "Get Free Assessment";
 
   const [buttonText, setButtonText] = useState(heroCtaLabel);
   const [, setSubheadingText] = useState("Or select a service to get started");
   const [subheadingText1, setSubheadingText1] = useState(heroLede);
-
-  useEffect(() => {
-    if (contractor) {
-      setSlug(contractor.slug);
-    }
-  }, [contractor]);
-
-  // Determine the hero media
-  useEffect(() => {
-    if (contractor.content.b_roll) {
-      setHeroMedia(contractor.content.b_roll);
-    } else if (contractor.content.bg_photo) {
-      setHeroMedia(contractor.content.bg_photo);
-    } else {
-      setHeroMedia('/images/feature.jpg');
-    }
-  }, [contractor.content.b_roll, contractor.content.bg_photo]);
   
   
   // Update button text based on form progress
@@ -112,15 +94,13 @@ const Hero = () => {
       ...prevForm,
       formId: formId,
     }));
-    navigateWithParams(`/request-quotes/${slug}`);
+    navigateWithParams(`/request-quotes/`);
   };
-
-  // const bRoll = contractor.content.b_roll || 'https://storage.googleapis.com/channel_automation/Webassets/video/homeprojectparterns-hero_9.0.10.webm'; // Get hero video from contractor content
 
   return (
     <div>
       {/* <NavBar2 /> */}
-      <div className="relative flex items-center" style={{ height: 'calc(100vh - 64px)' }}>
+      <div className="relative flex items-center">
       <div className="absolute inset-0">
           {heroMedia.endsWith('.webm') || heroMedia.endsWith('.mp4') ? (
             <video
@@ -141,22 +121,23 @@ const Hero = () => {
         <div className="absolute inset-0 bg-[#12121d99] opacity-100 z-[1]"></div> {/* Moved overlay after video and added z-index */}
 
         <div  className="relative z-[2] w-full overflow-hidden"> {/* Added z-index to content container */}
+          <NavBar />
           
-          <div className="z-10 lg:w-8/12 flex items-left justify-left flex-col px-4 sm:pl-16 mt-0 space-y-6 md:space-y-8 pb-4">
+          <div className="z-10 flex items-center justify-center flex-col px-4 sm:pl-16 mt-0 space-y-6 md:space-y-8 py-14 md:py-16 lg:py-20">
             <BlurFade delay={2 * 0.25} yOffset={0}
-              className="block font-display text-left text-4xl md:text-5xl lg:text-6xl font-semibold text-white pointer-events-none">
-              {heroH1}
+              className="block font-display text-center text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-white pointer-events-none">
+                Instant Everything, Incredible Pricing
             </BlurFade>
 
             <BlurFade delay={4 * 0.25} yOffset={0}
-              className="text-sm md:text-base lg:text-lg text-white/80 text-left pointer-events-none"
+              className="text-sm md:text-base lg:text-lg text-white/80 text-center max-w-4xl pointer-events-none"
             >
               {firstnameParam ? `Hi ${firstnameParam}! ` : ''}{subheadingText1}
             </BlurFade>
 
             <BlurFade delay={6 * 0.25} yOffset={0} className="mt-5 lg:mt-8 flex flex-col items-start gap-2 sm:flex-row sm:gap-3">
               
-              <InteractiveHoverButton className='bg-accentColor text-white border-transparent text-sm rounded-lg py-3 plausible-event-name=CTA_click plausible-event-position=hero' onClick={handleButtonClick} >{buttonText}</InteractiveHoverButton>
+              <InteractiveHoverButton className='bg-accentColor text-white border-transparent text-sm rounded-lg py-3' onClick={handleButtonClick} >{buttonText}</InteractiveHoverButton>
             </BlurFade>
 
           </div>
