@@ -70,7 +70,7 @@ const CookiePolicy = () => {
         <h3 className="heading-secondary">Changes to this Cookie Policy:</h3>
         <p className="paragraph">We may update this Cookie Policy from time to time to reflect changes in our practices or applicable laws. We encourage you to review this policy periodically for any updates.</p>
         <h3 className="heading-secondary">Contact Us:</h3>
-        <p className="paragraph">If you have any questions about this Cookie Policy, please contact us at hello@homeprojectpartners.com</p>
+        <p className="paragraph">If you have any questions about this Cookie Policy, please contact us at contact.fixr.com</p>
       </div>
       <Footer />
     </div>

@@ -25,7 +25,7 @@ const Hero = () => {
   const conceptParam = urlParams.get('concept_id') || '';
   const initialStep = services.length > 1 ? 1 : 2;
   const [, , resetCurrentStep] = useFormPersistence('formStep', initialStep);
-  const heroMedia = 'https://storage.googleapis.com/channel_automation/Webassets/video/homeprojectparterns-hero_9.0.10.webm';
+  const heroMedia = contractor.content.b_roll || 'https://storage.googleapis.com/channel_automation/Webassets/video/homeprojectparterns-hero_9.0.10.webm';
 
   // Default content
   const defaultLede = firstnameParam
@@ -126,7 +126,7 @@ const Hero = () => {
           <div className="z-10 flex items-center justify-center flex-col px-4 sm:pl-16 mt-0 space-y-6 md:space-y-8 py-14 md:py-16 lg:py-20">
             <BlurFade delay={2 * 0.25} yOffset={0}
               className="block font-display text-center text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-white pointer-events-none">
-                Instant Everything, Incredible Pricing
+                Refresh, Repair, Reimagine Home
             </BlurFade>
 
             <BlurFade delay={4 * 0.25} yOffset={0}
