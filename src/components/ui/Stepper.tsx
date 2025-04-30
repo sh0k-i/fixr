@@ -13,9 +13,9 @@ const Stepper: React.FC<StepperProps> = ({ currentStep }) => {
 
   // Map currentStep to the correct step index in the steps array
   const stepIndex = 
-    (currentStep === 1) ? 0 :
-    (currentStep === 2) ? 1 :
-    (currentStep === 3 || currentStep === 4) ? 2 : -1;
+    (currentStep === 1 || currentStep === 2) ? 0 :
+    (currentStep === 3) ? 1 :
+    (currentStep === 4 || currentStep === 5) ? 2 : -1;
 
   return (
     <div>

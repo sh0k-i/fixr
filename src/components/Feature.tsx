@@ -4,7 +4,7 @@ import BlurFade from './ui/blur-fade';
 
 const Feature: React.FC = () => {
   const { contractor } = useAppContext();
-  const imageUrl = contractor.content.feature_photo || '/images/feature.jpg';
+  const imageUrl = '/images/feature.jpg';
   const defaultHeader = (
     <>
       Your <span className="text-accentColor">Dream Home</span>, Our Expertise
