@@ -16,8 +16,7 @@ const ContactUs = () => {
             Contact Us
           </BlurFade>
           <BlurFade delay={2 * 0.15} inView className="section_description">
-            Whether you're planning a kitchen remodel in Davao or need urgent
-            plumbing repairs in Quezon City, the Fixr team is here to help.
+          Your Local Partner for Nationwide Home Solutions – Connect with Fixr’s Expert Team Today!
           </BlurFade>
         </div>
       </div>
