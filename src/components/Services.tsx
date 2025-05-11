@@ -14,20 +14,23 @@ interface ServicesProps {
 }
 
 const Services: React.FC<ServicesProps> = ({ services, handleServiceSelect }) => {
-
   const { contractor } = useAppContext();
-
   const accent_rgba = contractor.colors.accent_rgba || '0 10px 25px -6px rgba(0, 0, 0, 0.1)';
+
+  // Sort services alphabetically by service name
+  const sortedServices = [...services].sort((a, b) => 
+    a.services.name.localeCompare(b.services.name)
+  );
 
   return (
     <div>
       <div className="space-y-8">
         <div className="flex flex-wrap justify-center gap-4 sm:gap-[20px]" style={{ marginTop: '15px', width: '100%' }}>
-          {services.length > 0 ? (
-            services.map((service, index) => (
+          {sortedServices.length > 0 ? (
+            sortedServices.map((service, index) => (
               <BlurFade
                 key={service.id}
-                delay={(index + 1) * 0.2} // Incremental delay for staggered effect
+                delay={(index + 1) * 0.2}
                 yOffset={0}
                 className="flex flex-row sm:flex-col items-center justify-start sm:justify-center w-full sm:w-[210px] h-[80px] sm:h-[156px] border border-transparent rounded-xl shadow-md p-4 hover:scale-100 sm:hover:scale-105 transform transition-transform bg-white"
                 onClick={() => handleServiceSelect(service)}
@@ -37,7 +40,7 @@ const Services: React.FC<ServicesProps> = ({ services, handleServiceSelect }) =>
                   borderColor: 'rgba(157, 176, 197, 0.25)',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = accent_rgba + ' 0px 10px 25px -6px ';
+                  e.currentTarget.style.boxShadow = `${accent_rgba} 0px 10px 25px -6px`;
                   e.currentTarget.style.borderColor = accent_rgba;
                 }}
                 onMouseLeave={(e) => {
@@ -46,7 +49,9 @@ const Services: React.FC<ServicesProps> = ({ services, handleServiceSelect }) =>
                 }}
               >
                 <IconComponent name={service.services.name} className="w-14 h-14" />
-                <span className="text-gray-800 text-base font-medium text-left sm:text-center">{service.services.name}</span>
+                <span className="text-gray-800 text-base font-medium text-left sm:text-center">
+                  {service.services.name}
+                </span>
               </BlurFade>
             ))
           ) : (

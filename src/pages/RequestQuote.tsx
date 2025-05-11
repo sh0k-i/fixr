@@ -82,7 +82,10 @@ const RequestQuote = () => {
   return (
     <div className='min-h-screen bg-gray-50'>
       <NavBar2 />
-      <ParentForm />
+      <div className='mt-20 md:mt-24'>
+        <ParentForm />  
+      </div>
+      
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogTrigger asChild>
           <button id='modal' className='hidden'></button>

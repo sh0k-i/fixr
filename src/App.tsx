@@ -13,6 +13,10 @@ import ThankYou from './pages/ThankYou';
 import DemoForm from './pages/DemoForm';
 import ConfirmationForm from './pages/ConfirmationForm';
 import ConfirmationSummary from './pages/ConfirmationSummary';
+import AboutUs from './pages/AboutUs';
+import ContactUs from './pages/ContactUs';
+import OurServices from './pages/OurServices';
+import Blog from './pages/Blog';
 declare global {
   interface Window {
     HSStaticMethods: IStaticMethods;
@@ -115,6 +119,11 @@ function App() {
         <Route path='/rehash-summary/:slug/' element={<RehashThankYou />} /> */}
 
         <Route path='/' element={<Home />} />
+        <Route path='/about-us' element={<AboutUs />} />
+        <Route path='/contact-us' element={<ContactUs />} />
+        <Route path='/services' element={<OurServices/>} />
+        <Route path='/blog' element={<Blog/>} />
+
         <Route path='/request-quotes/' element={<RequestQuote />} />
         <Route path='/cookie-policy/' element={<CookiePolicy />} />
         <Route path='/privacy-policy/' element={<PrivacyPolicy />} />

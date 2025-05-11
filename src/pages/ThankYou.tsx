@@ -17,7 +17,6 @@ const ThankYou: React.FC = () => {
   const { form, user, selectedService, contractor, timezoneAbbr, setUser, setForm, setSelectedService } = useAppContext();
   const navigate = useNavigate();
   const confettiRef = useRef<ConfettiRef>(null);
-  const [slug, setSlug] = useState('');
   const [heroMedia, setHeroMedia] = useState('');
 
   // Load context values from local storage
@@ -36,12 +35,6 @@ const ThankYou: React.FC = () => {
     }
   }, [setUser, setForm, setSelectedService]);
 
-  useEffect(() => {
-    if (contractor) {
-      setSlug(contractor.slug);
-    }
-  }, [contractor]);
-
   // Determine the hero media
   useEffect(() => {
     if (contractor.content.b_roll) {
@@ -55,7 +48,7 @@ const ThankYou: React.FC = () => {
 
   const handleGoHome = () => {
     const params = window.location.search;
-    navigate(`/${slug}` + params);
+    navigate(`/` + params);
   };
 
   useEffect(() => {
@@ -145,7 +138,7 @@ const ThankYou: React.FC = () => {
 
         <div className="relative z-[2] w-full overflow-hidden"> 
           <NavBar />
-          <div className="z-10 flex items-center justify-center flex-col px-4 sm:pl-16 mt-0 space-y-6 md:space-y-8 py-14 md:py-16 lg:py-20">
+          <div className="z-10 flex items-center justify-center flex-col px-4 sm:pl-16 mt-0 space-y-6 md:space-y-8 pb-14 md:pb-16 lg:pb-20 pt-32 sm:pt-36 md:pt-40 lg:pt-44">
             <BlurFade delay={2 * 0.20} yOffset={0}
               className="block font-display text-center text-4xl md:text-5xl lg:text-6xl font-semibold text-white max-w-4xl pointer-events-none">
               Your Appointment is Confirmed - Talk to You Soon!

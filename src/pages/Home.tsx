@@ -8,6 +8,7 @@ import { useAppContext } from '@/context/AppContext';
 import { useEffect } from 'react';
 import Feature from '@/components/Feature';
 import SocialProof from '@/components/SocialProof';
+import NavBar from '@/components/NavBar';
 
 const Home = () => {
   const { services, user, form, selectedService, setUser, setForm, setSelectedService} = useAppContext();
@@ -38,6 +39,7 @@ const Home = () => {
   return (
     <div className='bg-white'>
       {/* <NavBar2 /> */}
+      <NavBar />
       <Hero/>
       <Testimonials />
       

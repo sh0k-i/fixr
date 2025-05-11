@@ -86,15 +86,23 @@
 }
 
 .heading-primary {
-  @apply text-3xl md:text-4xl font-bold text-gray-800 dark:text-white;
+  @apply font-bold text-3xl sm:text-4xl lg:text-5xl text-gray-800;
 }
 
 .heading-form {
   @apply text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-800 dark:text-white;
 }
 
+.container-main {
+  @apply max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 lg:py-24  space-y-12 sm:space-y-20 lg:space-y-24
+}
+
+.navbar-space {
+  @apply pt-32 sm:pt-36 md:pt-40 lg:pt-44;
+}
+
 .container-form {
-  @apply z-10 max-w-[100rem] px-4 lg:px-14 py-4 sm:py-6 lg:py-6 mx-auto relative
+  @apply z-10 max-w-[100rem] px-4 lg:px-14 py-4 sm:py-6 lg:py-10 mx-auto relative
 }
 
 .container-cards {
@@ -130,7 +138,7 @@
 }
 
 .section_header {
-  @apply font-semibold text-2xl sm:text-3xl lg:text-4xl text-gray-800 dark:text-neutral-200;
+  @apply font-semibold text-2xl sm:text-3xl lg:text-4xl md:leading-tight text-gray-800 dark:text-neutral-200;
 }
 
 .section_description {

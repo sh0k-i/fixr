@@ -1,105 +1,216 @@
 "use client";
-import { useAppContext } from '@/context/AppContext';
-import { useNavigate, useLocation } from 'react-router-dom';
-import useClearFormState from '@/hooks/useClearFormState.tsx';
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const NavBar2 = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
-  const clearFormState = useClearFormState();
+  const currentPath = location.pathname;
 
-  const { contractor, setForm, form } = useAppContext();
-  const heroCtaLabel = contractor.content.hero_cta || "Get Free Quote";
-  const companyPhone = +63999999999; 
-  const logoSrc = '/fixr-logo.png'; 
 
-  // Function to append current URL parameters
-  const navigateWithParams = (path: string) => {
-    const currentParams = new URLSearchParams(location.search);
-    navigate(`${path}?${currentParams.toString()}`);
-  };
-
-  // Function to generate a random string
-  const generateRandomString = (length: number): string => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-  };
-
-  const handleButtonClick = () => {
-    let formId = form.formId;
-
-    // If formId is not set, create a new formId
-    if (!formId) {
-      clearFormState();
-
-      const dateTime = new Date().toISOString().replace(/[-:.T]/g, '').slice(0, 14); // YYYYMMDDHHMMSS format
-      const randomString = generateRandomString(6);
-
-      formId = `${contractor.id}-${dateTime}-${randomString}`;
-      console.log('Generated formId:', formId);
-    } else {
-      console.log('Using existing form ID:', formId);
-    }
-
-    // Update the form and user object in context
-    setForm((prevForm) => ({
-      ...prevForm,
-      formId: formId,
-    }));
-    navigateWithParams(`/request-quotes/`);
-  };
-
-  // Create the new URL with preserved query parameters
-  const currentParams = new URLSearchParams(location.search);
-  const newUrl = `/?${currentParams.toString()}`;
-
-  if (!contractor || !contractor.content) return null;
+  const navigationLinks = [
+    {
+      name: "Home",
+      href: "/",
+      icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6",
+    },
+    {
+      name: "Our Services",
+      href: "/services",
+      icon: "M13 10V3L4 14h7v7l9-11h-7z",
+    },
+    {
+      name: "Blog",
+      href: "/blog",
+      icon: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253",
+    },
+    {
+      name: "About Us",
+      href: "/about-us",
+      icon: "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
+    },
+    {
+      name: "Contact Us",
+      href: "/contact-us",
+      icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
+    },
+  ];
 
   return (
-    <div className="sticky top-0 bg-white z-50 shadow-md">
-      <header className="">
+    <div
+      className="fixed w-full top-0 left-0 z-30 bg-white shadow-lg"
+    >
+      <header className="relative">
         <div className="mx-auto w-full max-w-screen-xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 sm:h-20 items-center justify-between">
-            <div className="md:flex md:items-center md:gap-12 ">
-              <a className="block text-accent" href={newUrl}>
+          <div className="flex h-20 md:h-24 items-center justify-between">
+            {/* Logo */}
+            <div className="md:flex md:items-center md:gap-12">
+              <a className="block" href="/">
                 <span className="sr-only">Home</span>
-                <img 
-                  src={logoSrc} 
-                  alt="Logo" 
-                  className="py-2 sm:py-3 h-full max-h-16 sm:max-h-20" 
+                <img
+                  src="/fixr-logo.png"
+                  alt="Logo"
+                  className="h-12 sm:h-14 lg:h-16"
                 />
               </a>
             </div>
-            <div className='flex items-center justify-end gap-2 sm:gap-4'>
-              <div className="flex items-center gap-4">
-                <div className="flex sm:gap-4">
-                  <a
-                    className="rounded-md bg-transparent pl-4 py-2.5 text-sm font-medium text-gray-800 hover:text-accentColor inline-flex items-center"
-                    href={`tel:${companyPhone}`} // Use dynamic bot_number
-                  >
-                    <svg id="fi_5585856" height="512" viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" className="w-6 h-6 mr-2 text-accentColor">
-                      <path d="m256 0c141.385 0 256 114.615 256 256s-114.615 256-256 256-256-114.615-256-256 114.615-256 256-256zm150.3 374.436a19.622 19.622 0 0 0 0-27.678l-50.111-50.1a19.63 19.63 0 0 0 -27.69 0l-13.617 13.623a29.8 29.8 0 0 1 -35.245 5.279 200.184 200.184 0 0 1 -83.193-83.183 29.82 29.82 0 0 1 5.27-35.257l13.643-13.62a19.631 19.631 0 0 0 0-27.685l-50.111-50.095a19.629 19.629 0 0 0 -27.691 0c-2.071 2.065-4.691 4.56-7.493 7.2-7.007 6.623-15.749 14.866-19.283 20.048-18.613 27.239-9.687 63.681 1.036 89.459 14.165 33.977 40.271 71 73.536 104.242 33.235 33.238 70.246 59.347 104.242 73.512 25.772 10.738 62.2 19.642 89.438 1.033 5.179-3.537 13.434-12.258 20.044-19.274 2.651-2.797 5.148-5.44 7.225-7.504z" fill="currentColor" fillRule="evenodd"></path>
-                    </svg>
-                    Call Us
-                  </a>
+
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center gap-2">
+              {navigationLinks.map((link) => (
+                <div key={link.name} className="relative group">
+                  {currentPath === link.href ? (
+                    <span className="sm:px-5 py-2.5 text-base font-medium text-accentColor border-b-2 border-accentColor cursor-default">
+                      {link.name}
+                    </span>
+                  ) : (
+                    <a
+                      className="sm:px-5 py-2.5 text-base font-medium text-gray-800 hover:text-accentColor transition-colors"
+                      href={link.href}
+                    >
+                      {link.name}
+                      <span className="absolute bottom-[-9px] left-0 w-0 h-0.5 bg-accentColor transition-all group-hover:w-full"></span>
+                    </a>
+                  )}
                 </div>
-              </div>
-              <div className="hidden sm:block sm:gap-4">
-                <button className="rounded-lg bg-accentColor px-4 py-3 text-sm font-medium text-white hover:bg-accentDark inline-flex items-center plausible-event-name=CTA_click plausible-event-position=nav_bar" onClick={handleButtonClick}>{heroCtaLabel}
-                </button>
+              ))}
+              <div className="ml-4">
+                <a
+                  className="bg-accentColor rounded-lg px-4 py-3 text-sm font-medium text-white hover:bg-accentDark"
+                  href="/request-quotes"
+                >
+                  Get Free Quote
+                </a>
               </div>
             </div>
 
+            {/* Mobile Menu Button */}
+            <button
+              className="lg:hidden p-2 text-gray-800 hover:text-accentColor transition-colors"
+              onClick={() => setIsMobileMenuOpen(true)}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-8 w-8"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </button>
           </div>
         </div>
+
+        {/* Mobile Sidebar */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 bg-black/50 z-40"
+                onClick={() => setIsMobileMenuOpen(false)}
+              />
+
+              <motion.div
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ type: "tween" }}
+                className="fixed top-0 right-0 h-full w-64 bg-white shadow-xl z-50"
+              >
+                <div className="flex justify-between items-center p-4 border-b">
+                  <img src="/fixr-logo.png" alt="Logo" className="h-10" />
+                  <button
+                    className="p-2 text-gray-600 hover:text-accentColor rounded-md transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </div>
+
+                <nav className="flex flex-col p-4 space-y-2">
+                  {navigationLinks.map((link) => (
+                    <a
+                      key={link.name}
+                      href={link.href}
+                      className={`flex items-center px-4 py-3 rounded-lg transition-colors ${
+                        currentPath === link.href
+                          ? "bg-gray-200 text-gray-900"
+                          : "text-gray-800 hover:bg-gray-100"
+                      }`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5 mr-3"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d={link.icon}
+                        />
+                      </svg>
+                      {link.name}
+                    </a>
+                  ))}
+                  <a
+                    href="/request-quotes"
+                    className={`flex items-center px-4 py-3 rounded-lg transition-colors ${
+                      currentPath === "/request-quotes"
+                        ? "bg-gray-200 text-gray-900"
+                        : "text-gray-800 hover:bg-gray-100"
+                    }`}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 mr-3"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    Get Free Quote
+                  </a>
+                </nav>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       </header>
     </div>
   );
-}
+};
 
 export default NavBar2;
