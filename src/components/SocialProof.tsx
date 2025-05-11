@@ -10,7 +10,7 @@ const SocialProof = () => {
   }
 
   return (
-    <BlurFade delay={1 * 0.15} inView className="px-4 sm:px-6 lg:px-8">
+    <BlurFade delay={1 * 0.15} inView className="px-4 sm:px-6 lg:px-8 hidden md:flex pb-12 sm:pb-20 lg:pb-24">
       <div className="bg-gray-100 shadow-lg rounded-lg py-6 max-w-7xl mx-auto">
         <div className="flex flex-wrap justify-center gap-2 sm:gap-4 md:gap-6">
           {socialProof.map((proof: string, index: number) => (
