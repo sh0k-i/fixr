@@ -101,7 +101,7 @@ const ThankYou: React.FC = () => {
     const centralOfficeCode = phone.slice(3, 6);
     const lineNumber = phone.slice(6);
   
-    return `+1 (${areaCode}) ${centralOfficeCode}-${lineNumber}`;
+    return `+63 (${areaCode}) ${centralOfficeCode}-${lineNumber}`;
   };
 
   if (!selectedService || !user || !contractor) {
@@ -265,11 +265,11 @@ const ThankYou: React.FC = () => {
                   </p>
                   <p className='text-base text-gray-800 mb-3'>
                     <img src="/images/city.svg" alt="Location" className="inline mr-2 h-5" />
-                    {user.city}
+                    {user.city}, {user.zip}
                   </p>
                   <p className='text-base text-gray-800 mb-3'>
                     <img src="/images/location.svg" alt="Location" className="inline mr-2 h-5" />
-                    {user.zip}, {user.state}
+                    {user.state}, Philippines
                   </p>
                 </div>
               </BlurFade>

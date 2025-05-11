@@ -11,7 +11,7 @@ const Feature: React.FC = () => {
     </>
   );
   const featureHeader = contractor.content.feature_header || defaultHeader;
-  const featureDescription = contractor.content.feature_description || `At ${contractor.name}, we specialize in turning your house into a home. Our team of experienced professionals is dedicated to providing top-notch home improvement services tailored to your needs`;
+  const featureDescription = contractor.content.feature_description || `At Fixr, we specialize in turning your house into a home. Our team of experienced professionals is dedicated to providing top-notch home improvement services tailored to your needs`;
   const featureList = contractor.content.feature_list || [
     'Skilled Professionals',
     'Excellence Guaranteed',

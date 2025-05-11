@@ -44,7 +44,7 @@ const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
       address2: user.address2 || capitalizeWords(params.get('address2')) || '',
       city: user.city || capitalizeWords(params.get('city')) || '',
       email: user.email || params.get('email') || '',
-      phone: initialPhone ? `+1${numericPhone}` : '',
+      phone: initialPhone ? `+63${numericPhone}` : '',
       termsAndPrivacyOptIn: form.termsAndPrivacyOptIn || false,
     });
     formik.setFieldTouched('termsAndPrivacyOptIn', true, true);
@@ -54,9 +54,10 @@ const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
     firstname: Yup.string().required('First name is required'),
     lastname: Yup.string().required('Last name is required'),
     zip: Yup.string().required('Zip code is required'),
-    state: Yup.string().required('State is required').max(2, 'State code must be 2 characters'),
+    state: Yup.string().required('Province is required'),
     address1: Yup.string().required('Address is required'),
-    city: Yup.string().required('City is required'),
+    address2: Yup.string().required('Barangay is required'),
+    city: Yup.string().required('City or municipality is required'),
     email: Yup.string().email('Invalid email address').required('Email is required'),
     phone: Yup.string()
       .matches(/^\+1\d{10}$/, 'Phone number must be 10 digits')
@@ -227,7 +228,7 @@ const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
                 <div className="relative">
                   <label htmlFor="phone" className="input-label">Phone</label>
                   <div className='flex items-start'>
-                    <input className="py-3 px-4 block text-center w-14 bg-gray-100 border border-gray-200 border-r-transparent rounded-l-lg text-base focus:border-gray-200 focus:border-r-transparent focus:ring-transparent cursor-default focus:outline-none" readOnly placeholder='+1'>
+                    <input className="py-3 block text-center w-12 bg-gray-100 border border-gray-200 border-r-transparent rounded-l-lg text-base focus:border-gray-200 focus:border-r-transparent focus:ring-transparent cursor-default focus:outline-none" readOnly placeholder='+63'>
                     </input>
                     <PhoneInput
                       country="US"
@@ -262,7 +263,7 @@ const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
               </div>
 
               <div className="relative">
-                <label htmlFor="address1" className="input-label">Address Line 1</label>
+                <label htmlFor="address1" className="input-label">Street Address</label>
                 <input
                   id="address1"
                   name="address1"
@@ -291,7 +292,7 @@ const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
               </div>
               
               <div className="relative">
-                <label htmlFor="address2" className="input-label">Address Line 2</label>
+                <label htmlFor="address2" className="input-label">Barangay</label>
                 <input
                   id="address2"
                   name="address2"
@@ -301,7 +302,13 @@ const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
                   onBlur={formik.handleBlur}
                   className="input-field"
                 />
-                {formik.values.address2 && !formik.errors.address2 && (
+{formik.errors.address2 ? (
+                  <img
+                    src="/images/warning.svg"
+                    alt="Invalid"
+                    className="absolute right-3 top-10 w-6"
+                  />
+                ) : (
                   <img
                     src="/images/tick.svg"
                     alt="Valid"
@@ -314,7 +321,7 @@ const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
               </div>
 
               <div className="relative">
-                <label htmlFor="city" className="input-label">City</label>
+                <label htmlFor="city" className="input-label">City / Municipality</label>
                 <input
                   id="city"
                   name="city"
@@ -344,12 +351,11 @@ const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
 
               <div className="grid grid-cols-2 gap-4 lg:gap-6">
                 <div className="relative">
-                  <label htmlFor="state" className="input-label">State</label>
+                  <label htmlFor="state" className="input-label">Province</label>
                   <input
                     id="state"
                     name="state"
                     type="text"
-                    maxLength={2}
                     onChange={formik.handleChange}
                     value={formik.values.state}
                     onBlur={formik.handleBlur}

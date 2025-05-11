@@ -156,7 +156,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
     const centralOfficeCode = phone.slice(3, 6);
     const lineNumber = phone.slice(6);
   
-    return `+1 (${areaCode}) ${centralOfficeCode}-${lineNumber}`;
+    return `+63 (${areaCode}) ${centralOfficeCode}-${lineNumber}`;
   };
 
   const handleGeneralOptInChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -299,11 +299,11 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
 									</p>
 									<p className='text-sm sm:text-base text-gray-800 mb-3'>
 										<img src="/images/city.svg" alt="Location" className="inline mr-2 h-5" />
-										{user.city}
+										{user.city}, {user.zip}
 									</p>
 									<p className='text-sm sm:text-base text-gray-800 mb-3'>
 										<img src="/images/location.svg" alt="Location" className="inline mr-2 h-5" />
-										{user.state} {user.zip}
+										{user.state}, Philippines 
 									</p>
 								</div>
 							</div>
@@ -348,7 +348,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
             {form.generalOptIn && (
               <div> 
                 <div className="text-sm text-gray-600 dark:text-neutral-400">
-                  By checking the box above, I provide my ESIGN and express written consent for {contractor.name} and its authorized partners to contact me at the phone number and email address I have provided in this form. This may include marketing communications sent using automated technology, such as calls, texts, or emails. I understand that this consent is not required to make a purchase.
+                  By checking the box above, I provide my ESIGN and express written consent for Fixr and its authorized partners to contact me at the phone number and email address I have provided in this form. This may include marketing communications sent using automated technology, such as calls, texts, or emails. I understand that this consent is not required to make a purchase.
                 </div>
               </div>
             )}
