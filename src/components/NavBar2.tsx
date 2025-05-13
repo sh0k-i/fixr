@@ -2,11 +2,13 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const NavBar2 = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const currentPath = location.pathname;
+  const [isScrolled, setIsScrolled] = useState(false);
 
 
   const navigationLinks = [
@@ -37,9 +39,20 @@ const NavBar2 = () => {
     },
   ];
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <div
-      className="fixed w-full top-0 left-0 z-30 bg-white shadow-lg"
+    className={`fixed w-full top-0 left-0 z-30 transition-colors duration-300 ${
+      isScrolled ? "bg-white shadow-lg" : "bg-transparent"
+    }`}
     >
       <header className="relative">
         <div className="mx-auto w-full max-w-screen-xl px-4 sm:px-6 lg:px-8">
