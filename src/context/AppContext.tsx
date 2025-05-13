@@ -1,6 +1,5 @@
 import React, { createContext, useState, ReactNode, Dispatch, SetStateAction, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
-import  { DateTime }  from 'luxon';
 
 interface UserData {
   firstname: string | null;
@@ -36,8 +35,11 @@ interface AppContextType {
   user: UserData;
   form: FormData;
   selectedService: any;
+  selectedCategory: any;
   contractor: any;
+  categories: any;
   services: any;
+  featured: any;
   locations: any;
   timezoneAbbr: string;
 
@@ -46,7 +48,10 @@ interface AppContextType {
   setUser: Dispatch<SetStateAction<UserData>>;
   setForm: Dispatch<SetStateAction<FormData>>;
   setSelectedService: Dispatch<SetStateAction<any>>;
+  setSelectedCategory: Dispatch<SetStateAction<any>>;
   setContractor: Dispatch<SetStateAction<any>>;
+  setCategories: Dispatch<SetStateAction<any>>;
+  setFeatured: Dispatch<SetStateAction<any>>;
   setServices: Dispatch<SetStateAction<any>>;
   setLocations: Dispatch<SetStateAction<any>>;
   setTimezoneAbbr: Dispatch<SetStateAction<string>>;
@@ -94,8 +99,11 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
   });
 
   const [selectedService, setSelectedService] = useState<any>(null);
+  const [selectedCategory, setSelectedCategory] = useState<any>(null);
   const [contractor, setContractor] = useState<any>(null);
   const [services, setServices] = useState<any>(null);
+  const [categories, setCategories] = useState<any>(null);
+  const [featured, setFeatured] = useState<any>(null);
   const [locations, setLocations] = useState<any>(null);
   const [timezoneAbbr, setTimezoneAbbr] = useState<string>('');
 
@@ -118,56 +126,17 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
   }, []);
 
   useEffect(() => {
-    // const storedUser = localStorage.getItem('user');
-    // if (storedUser) {
-    //   setUser(JSON.parse(storedUser));
-    // }
-    // const storedForm = localStorage.getItem('form');
-    // if (storedForm) {
-    //   setForm(JSON.parse(storedForm));
-    // }
-    // const storedSelectedService = localStorage.getItem('selectedService');
-    // if (storedSelectedService) {
-    //   setSelectedService(JSON.parse(storedSelectedService));
-    // }
     const storedContractor = localStorage.getItem('contractor');
     if (storedContractor) {
       setContractor(JSON.parse(storedContractor));
     }
-    const storedServices = localStorage.getItem('services');
-    if (storedServices) {
-      setServices(JSON.parse(storedServices));
-    }
-    const storedLocations = localStorage.getItem('locations');
-    if (storedLocations) {
-      setLocations(JSON.parse(storedLocations));
-    } 
-    const storedTimezoneAbbr = localStorage.getItem('timezoneAbbr');
-    if (storedTimezoneAbbr) {
-      setTimezoneAbbr(JSON.parse(storedTimezoneAbbr));
-    }
-  }, [setUser, setForm, setSelectedService, setContractor, setServices, setLocations, setTimezoneAbbr]);
+    
+  }, [setContractor]);
   
   // Save context values to local storage whenever they change
   useEffect(() => {
     localStorage.setItem('contractor', JSON.stringify(contractor));
-    localStorage.setItem('services', JSON.stringify(services));
-    localStorage.setItem('locations', JSON.stringify(locations));
-    localStorage.setItem('timezoneAbbr', JSON.stringify(timezoneAbbr));
-  }, [contractor, services, locations, timezoneAbbr]);  
-
-  // Convert IANA Time Zone to Standard Time Abbreviation
-  const getTimeZoneAbbreviation = (ianaTimeZone: string): string => {
-    const now = DateTime.now().setZone(ianaTimeZone);
-    return now.toFormat('ZZZZ'); // Returns abbreviation like EST, CST, etc.
-  };
-
-  // set timezone abbreviation
-  useEffect(() => {
-    if (form && form.timezone) {
-      setTimezoneAbbr(getTimeZoneAbbreviation(form.timezone));
-    }
-  }, [form]);
+  }, [contractor]);  
 
   return (
     <AppContext.Provider
@@ -177,18 +146,24 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
         user,
         form,
         selectedService,
+        selectedCategory,
         contractor,
         locations,
         timezoneAbbr,
         services,
+        categories,
+        featured,
         setCookiesAccepted,
         setCookieConsentId,
         setUser,
         setForm,
         setSelectedService,
+        setSelectedCategory,
         setContractor,
         setLocations,
         setServices,
+        setCategories,
+        setFeatured,
         setTimezoneAbbr,
       }}
     >

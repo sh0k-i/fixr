@@ -49,8 +49,8 @@ const ContactUs = () => {
   return (
     <div>
       <NavBar2 />
-      <div className="h-[92px] md:h-[180px] flex items-center justify-center bg-[url('/images/page-bg.png')] bg-cover bg-no-repeat bg-top"></div>
-      <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-20  space-y-12 sm:space-y-20 lg:space-y-24">
+      <div className="fixed top-0 left-0 w-full h-[300px] flex items-center justify-center bg-[url('/images/page-bg.png')] bg-cover bg-no-repeat bg-top"></div>
+      <div className="max-w-[85rem] mt-[92px] md:mt-[175px] mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-20  space-y-12 sm:space-y-20 lg:space-y-24">
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 md:items-center md:gap-12">
           {/* Photo - First on mobile, right on desktop */}

@@ -1,0 +1,196 @@
+{
+    "categories": [
+      {
+        "id": 1,
+        "name": "Kitchen",
+        "photo": "/images/kitchen.jpg"
+      },
+      {
+        "id": 2,
+        "name": "Bathroom",
+        "photo": "/images/bathroom.jpg"
+      },
+      {
+        "id": 3,
+        "name": "Outdoor & Landscaping",
+        "photo": "/images/outdoor.jpg"
+      },
+      {
+        "id": 4,
+        "name": "Electrical & Lighting",
+        "photo": "/images/electrical.jpg"
+      },
+      {
+        "id": 6,
+        "name": "Flooring & Walls",
+        "photo": "/images/flooring.jpg"
+      },
+      {
+        "id": 7,
+        "name": "Solar Services",
+        "photo": "/images/solar.jpg"
+      }
+    ],
+    "products": [
+      {
+        "id": 101,
+        "name": "Cabinet Installation",
+        "category": [1],
+        "photo": "/images/cabinets.jpg",
+        "description": "Professional cabinet installation for modern kitchens"
+      },
+      {
+        "id": 104,
+        "name": "Smart Lighting Systems",
+        "category": [4],
+        "photo": "/images/smart-lights.jpg",
+        "description": "Automated lighting solutions for modern homes"
+      },
+      {
+        "id": 109,
+        "name": "Outdoor Lighting",
+        "category": [3,4],
+        "photo": "/images/outdoor-lights.jpg",
+        "description": "Landscape and security lighting solutions"
+      },
+      {
+        "id": 111,
+        "name": "Bathroom Remodel",
+        "category": [2],
+        "photo": "https://www.bathexperts.com/wp-content/uploads/2024/06/bright-bathroom-wooden-vanity.jpg",
+        "description": "Complete bathroom renovation services",
+        "featured": true,
+        "promo": "20% Off!"
+      },
+      {
+        "id": 112,
+        "name": "Walk-in Shower",
+        "category": [2],
+        "photo": "/images/walk-in-shower.jpg",
+        "description": "Custom walk-in shower installation",
+        "featured": true,
+        "promo": "Free labor!"
+      },
+      {
+        "id": 113,
+        "name": "Walk-in Tub",
+        "category": [2],
+        "photo": "https://independenthome.com/wp-content/uploads/2021/02/ih-brand_DSC00140-00140.jpg",
+        "description": "Accessible walk-in tub installation"
+      },
+      {
+        "id": 117,
+        "name": "Vanity / Sink Installation",
+        "category": [2],
+        "photo": "/images/sink-installation.jpg",
+        "description": "Custom bathroom vanity installation"
+      },
+      {
+        "id": 118,
+        "name": "Bathtub Installation",
+        "category": [2],
+        "photo": "/images/tub-installation.jpg",
+        "description": "Custom bathroom vanity installation",
+        "featured": true,
+        "promo": "10% Off!"
+      },
+      {
+        "id": 119,
+        "name": "Energy-Efficient Lighting",
+        "category": [1, 4, 7],
+        "photo": "/images/energy-effecient.jpg",
+        "description": "LED and energy-efficient lighting solutions"
+      },
+      {
+        "id": 120,
+        "name": "Electrical Repairs",
+        "category": [4],
+        "photo": "/images/electrical-repair.jpg",
+        "description": "Professional electrical repair services"
+      },
+      {
+        "id": 122,
+        "name": "Wood Flooring",
+        "category": [1, 6],
+        "photo": "/images/wood-floor.jpg",
+        "description": "Professional flooring installation services"
+      },
+      {
+        "id": 124,
+        "name": "Wall Painting",
+        "category": [6],
+        "photo": "/images/wall-painting.jpg",
+        "description": "Professional wall painting services"
+      },
+      {
+        "id": 125,
+        "name": "Drywall Installation",
+        "category": [6],
+        "photo": "/images/drywall-installation.jpg",
+        "description": "Professional drywall installation services"
+      },
+      {
+        "id": 126,
+        "name": "Kitchen Countertops",
+        "category": [1],
+        "photo": "/images/countertops.jpg",
+        "description": "Professional drywall installation services"
+      }
+      ,
+      {
+        "id": 127,
+        "name": "Patio and Decks",
+        "category": [3],
+        "photo": "/images/deck.jpg",
+        "description": "Custom patio and deck construction services",
+        "featured": true,
+        "promo": "10% Off!"
+      },
+      {
+        "id": 128,
+        "name": "Landscaping",
+        "category": [3],
+        "photo": "/images/landscaping.jpg",
+        "description": "Professional landscaping services for your outdoor space"
+      },
+      {
+        "id": 130,
+        "name": "Solar Panel Installation",
+        "category": [7],
+        "photo": "/images/solar-installation.jpg",
+        "description": "Residential solar panel system installation",
+        "featured": true,
+        "promo": "5% Off!"
+      },
+      {
+        "id": 131,
+        "name": "Solar Panel Maintenance",
+        "category": [7],
+        "photo": "/images/solar-maintenance.jpg",
+        "description": "Solar panel accessories"
+      },
+      {
+        "id": 133,
+        "name": "Tile Flooring",
+        "category": [1, 2, 6],
+        "photo": "/images/tile-floor.jpg",
+        "description": "Tile flooring installation services"
+      },
+      {
+        "id": 134,
+        "name": "Swimming Pool Installation",
+        "category": [3],
+        "photo": "/images/pool.jpg",
+        "description": "Custom fence installation for privacy and security",
+        "featured": true,
+        "promo": "10% Off!"
+      },
+      {
+        "id": 135,
+        "name": "Kitchen Remodel",
+        "category": [1],
+        "photo": "/images/kitchen.jpg",
+        "description": "Complete kitchen renovation services"
+      }
+    ]
+  }

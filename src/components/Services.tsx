@@ -1,63 +1,44 @@
 import React from 'react';
-import { useAppContext } from '@/context/AppContext';
-import BlurFade from './ui/blur-fade';
 import IconComponent from '@/hooks/IconComponent';
 
 interface Service {
   id: string;
-  services: { name: string };
+  name: string;
 }
 
-interface ServicesProps {
+interface CategoriesProps {
   services: Service[];
   handleServiceSelect: (service: Service) => void;
 }
 
-const Services: React.FC<ServicesProps> = ({ services, handleServiceSelect }) => {
-  const { contractor } = useAppContext();
-  const accent_rgba = contractor.colors.accent_rgba || '0 10px 25px -6px rgba(0, 0, 0, 0.1)';
+const Categories: React.FC<CategoriesProps> = ({ services, handleServiceSelect }) => {
 
   // Sort services alphabetically by service name
   const sortedServices = [...services].sort((a, b) => 
-    a.services.name.localeCompare(b.services.name)
+    a.name.localeCompare(b.name)
   );
 
   return (
     <div>
       <div className="space-y-8">
-        <div className="flex flex-wrap justify-center gap-4 sm:gap-[20px]" style={{ marginTop: '15px', width: '100%' }}>
+        <div className=" flex flex-wrap justify-start gap-4 sm:gap-[20px]" style={{ marginTop: '15px', width: '100%' }}>
           {sortedServices.length > 0 ? (
-            sortedServices.map((service, index) => (
-              <BlurFade
+            sortedServices.map((service) => (
+              <div
                 key={service.id}
-                delay={(index + 1) * 0.2}
-                yOffset={0}
-                className="flex flex-row sm:flex-col items-center justify-start sm:justify-center w-full sm:w-[210px] h-[80px] sm:h-[156px] border border-transparent rounded-xl shadow-md p-4 hover:scale-100 sm:hover:scale-105 transform transition-transform bg-white"
+                className="flex flex-row sm:flex-col items-center justify-start w-full sm:w-[150px] h-auto rounded-xl hover:scale-100 sm:hover:scale-105 transform transition-transform bg-transparent group"
                 onClick={() => handleServiceSelect(service)}
-                style={{
-                  boxShadow: 'rgba(0, 0, 0, 0.07) 0px 22px 30px -6px',
-                  transition: 'box-shadow 0.3s ease',
-                  borderColor: 'rgba(157, 176, 197, 0.25)',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = `${accent_rgba} 0px 10px 25px -6px`;
-                  e.currentTarget.style.borderColor = accent_rgba;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = 'rgba(0, 0, 0, 0.07) 0px 10px 25px -6px';
-                  e.currentTarget.style.borderColor = 'rgba(157, 176, 197, 0.25)';
-                }}
               >
-                <IconComponent name={service.services.name} className="w-14 h-14" />
-                <span className="text-gray-800 text-base font-medium text-left sm:text-center">
-                  {service.services.name}
+                <IconComponent name={service.name} className="w-14 h-14 sm:w-16 sm:h-16" />
+                <span className="text-gray-800 text-base font-medium text-left sm:text-center group-hover:text-accentColor">
+                  {service.name}
                 </span>
-              </BlurFade>
+              </div>
             ))
           ) : (
-            <BlurFade delay={3 * 0.15} yOffset={0} className="text-center text-gray-500 mt-8">
+            <div className="text-center text-gray-500 mt-8">
               Sorry, we don't serve your area at the moment.
-            </BlurFade>
+            </div>
           )}
         </div>
       </div>
@@ -65,4 +46,4 @@ const Services: React.FC<ServicesProps> = ({ services, handleServiceSelect }) =>
   );
 };
 
-export default Services;
+export default Categories;

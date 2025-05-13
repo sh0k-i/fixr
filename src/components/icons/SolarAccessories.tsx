@@ -16,7 +16,7 @@ const SolarAccessories: React.FC = () => {
       y="0"
       viewBox="0 0 64 64"
       xmlSpace="preserve"
-      className="w-12 h-12 sm:w-14 sm:h-14 sm:mb-4 ml-2 mr-4 sm:ml-0 sm:mr-0"
+      className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 sm:mb-4 ml-2 mr-4 sm:ml-0 sm:mr-0"
     >
       <g>
         <path

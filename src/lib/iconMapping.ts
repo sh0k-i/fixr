@@ -27,23 +27,23 @@ import Lighting from '@/components/icons/Lighting';
 import Callback from '@/components/icons/Callback';
 
 const iconMapping: Record<string, React.ElementType> = {
-  Bath: Bathtub,
+  Bathroom: Bathtub,
   "Basement Waterproofing": Trowel,
   Closet: Closet,
   Plumbing: Plumbing,
-  Deck: Deck,
+  'Outdoor & Landscaping': Deck,
   Doors: Doors,
   Fence: Fence,
-  Flooring: Flooring,
+  Floor: Flooring,
   Garage: Garage,
   Gutters: Gutter,
   Foundation: Foundation,
   Kitchen: Kitchen,
   Roofing: Roofing,
-  Siding: Siding,
+  'Flooring & Walls': Siding,
   Shower: Shower,
   Windows: Windows,
-  Solar: Solar,
+  'Solar Services': Solar,
   Insulation: Insulation,
   "Walk-In Tub": WalkInTub,
   "Floor Coating": Flooring,
@@ -54,7 +54,7 @@ const iconMapping: Record<string, React.ElementType> = {
   'Solar Power Wall': SolarWall,
   'Solar Panel': SolarPanel,
   'Solar Accessories': SolarAccessories,
-  'Lighting': Lighting,
+  'Electrical & Lighting': Lighting,
   Callback: Callback,
 };
 

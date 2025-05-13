@@ -1,25 +1,21 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useLocation } from "react-router-dom";
-import BlurFade from "./ui/blur-fade";
+import { useEffect } from "react";
 
 const NavBar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const currentPath = location.pathname;
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  const navigationLinks = [
+  // Memoized navigation links
+  const navigationLinks = useMemo(() => [
     {
       name: "Our Services",
       href: "/services",
       icon: "M13 10V3L4 14h7v7l9-11h-7z",
-    },
-    {
-      name: "Blog",
-      href: "/blog",
-      icon: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253",
     },
     {
       name: "About Us",
@@ -31,63 +27,58 @@ const NavBar = () => {
       href: "/contact-us",
       icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
     },
-  ];
+    {
+      name: "FAQs",
+      href: "/faqs",
+      icon: "M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm2-1.645A3.502 3.502 0 0 0 12 6.5a3.501 3.501 0 0 0-3.433 2.813l1.962.393C10.54 8.458 11.2 8 12 8c.794 0 1.45.593 1.882 1.236.413.614.43 1.31.118 1.764-.3.44-.83.66-1.434.66H12c-.552 0-1 .448-1 1v1h2v-.645z",
+    },
+  ], []);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 0);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <BlurFade
-      delay={5 * 0.15}
-      inView
-      className={`fixed w-full top-0 left-0 z-30 transition-colors duration-300 ${
-        isScrolled ? "bg-white shadow-lg" : "bg-transparent"
-      }`}
-    >
+    <div className={`fixed w-full top-0 left-0 z-30 transition-colors duration-300 ${
+      isScrolled ? "bg-white shadow-lg" : "bg-transparent"
+    }`}>
       <header className="relative">
         <div className="mx-auto w-full max-w-screen-xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-20 md:h-24 items-center justify-between">
             {/* Logo */}
             <div className="md:flex md:items-center md:gap-12">
-              <a className="block text-accent" href="/">
-                <span className="sr-only">Home</span>
-                <img
-                  src="/fixr-logo.png"
-                  alt="Logo"
-                  className="h-12 sm:h-14 lg:h-16"
-                />
+              <a className="block" href="/">
+                <img src="/fixr-logo.png" alt="Logo" className="h-12 sm:h-14 lg:h-16" />
               </a>
             </div>
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-2">
               {navigationLinks.map((link) => (
-                <div
-                  key={link.name}
-                  className="sm:flex sm:gap-4 relative group"
-                >
-                  <a
-                    className={`rounded-md bg-transparent sm:px-5 py-2.5 text-[12px] sm:text-base font-medium inline-flex text-center items-center transition-colors duration-300 ${
-                      isScrolled
-                        ? "text-gray-800 hover:text-accentColor"
-                        : "text-white hover:text-accentColor"
-                    }`}
-                    href={link.href}
-                  >
-                    {link.name}
-                    <span className="absolute bottom-[-6px] left-0 w-0 h-0.5 bg-accentColor transition-all group-hover:w-full"></span>
-                  </a>
+                <div key={link.name} className="relative group">
+                  {currentPath === link.href ? (
+                    <span className="sm:px-5 py-2.5 text-base font-medium text-accentColor border-b-2 border-accentColor cursor-default">
+                      {link.name}
+                    </span>
+                  ) : (
+                    <a
+                      className={`sm:px-5 py-2.5 text-base font-medium transition-colors ${
+                        isScrolled
+                          ? "text-gray-800 hover:text-accentColor"
+                          : "text-white hover:text-accentColor" }`}
+                      href={link.href}
+                    >
+                      {link.name}
+                      <span className="absolute bottom-[-9px] left-0 w-0 h-0.5 bg-accentColor transition-all group-hover:w-full"></span>
+                    </a>
+                  )}
                 </div>
               ))}
-              <div className="sm:flex sm:gap-4">
+              <div className="ml-4">
                 <a
-                  className={`bg-accentColor rounded-lg sm:px-5 py-2.5 text-[12px] sm:text-sm font-medium inline-flex text-center items-center transition-colors duration-300 text-white hover:bg-accentDark`}
+                  className="bg-accentColor rounded-lg px-4 py-3 text-sm font-medium text-white hover:bg-accentDark"
                   href="/request-quotes"
                 >
                   Get Free Quote
@@ -97,9 +88,7 @@ const NavBar = () => {
 
             {/* Mobile Menu Button */}
             <button
-              className={`lg:hidden p-2 transition-colors duration-300 ${
-                isScrolled ? "text-gray-800" : "text-white"
-              } hover:text-accentColor`}
+              className={`lg:hidden p-2  hover:text-accentColor transition-colors ${isScrolled ? "text-gray-800" : "text-white"} `}
               onClick={() => setIsMobileMenuOpen(true)}
             >
               <svg
@@ -124,7 +113,6 @@ const NavBar = () => {
         <AnimatePresence>
           {isMobileMenuOpen && (
             <>
-              {/* Overlay */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -133,7 +121,6 @@ const NavBar = () => {
                 onClick={() => setIsMobileMenuOpen(false)}
               />
 
-              {/* Sidebar */}
               <motion.div
                 initial={{ x: "100%" }}
                 animate={{ x: 0 }}
@@ -223,7 +210,7 @@ const NavBar = () => {
           )}
         </AnimatePresence>
       </header>
-    </BlurFade>
+    </div>
   );
 };
 

@@ -9,7 +9,6 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import "vanilla-cookieconsent/dist/cookieconsent.css";
 import { central } from '@/lib/supabaseClient';
 import { useAppContext } from '@/context/AppContext';
-import ThankYou from './pages/ThankYou';
 import DemoForm from './pages/DemoForm';
 import ConfirmationForm from './pages/ConfirmationForm';
 import ConfirmationSummary from './pages/ConfirmationSummary';
@@ -17,6 +16,10 @@ import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
 import OurServices from './pages/OurServices';
 import Blog from './pages/Blog';
+import servicesData from '@/assets/services.json'; // Import local JSON
+import FilteredServices from './pages/FilteredServices';
+import RehashThankYou from './pages/RehashThankYou';
+
 declare global {
   interface Window {
     HSStaticMethods: IStaticMethods;
@@ -27,7 +30,7 @@ function App() {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
   const companyId = 777777777;
-  const { setContractor, setServices, setLocations, contractor, services, form, user, locations, selectedService } = useAppContext();
+  const { setContractor, setServices, contractor, services, form, user, selectedService, setCategories, selectedCategory, setFeatured, categories, featured } = useAppContext();
 
   useEffect(() => {
     window.HSStaticMethods.autoInit();
@@ -36,16 +39,13 @@ function App() {
   useEffect(() => {
     const fetchInitialData = async () => {
       const storedContractor = localStorage.getItem('contractor');
-      const storedServices = localStorage.getItem('services');
-      const storedLocations = localStorage.getItem('locations');
 
-      if (storedContractor && storedServices && storedLocations) {
+      if (storedContractor ) {
         // Load from local storage
         setContractor(JSON.parse(storedContractor));
-        setServices(JSON.parse(storedServices));
-        setLocations(JSON.parse(storedLocations));
         setLoading(false);
-      } 
+      }
+
       // Fetch contractor
       console.log('Fetching contractor data...');
       try {
@@ -62,20 +62,6 @@ function App() {
           console.log('Contractor data fetched:', data);
           setContractor(data);
           localStorage.setItem('contractor', JSON.stringify(data));
-
-          // Fetch services
-          const { data: servicesData, error: servicesError } = await central
-          .from('contractor_services')
-          .select('*, services(name, national_avg)')
-          .eq('contractor_id', companyId);
-
-          if (servicesError) {
-            console.error('Error fetching services:', servicesError);
-          } else {
-            setServices(servicesData || []);
-            localStorage.setItem('services', JSON.stringify(servicesData || []));
-            console.log('Services fetched successfully');
-          }
         }
       } catch (err) {
         console.error('Unexpected error fetching data:', err);
@@ -86,12 +72,30 @@ function App() {
   }, []);
 
   useEffect(() => {
+    setCategories(servicesData.categories);
+    setServices(servicesData.products);
+  }, [servicesData]);
+
+  // filter featured services
+  useEffect(() => {
+    const filtered = services?.filter((service: any) =>
+      service.featured === true
+    );
+
+    setFeatured(filtered);
+    console.log("Filtering Featured services:", filtered);
+  }, [services]);
+
+  useEffect(() => {
     console.log('contractor', contractor);
     console.log('services', services);
     console.log('form', form);
     console.log('user', user);
     console.log('selected service', selectedService);
-  }, [contractor, services, locations, form, user, selectedService]);
+    console.log('selected category', selectedCategory);
+    console.log('categories', categories);
+    console.log('featured', featured);
+  }, [contractor, services, form, user, selectedService, selectedCategory, categories, featured]);
 
   // Set custom colors from contractor data
   useEffect(() => {
@@ -107,7 +111,7 @@ function App() {
     }
   }, [contractor]);
 
-  if (loading || !contractor || !services) {
+  if (loading || !contractor || !services)  {
     return null; // Render nothing while loading
   }
 
@@ -123,11 +127,12 @@ function App() {
         <Route path='/contact-us' element={<ContactUs />} />
         <Route path='/services' element={<OurServices/>} />
         <Route path='/blog' element={<Blog/>} />
+        <Route path='/filtered-services' element={<FilteredServices/>} />
 
         <Route path='/request-quotes/' element={<RequestQuote />} />
         <Route path='/cookie-policy/' element={<CookiePolicy />} />
         <Route path='/privacy-policy/' element={<PrivacyPolicy />} />
-        <Route path='/summary/' element={<ThankYou />} />
+        <Route path='/summary/' element={<RehashThankYou />} />
         <Route path='/demo-form' element={<DemoForm />} />
         
         <Route path='/confirmation/' element={<ConfirmationForm />} />

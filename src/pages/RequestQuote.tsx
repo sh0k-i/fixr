@@ -16,37 +16,18 @@ import NavBar2 from '@/components/NavBar2';
 const RequestQuote = () => {
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { user, form, selectedService, contractor, setUser, setForm, setSelectedService } = useAppContext();
-  // Load form object from local storage
-  useEffect(() => {
-    const storedForm = localStorage.getItem('form');
-    if (storedForm) {
-      setForm(JSON.parse(storedForm));
-    }
-  }, []);
+  const { contractor, setSelectedService, services } = useAppContext();
+  const params = new URLSearchParams(location.search);
+  const serviceId = params.get('service_id');
 
-  // Load context values from local storage
+  // Set selected service based on URL parameter
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    if (serviceId) {
+      // Find the service in the services array that matches the serviceId
+      const selectedService = services.find((service: any) => service.id === Number(serviceId));
+      setSelectedService(selectedService);
     }
-    const storedForm = localStorage.getItem('form');
-    if (storedForm) {
-      setForm(JSON.parse(storedForm));
-    }
-    const storedSelectedService = localStorage.getItem('selectedService');
-    if (storedSelectedService) {
-      setSelectedService(JSON.parse(storedSelectedService));
-    }
-  }, [setUser, setForm, setSelectedService]);
-
-  // Save context values to local storage whenever they change
-  useEffect(() => {
-    localStorage.setItem('user', JSON.stringify(user));
-    localStorage.setItem('form', JSON.stringify(form));
-    localStorage.setItem('selectedService', JSON.stringify(selectedService));
-  }, [user, form, selectedService]);  
+  }, [serviceId, setSelectedService]);
 
   // Handle the back button
   useEffect(() => {

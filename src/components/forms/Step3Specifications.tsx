@@ -1,145 +1,145 @@
-import React, { useState } from 'react';
-import { useAppContext } from '@/context/AppContext';
-
-import NavButtons from '../ui/navButtons';
-import ResetButton from '../ui/resetButton';
-import Repair from '../icons/Repair';
-import Remodel from '../icons/Remodel';
+import React, { useEffect, useState } from "react";
+import { useAppContext } from "@/context/AppContext";
 
 // Define props interface
 interface Step3SpecificationsProps {
   onNext: () => void;
-  onBack: () => void;
-  onReset: () => void;
 }
 
+const Step3Specifications: React.FC<Step3SpecificationsProps> = ({
+  onNext,
+}) => {
+  const {
+    services,
+    setSelectedService,
+    categories,
 
-const Step3Specifications: React.FC<Step3SpecificationsProps> = ({ onNext, onBack, onReset }) => {
-  const { setForm, contractor, services, selectedService } = useAppContext();
+  } = useAppContext();
   const [loading, setLoading] = useState<boolean>(false);
-  const accent_rgba = contractor.colors.accent_rgba || '0 10px 25px -6px rgba(0, 0, 0, 0.1)';
+  const [filteredServices, setFilteredServices] = useState<any[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<any>({ id: "all", name: "All" });
 
-  const capitalizeWords = (str: string | null) => {
-    if (!str) return '';
-    return str.replace(/\b\w/g, char => char.toUpperCase());
-  };
-  
-  // Get firstname from URL parameters
-  const params = new URLSearchParams(window.location.search);
-  const firstname = capitalizeWords(params.get('firstname'));
+  useEffect(() => {
+    let filtered = services;
+    
+    if (selectedCategory.id !== "all") {
+      filtered = services.filter((service: any) =>
+        service.category.includes(Number(selectedCategory.id))
+      );
+    }
 
-  // Determine the heading text based on conditions
-  let headingText;
-  if (services.length === 1) {
-    headingText = firstname ? `Hi, ${firstname}! ` : "Hi there! ";
-  } else {
-    headingText = "Great! ";
-  }
+    const sorted = [...filtered].sort((a, b) => a.name.localeCompare(b.name));
+    setFilteredServices(sorted);
+  }, [selectedCategory, services]);
 
-  const handleBack = () => {
-    onBack();
+  const handleCategorySelect = (category: any) => {
+    setSelectedCategory(category);
   };
 
-  const handleReset = () => {
-    onReset();
-  };
 
-  const handleSelect = async (spec: string) => {
-    setLoading(true); // Show spinner
-
-    setForm((prevForm) => ({
-      ...prevForm,
-      serviceSpecification: spec,
-    }));
-
-    setLoading(false); // Hide spinner
+  const handleSelect = async (service: any) => {
+    setLoading(true);
+    setSelectedService(service);
+    setLoading(false);
     onNext();
   };
 
-  const hasAvatar = contractor?.content?.avatar;
-
-  // Check if we have valid specifications
-  if (!selectedService?.specifications?.length) {
-    return <div>No specifications available</div>;
-  }
+  
 
   return (
     <div className="container-form">
-      {
-        services.length > 1 ? (
-          <NavButtons handleBack={handleBack} handleReset={handleReset} />
-        ) : (
-          <div
-            className={`absolute ${
-              hasAvatar
-                ? 'top-[-102px] custom-smallest:top-[-110px] small-stepper:top-[-115px] sm:top-[-121px] md:top-[-137px]'
-                : 'top-[-54px] custom-smallest:top-[-61px] small-stepper:top-[-67px] sm:top-[-73px] md:top-[-90px]'
-            } right-0 w-full flex justify-end p-4`}
-          >
-            <ResetButton onClick={handleReset} />
-          </div>
-        )
-      }
-
       <div className="space-y-8">
-        <div className='flex justify-center text-center mb-8'>
+        <div className="flex justify-center text-center mb-8">
           <div className="max-w-[40rem] text-center">
-            <h1 className="heading-form"> {headingText}
-            Let us know <span className="text-accentColor">what you need </span>—choose one of the options below
-            </h1> 
+            <h1 className="heading-form">
+              {" "}
+              Hi there! Let us know{" "}
+              <span className="text-accentColor">what you need </span>—choose
+              one of the options below 
+            </h1>
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col h-full">
-          <div className="container-cards">
+        {/* Category Tabs */}
+        <div className="flex flex-wrap justify-center gap-2 mb-8">
+          <button
+            onClick={() => handleCategorySelect({ id: "all", name: "All" })}
+            className={`px-4 py-2 rounded-lg transition-all border border-accentColor duration-300 ${
+              selectedCategory.id === "all"
+                  ? "bg-accentLight text-accentColor border-accentColor"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200 border-gray-600"
+            }`}
+          >
+            All
+          </button>
+          {categories?.map((category: any) => (
             <button
-              type="button"
-              className="cards-button plausible-event-name=form_step_complete plausible-event-form_step=2_specification"
-              onClick={() => handleSelect('Repair')}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = `${accent_rgba} 0px 10px 25px -6px`;
-                e.currentTarget.style.borderColor = accent_rgba;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = 'rgba(0, 0, 0, 0.07) 0px 10px 25px -6px';
-                e.currentTarget.style.borderColor = 'rgba(157, 176, 197, 0.25)';
-              }}
+              key={category.id}
+              onClick={() => handleCategorySelect(category)}
+              className={`px-4 py-2 rounded-lg transition-all border border-accentColor duration-300 ${
+                selectedCategory.id === category.id
+                  ? "bg-accentLight text-accentColor border-accentColor"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200 border-gray-600"
+              }`}
             >
-              <Repair />
-              <span className="cards-text">Repair</span>
+              {category.name}
             </button>
-            <button
-              type="button"
-              className="cards-button plausible-event-name=form_step_complete plausible-event-form_step=2_specification"
-              onClick={() => handleSelect('Remodel')}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = `${accent_rgba} 0px 10px 25px -6px`;
-                e.currentTarget.style.borderColor = accent_rgba;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = 'rgba(0, 0, 0, 0.07) 0px 10px 25px -6px';
-                e.currentTarget.style.borderColor = 'rgba(157, 176, 197, 0.25)';
-              }}
-            >
-              <Remodel />
-              <span className="cards-text">Remodel</span>
-            </button>
-            <button
-              type="button"
-              className="cards-button plausible-event-name=form_step_complete plausible-event-form_step=2_specification"
-              onClick={() => handleSelect('Installation')}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = `${accent_rgba} 0px 10px 25px -6px`;
-                e.currentTarget.style.borderColor = accent_rgba;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = 'rgba(0, 0, 0, 0.07) 0px 10px 25px -6px';
-                e.currentTarget.style.borderColor = 'rgba(157, 176, 197, 0.25)';
-              }}
-            >
-              <img className="w-12 h-12 sm:w-14 sm:h-14 sm:mb-4 ml-2 mr-4 sm:ml-0 sm:mr-0" src='/install.png' />
-              Installation
-            </button>
+          ))}
+        </div>
+
+        <div className="mt-12 flex flex-col justify-center items-center h-full">
+          <div className="max-w-[70rem]">
+            <div className="space-y-8">
+              <div
+                className="flex flex-wrap justify-center gap-6 sm:gap-6"
+                style={{ marginTop: "15px", width: "100%" }}
+              >
+                {filteredServices.length > 0 ? (
+                  filteredServices.map((service) => (
+                    <div
+                      key={service.id}
+                      className="group w-full sm:w-[300px] rounded-lg duration-300 cursor-pointer overflow-hidden transition-all transform hover:scale-100 sm:hover:scale-105"
+                      onClick={() => handleSelect(service)}
+                    >
+                      {/* Image container with promo badge */}
+                <div className="relative pt-[66.666%]">
+                  <img
+                    src={service.photo}
+                    alt={service.name}
+                    className="absolute top-0 left-0 w-full h-full object-cover rounded-b-lg"
+                  />
+                  {service.promo && (
+                    <div className="absolute bottom-2 left-2 flex items-center bg-green-500/20 backdrop-blur-lg  px-3 py-1 rounded-full">
+                      <i className="fi fi-rr-ticket flex items-center text-center mr-2 h-4 w-4 text-white"></i>
+                      <span className="text-sm font-medium text-white">
+                        {service.promo}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                      {/* Service name */}
+                      <div className="text-left pt-4">
+                        <span className="text-gray-800 text-lg font-medium">
+                          {service.name}
+                        </span>
+                      </div>
+
+                      {/* Service description */}
+                      <div className=" text-gray-500 pt-2">
+                        <p className="text-sm">
+                          {service.description || "No description available."}
+                        </p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center text-gray-500">
+                    No services found in this category
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
           {loading && (
             <div className="flex justify-center pt-20">

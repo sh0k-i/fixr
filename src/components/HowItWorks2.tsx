@@ -6,7 +6,7 @@ const HowItWorks2: React.FC = () => {
   return (
     <div className="bg-white">
       {/* <!-- Icon Blocks --> */}
-      <div className="space-y-6 sm:space-y-8 pointer-events-none">
+      <div className="space-y-8 sm:space-y-10 pointer-events-none">
         <BlurFade inView delay={1 * 0.15}  yOffset={0} className="space-y-2 md:space-y-4 text-center">
             <h2 className="section_header">
             How It <span className="text-accentColor">Works</span>
@@ -20,13 +20,13 @@ const HowItWorks2: React.FC = () => {
           {/* <!-- Icon Block --> */}
           <div className="text-center">
             <div className="flex justify-center items-center ">
-              <img src="/images/step-1.png" alt="step 1" className="shrink-0 size-32 text-gray-600 dark:text-neutral-400" />
+              <img src="/images/step-1.png" alt="step 1" className="shrink-0 size-24 sm:size-24 md:size-28 text-gray-600 dark:text-neutral-400" />
             </div>
             <div className="mt-3">
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
+              <h3 className="text-base md:text-lg font-semibold text-gray-800 dark:text-white">
               1. Choose Your Service
               </h3>
-              <p className="mt-1 text-gray-600 dark:text-neutral-400">
+              <p className="mt-1 section_description">
               Browse our range of expert services—from repairs to full renovations—and select what fits your project best.
               </p>
             </div>
@@ -36,10 +36,10 @@ const HowItWorks2: React.FC = () => {
           {/* <!-- Icon Block --> */}
           <div className="text-center">
           <div className="flex justify-center items-center ">
-              <img src="/images/step-2.png" alt="step 2" className="shrink-0 size-32 text-gray-600 dark:text-neutral-400" />
+              <img src="/images/step-2.png" alt="step 2" className="shrink-0 size-24 sm:size-24 md:size-28 text-gray-600 dark:text-neutral-400" />
             </div>
             <div className="mt-3">
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
+              <h3 className="text-base md:text-lg font-semibold text-gray-800 dark:text-white">
               2. Schedule Your Appointment
               </h3>
               <p className="mt-1 text-gray-600 dark:text-neutral-400">
@@ -52,10 +52,10 @@ const HowItWorks2: React.FC = () => {
           {/* <!-- Icon Block --> */}
           <div className="text-center">
           <div className="flex justify-center items-center ">
-              <img src="/images/step-3.png" alt="step 3" className="shrink-0 size-32 text-gray-600 dark:text-neutral-400" />
+              <img src="/images/step-3.png" alt="step 3" className="shrink-0 size-24 sm:size-24 md:size-28 text-gray-600 dark:text-neutral-400" />
             </div>
             <div className="mt-3">
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
+              <h3 className="text-base md:text-lg font-semibold text-gray-800 dark:text-white">
               3. Get a Professional Visit
               </h3>
               <p className="mt-1 text-gray-600 dark:text-neutral-400">

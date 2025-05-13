@@ -6,9 +6,10 @@ const AboutUs = () => {
   return (
     <div>
       <NavBar2 />
-      <div className="h-[92px] md:h-[180px] flex items-center justify-center bg-[url('/images/page-bg.png')] bg-cover bg-no-repeat bg-top">
+      
+      <div className="fixed top-0 left-0 w-full h-[300px] flex items-center justify-center bg-[url('/images/page-bg.png')] bg-cover bg-no-repeat bg-top z-[-1]">
       </div>
-      <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-20  space-y-12 sm:space-y-20 lg:space-y-24">
+      <div className="max-w-[85rem] mt-[100px] md:mt-[175px] mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-20  space-y-12 sm:space-y-20 lg:space-y-24">
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 md:items-center md:gap-12 pointer-events-none">
           {/* Photo - First on mobile, right on desktop */}
@@ -86,9 +87,9 @@ const AboutUs = () => {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
               <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
               <circle cx="9" cy="7" r="4" />
@@ -122,9 +123,9 @@ const AboutUs = () => {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
               <path d="M2 3h20" />
               <path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3" />
@@ -156,9 +157,9 @@ const AboutUs = () => {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
               <path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Z" />
               <path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1" />
@@ -184,7 +185,7 @@ const AboutUs = () => {
           <BlurFade
             delay={1 * 0.15}
             inView
-            yOffset={0} className="space-y-2 md:space-y-4 text-center">
+            yOffset={0} className="space-y-2 md:space-y-4 text-center cursor-default">
             <h2 className="section_header">
               Meet the <span className="text-accentColor">Team</span>
             </h2>
@@ -199,7 +200,7 @@ const AboutUs = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <BlurFade
             delay={3 * 0.15}
-            inView className="flex flex-col rounded-xl p-4 md:p-6 bg-white border border-gray-200 dark:bg-neutral-900 dark:border-neutral-700">
+            inView className="flex flex-col rounded-xl p-4 md:p-6 bg-white border border-gray-200 dark:bg-neutral-900 dark:border-neutral-700 cursor-default">
               <div className="flex items-center gap-x-4">
                 <img
                   className="rounded-full size-20"
@@ -235,7 +236,7 @@ const AboutUs = () => {
                     viewBox="0 0 32 32"
                     fill="none"
                   >
-                    <g clip-path="url(#clip0_156893_455)">
+                    <g clipPath="url(#clip0_156893_455)">
                       <path
                         d="M16 32.0022C24.8366 32.0022 32 24.8388 32 16.0022C32 7.16564 24.8366 0.00219727 16 0.00219727C7.16344 0.00219727 0 7.16564 0 16.0022C0 24.8388 7.16344 32.0022 16 32.0022Z"
                         fill="#1977F3"
@@ -264,7 +265,7 @@ const AboutUs = () => {
                     viewBox="0 0 33 32"
                     fill="none"
                   >
-                    <g clip-path="url(#clip0_11766_122209)">
+                    <g clipPath="url(#clip0_11766_122209)">
                       <path
                         d="M3.11931 28.4817H8.21019V16.1181L0.937439 10.6636V26.3C0.937439 27.5054 1.91381 28.4819 3.11931 28.4819V28.4817Z"
                         fill="#4285F4"
@@ -278,8 +279,8 @@ const AboutUs = () => {
                         fill="#FBBC04"
                       />
                       <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
+                        fillRule="evenodd"
+                        clipRule="evenodd"
                         d="M8.21021 16.1181V6.66356L16.9375 13.2091L25.6647 6.66356V16.1181L16.9375 22.6636L8.21021 16.1181Z"
                         fill="#EA4335"
                       />
@@ -312,7 +313,7 @@ const AboutUs = () => {
                     viewBox="0 0 32 32"
                     fill="none"
                   >
-                    <g clip-path="url(#clip0_4132_5799)">
+                    <g clipPath="url(#clip0_4132_5799)">
                       <path
                         d="M16.0078 0.242416C9.42808 0.242416 7.50377 0.249204 7.12972 0.280233C5.77946 0.392472 4.93925 0.605072 4.02388 1.06082C3.31845 1.41111 2.7621 1.81716 2.21303 2.38635C1.21306 3.42438 0.607014 4.70143 0.387627 6.21945C0.280963 6.9564 0.249934 7.10669 0.243631 10.8709C0.241207 12.1257 0.243631 13.777 0.243631 15.992C0.243631 22.5663 0.250904 24.4887 0.282418 24.862C0.391505 26.1759 0.59756 27.0026 1.03391 27.9068C1.86782 29.6376 3.4605 30.937 5.33681 31.4218C5.98649 31.5891 6.70404 31.6812 7.62523 31.7249C8.01552 31.7418 11.9936 31.7539 15.9741 31.7539C19.9545 31.7539 23.935 31.7491 24.3156 31.7297C25.3823 31.6795 26.0016 31.5964 26.6865 31.4194C28.5749 30.9322 30.1385 29.6522 30.9894 27.8971C31.4172 27.0147 31.6342 26.1565 31.7324 24.9112C31.7537 24.6397 31.7627 20.3109 31.7627 15.9879C31.7627 11.6641 31.753 7.34329 31.7316 7.07179C31.6323 5.80637 31.4153 4.95549 30.9736 4.05612C30.6112 3.3199 30.2088 2.7701 29.6246 2.20793C28.5819 1.21208 27.3068 0.606042 25.7873 0.386897C25.0511 0.280476 24.9045 0.248962 21.1373 0.242416H16.0078Z"
                         fill="url(#paint0_radial_4132_5799)"
@@ -335,10 +336,10 @@ const AboutUs = () => {
                         gradientUnits="userSpaceOnUse"
                         gradientTransform="translate(8.61513 34.181) rotate(-90) scale(31.2303 29.0545)"
                       >
-                        <stop stop-color="#FFDD55" />
-                        <stop offset="0.1" stop-color="#FFDD55" />
-                        <stop offset="0.5" stop-color="#FF543E" />
-                        <stop offset="1" stop-color="#C837AB" />
+                        <stop stopColor="#FFDD55" />
+                        <stop offset="0.1" stopColor="#FFDD55" />
+                        <stop offset="0.5" stopColor="#FF543E" />
+                        <stop offset="1" stopColor="#C837AB" />
                       </radialGradient>
                       <radialGradient
                         id="paint1_radial_4132_5799"
@@ -348,12 +349,12 @@ const AboutUs = () => {
                         gradientUnits="userSpaceOnUse"
                         gradientTransform="translate(-5.03723 2.51245) rotate(78.6776) scale(13.9602 57.559)"
                       >
-                        <stop stop-color="#3771C8" />
-                        <stop offset="0.128" stop-color="#3771C8" />
+                        <stop stopColor="#3771C8" />
+                        <stop offset="0.128" stopColor="#3771C8" />
                         <stop
                           offset="1"
-                          stop-color="#6600FF"
-                          stop-opacity="0"
+                          stopColor="#6600FF"
+                          stopOpacity="0"
                         />
                       </radialGradient>
                       <clipPath id="clip0_4132_5799">
@@ -369,7 +370,7 @@ const AboutUs = () => {
 
             <BlurFade
             delay={4 * 0.15}
-            inView className="flex flex-col rounded-xl p-4 md:p-6 bg-white border border-gray-200 dark:bg-neutral-900 dark:border-neutral-700">
+            inView className="flex flex-col rounded-xl p-4 md:p-6 bg-white border border-gray-200 dark:bg-neutral-900 dark:border-neutral-700 cursor-default">
               <div className="flex items-center gap-x-4">
                 <img
                   className="rounded-full size-20"
@@ -403,7 +404,7 @@ const AboutUs = () => {
                     viewBox="0 0 32 32"
                     fill="none"
                   >
-                    <g clip-path="url(#clip0_156893_455)">
+                    <g clipPath="url(#clip0_156893_455)">
                       <path
                         d="M16 32.0022C24.8366 32.0022 32 24.8388 32 16.0022C32 7.16564 24.8366 0.00219727 16 0.00219727C7.16344 0.00219727 0 7.16564 0 16.0022C0 24.8388 7.16344 32.0022 16 32.0022Z"
                         fill="#1977F3"
@@ -436,7 +437,7 @@ const AboutUs = () => {
                       viewBox="0 0 33 32"
                       fill="none"
                     >
-                      <g clip-path="url(#clip0_11766_122209)">
+                      <g clipPath="url(#clip0_11766_122209)">
                         <path
                           d="M3.11931 28.4817H8.21019V16.1181L0.937439 10.6636V26.3C0.937439 27.5054 1.91381 28.4819 3.11931 28.4819V28.4817Z"
                           fill="#4285F4"
@@ -450,8 +451,8 @@ const AboutUs = () => {
                           fill="#FBBC04"
                         />
                         <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
+                          fillRule="evenodd"
+                          clipRule="evenodd"
                           d="M8.21021 16.1181V6.66356L16.9375 13.2091L25.6647 6.66356V16.1181L16.9375 22.6636L8.21021 16.1181Z"
                           fill="#EA4335"
                         />
@@ -489,7 +490,7 @@ const AboutUs = () => {
                       viewBox="0 0 32 32"
                       fill="none"
                     >
-                      <g clip-path="url(#clip0_4132_5799)">
+                      <g clipPath="url(#clip0_4132_5799)">
                         <path
                           d="M16.0078 0.242416C9.42808 0.242416 7.50377 0.249204 7.12972 0.280233C5.77946 0.392472 4.93925 0.605072 4.02388 1.06082C3.31845 1.41111 2.7621 1.81716 2.21303 2.38635C1.21306 3.42438 0.607014 4.70143 0.387627 6.21945C0.280963 6.9564 0.249934 7.10669 0.243631 10.8709C0.241207 12.1257 0.243631 13.777 0.243631 15.992C0.243631 22.5663 0.250904 24.4887 0.282418 24.862C0.391505 26.1759 0.59756 27.0026 1.03391 27.9068C1.86782 29.6376 3.4605 30.937 5.33681 31.4218C5.98649 31.5891 6.70404 31.6812 7.62523 31.7249C8.01552 31.7418 11.9936 31.7539 15.9741 31.7539C19.9545 31.7539 23.935 31.7491 24.3156 31.7297C25.3823 31.6795 26.0016 31.5964 26.6865 31.4194C28.5749 30.9322 30.1385 29.6522 30.9894 27.8971C31.4172 27.0147 31.6342 26.1565 31.7324 24.9112C31.7537 24.6397 31.7627 20.3109 31.7627 15.9879C31.7627 11.6641 31.753 7.34329 31.7316 7.07179C31.6323 5.80637 31.4153 4.95549 30.9736 4.05612C30.6112 3.3199 30.2088 2.7701 29.6246 2.20793C28.5819 1.21208 27.3068 0.606042 25.7873 0.386897C25.0511 0.280476 24.9045 0.248962 21.1373 0.242416H16.0078Z"
                           fill="url(#paint0_radial_4132_5799)"
@@ -512,10 +513,10 @@ const AboutUs = () => {
                           gradientUnits="userSpaceOnUse"
                           gradientTransform="translate(8.61513 34.181) rotate(-90) scale(31.2303 29.0545)"
                         >
-                          <stop stop-color="#FFDD55" />
-                          <stop offset="0.1" stop-color="#FFDD55" />
-                          <stop offset="0.5" stop-color="#FF543E" />
-                          <stop offset="1" stop-color="#C837AB" />
+                          <stop stopColor="#FFDD55" />
+                          <stop offset="0.1" stopColor="#FFDD55" />
+                          <stop offset="0.5" stopColor="#FF543E" />
+                          <stop offset="1" stopColor="#C837AB" />
                         </radialGradient>
                         <radialGradient
                           id="paint1_radial_4132_5799"
@@ -525,12 +526,12 @@ const AboutUs = () => {
                           gradientUnits="userSpaceOnUse"
                           gradientTransform="translate(-5.03723 2.51245) rotate(78.6776) scale(13.9602 57.559)"
                         >
-                          <stop stop-color="#3771C8" />
-                          <stop offset="0.128" stop-color="#3771C8" />
+                          <stop stopColor="#3771C8" />
+                          <stop offset="0.128" stopColor="#3771C8" />
                           <stop
                             offset="1"
-                            stop-color="#6600FF"
-                            stop-opacity="0"
+                            stopColor="#6600FF"
+                            stopOpacity="0"
                           />
                         </radialGradient>
                         <clipPath id="clip0_4132_5799">
@@ -547,7 +548,7 @@ const AboutUs = () => {
 
             <BlurFade
             delay={5 * 0.15}
-            inView className="flex flex-col rounded-xl p-4 md:p-6 bg-white border border-gray-200 dark:bg-neutral-900 dark:border-neutral-700">
+            inView className="flex flex-col rounded-xl p-4 md:p-6 bg-white border border-gray-200 dark:bg-neutral-900 dark:border-neutral-700 cursor-default">
               <div className="flex items-center gap-x-4">
                 <img
                   className="rounded-full size-20"
@@ -582,7 +583,7 @@ const AboutUs = () => {
                     viewBox="0 0 32 32"
                     fill="none"
                   >
-                    <g clip-path="url(#clip0_156893_455)">
+                    <g clipPath="url(#clip0_156893_455)">
                       <path
                         d="M16 32.0022C24.8366 32.0022 32 24.8388 32 16.0022C32 7.16564 24.8366 0.00219727 16 0.00219727C7.16344 0.00219727 0 7.16564 0 16.0022C0 24.8388 7.16344 32.0022 16 32.0022Z"
                         fill="#1977F3"
@@ -610,7 +611,7 @@ const AboutUs = () => {
                     viewBox="0 0 33 32"
                     fill="none"
                   >
-                    <g clip-path="url(#clip0_11766_122209)">
+                    <g clipPath="url(#clip0_11766_122209)">
                       <path
                         d="M3.11931 28.4817H8.21019V16.1181L0.937439 10.6636V26.3C0.937439 27.5054 1.91381 28.4819 3.11931 28.4819V28.4817Z"
                         fill="#4285F4"
@@ -624,8 +625,8 @@ const AboutUs = () => {
                         fill="#FBBC04"
                       />
                       <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
+                        fillRule="evenodd"
+                        clipRule="evenodd"
                         d="M8.21021 16.1181V6.66356L16.9375 13.2091L25.6647 6.66356V16.1181L16.9375 22.6636L8.21021 16.1181Z"
                         fill="#EA4335"
                       />
@@ -657,7 +658,7 @@ const AboutUs = () => {
                     viewBox="0 0 32 32"
                     fill="none"
                   >
-                    <g clip-path="url(#clip0_4132_5799)">
+                    <g clipPath="url(#clip0_4132_5799)">
                       <path
                         d="M16.0078 0.242416C9.42808 0.242416 7.50377 0.249204 7.12972 0.280233C5.77946 0.392472 4.93925 0.605072 4.02388 1.06082C3.31845 1.41111 2.7621 1.81716 2.21303 2.38635C1.21306 3.42438 0.607014 4.70143 0.387627 6.21945C0.280963 6.9564 0.249934 7.10669 0.243631 10.8709C0.241207 12.1257 0.243631 13.777 0.243631 15.992C0.243631 22.5663 0.250904 24.4887 0.282418 24.862C0.391505 26.1759 0.59756 27.0026 1.03391 27.9068C1.86782 29.6376 3.4605 30.937 5.33681 31.4218C5.98649 31.5891 6.70404 31.6812 7.62523 31.7249C8.01552 31.7418 11.9936 31.7539 15.9741 31.7539C19.9545 31.7539 23.935 31.7491 24.3156 31.7297C25.3823 31.6795 26.0016 31.5964 26.6865 31.4194C28.5749 30.9322 30.1385 29.6522 30.9894 27.8971C31.4172 27.0147 31.6342 26.1565 31.7324 24.9112C31.7537 24.6397 31.7627 20.3109 31.7627 15.9879C31.7627 11.6641 31.753 7.34329 31.7316 7.07179C31.6323 5.80637 31.4153 4.95549 30.9736 4.05612C30.6112 3.3199 30.2088 2.7701 29.6246 2.20793C28.5819 1.21208 27.3068 0.606042 25.7873 0.386897C25.0511 0.280476 24.9045 0.248962 21.1373 0.242416H16.0078Z"
                         fill="url(#paint0_radial_4132_5799)"
@@ -680,10 +681,10 @@ const AboutUs = () => {
                         gradientUnits="userSpaceOnUse"
                         gradientTransform="translate(8.61513 34.181) rotate(-90) scale(31.2303 29.0545)"
                       >
-                        <stop stop-color="#FFDD55" />
-                        <stop offset="0.1" stop-color="#FFDD55" />
-                        <stop offset="0.5" stop-color="#FF543E" />
-                        <stop offset="1" stop-color="#C837AB" />
+                        <stop stopColor="#FFDD55" />
+                        <stop offset="0.1" stopColor="#FFDD55" />
+                        <stop offset="0.5" stopColor="#FF543E" />
+                        <stop offset="1" stopColor="#C837AB" />
                       </radialGradient>
                       <radialGradient
                         id="paint1_radial_4132_5799"
@@ -693,12 +694,12 @@ const AboutUs = () => {
                         gradientUnits="userSpaceOnUse"
                         gradientTransform="translate(-5.03723 2.51245) rotate(78.6776) scale(13.9602 57.559)"
                       >
-                        <stop stop-color="#3771C8" />
-                        <stop offset="0.128" stop-color="#3771C8" />
+                        <stop stopColor="#3771C8" />
+                        <stop offset="0.128" stopColor="#3771C8" />
                         <stop
                           offset="1"
-                          stop-color="#6600FF"
-                          stop-opacity="0"
+                          stopColor="#6600FF"
+                          stopOpacity="0"
                         />
                       </radialGradient>
                       <clipPath id="clip0_4132_5799">

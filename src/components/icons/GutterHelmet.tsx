@@ -12,7 +12,7 @@ const GutterHelmet: React.FC = () => {
       viewBox="0 0 434 429"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="w-12 h-12 sm:w-14 sm:h-14 sm:mb-4 ml-2 mr-4 sm:ml-0 sm:mr-0"
+      className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 sm:mb-4 ml-2 mr-4 sm:ml-0 sm:mr-0"
     >
       <path
         d="M284.782 241.376V390.025C284.782 400.041 278.176 409.952 265.015 417.571C238.642 432.809 195.912 432.809 169.592 417.571C156.379 409.952 149.825 400.042 149.825 390.025V241.376H284.782Z"

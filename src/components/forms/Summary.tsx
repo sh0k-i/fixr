@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppContext } from '@/context/AppContext';
 import { Dialog, DialogContent,
   DialogDescription,
@@ -20,8 +20,21 @@ interface SummaryProps {
 }
 
 const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
-  const { form, setForm, user, contractor, selectedService } = useAppContext();
+  const { form, setForm, user, selectedService, selectedCategory, setSelectedCategory, categories } = useAppContext();
   const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!selectedCategory) {
+      if (selectedService) {
+        const categoryId = selectedService.category[0];
+        // find the category in the contractor's categories
+        const category = categories.find((cat: any) => cat.id === categoryId);
+        setSelectedCategory(category);
+        console.log('Selected category:', category);
+      }
+    }
+  }
+  , [selectedService]);
 
 	const handleRedirect = () => {
 		onNext();
@@ -35,83 +48,18 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
     onReset();
   };
 
-  // const payload = {
-  //   user,
-  //   form,
-  //   contractor,
-  //   selectedService,
-  //   consent: {
-  //     general: {
-  //       description: 'By checking the box above, I provide my ESIGN and express written consent for {appContext.contractor.name} and its authorized partners to contact me at the phone number and email address I have provided in this form. This may include marketing communications sent using automated technology, such as calls, texts, or emails. I understand that this consent is not required to make a purchase.',
-  //       value: form.generalOptIn,
-  //     },
-  //   },
-  // };
-
   const handleConfirmBooking = async () => {
-		setLoading(false);
+		setLoading(true);
+    // Save to local storage
+    localStorage.setItem('appointment', JSON.stringify({
+      user,
+      form,
+      selectedService,
+      selectedCategory
+    }));
+    setLoading(false);
     document.getElementById("dialog")?.click();
 
-		// try {
-    //   const response = await fetch('https://hkdk.events/w8wqxy2op6oty4', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(payload),
-    //   });
-
-    //   if (!response.ok) {
-    //     throw new Error('Failed to send appointments');
-    //   }
-    // } catch (err) {
-    //   console.error('Error sending appointments:', err);
-    // }
-    
-
-	  // insert data into bookings table
-		// try {
-		// 	const { data, error } = await central
-		// 		.from('bookings')
-		// 		.insert([
-		// 			{
-		// 				firstname: user.firstname,
-		// 				lastname: user.lastname,
-		// 				email: user.email,
-		// 				phone: user.phone,
-		// 				address1: user.address1,
-		// 				address2: user.address2,
-		// 				city: user.city,
-		// 				state: user.state,
-		// 				zip: user.zip,
-		// 				user_ns: user.userNs,
-    //         market: user.market,
-		// 				id: form.formId,
-		// 				service_specification: form.serviceSpecification,
-		// 				promo: form.promo,
-		// 				opt_in: form.generalOptIn,
-		// 				date: form.date,
-		// 				time: form.time,
-		// 				service_name: selectedService.name || selectedService.services.name,
-		// 				service_id: selectedService.service_id,
-    //         is_booked: true,
-    //         timezone: form.timezone,
-    //         contractor_id: contractor.id,
-    //         selected_service: selectedService,
-    //         timezoneAbbr: form.timezoneAbbr,
-		// 			},
-		// 		]);
-	
-		// 	if (error) {
-		// 		console.error('Error inserting data:', error);
-		// 	} else {
-		// 		console.log('Data inserted successfully:', data);
-    //     setLoading(false);
-		// 	}
-    //   document.getElementById("dialog")?.click();
-		// } catch (err) {
-		// 	console.error('Unexpected error:', err);
-		// }	
 	};
 
   const formatDate = (dateString: string) => {
@@ -167,7 +115,7 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
     }));
   };
 
-  if (!selectedService || !user || !contractor) {
+  if (!selectedService || !selectedCategory) {
     return null;
   }
 
@@ -205,10 +153,10 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
 										<hr className='mb-4'></hr>
 										<div className="flex items-center mb-4 ml-4 md:ml-8 min-w-52">
                       <div className="flex items-center">
-                        <IconComponent name={selectedService.name || selectedService.services.name} className="w-14 h-14" />
+                        <IconComponent name={selectedService?.name} className="w-14 h-14" />
                         <div className="flex flex-wrap justify-between flex-grow">
                           <h3 className="text-base sm:text-lg font-medium text-gray-800 dark:text-white pl-2 sm:pl-6 pr-4">
-                            {selectedService.name || selectedService.services.name} {form.serviceSpecification || "Service"}
+                            {selectedService?.name}
                           </h3>
                         </div>
                       </div>
@@ -216,21 +164,20 @@ const Summary: React.FC<SummaryProps> = ({ onNext, onBack, onReset }) => {
                     {/* Schedule */}
                     
                     {/* If form.promo exists or is not empty, show this div */}
-                    {form.promo && (
+                    {selectedService?.promo && (
                       <div>
                         <hr className='mb-4'></hr>
                         <p className="text-sm font-semibold text-gray-800 mb-3">Promo</p>
                         <div className="flex flex-wrap justify-between my-4 w-auto bg-green-100 rounded-md py-4">
                         <div className="flex items-center px-4 sm:px-8 min-w-[200px]">
                           <i className="fi fi-rr-ticket flex text-green-800 items-center text-center mr-2 h-5"></i>
-                          <p className=" text-sm sm:text-base text-green-800">{form.promo}</p>
+                          <p className=" text-sm sm:text-base text-green-800">{selectedService?.promo}</p>
                         </div>
                       </div>
 
                       </div>
                     )}
                     
-
                     {form.date && form.time && (
                       <div>
                         <hr className='mb-4'></hr>

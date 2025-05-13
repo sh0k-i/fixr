@@ -36,22 +36,11 @@ const Hero = () => {
   const heroLede = contractor.content.hero_lede || defaultLede;
   const heroCtaLabel = contractor.content.hero_cta || "Get Free Assessment";
 
-  const [buttonText, setButtonText] = useState(heroCtaLabel);
-  const [, setSubheadingText] = useState("Or select a service to get started");
+  const [buttonText] = useState(heroCtaLabel);
   const [subheadingText1, setSubheadingText1] = useState(heroLede);
 
   // Update button text based on form progress
   useEffect(() => {
-    const step = localStorage.getItem("formStep");
-    const targetStep = services.length === 1 ? "2" : "1";
-
-    if (step !== null && step !== targetStep) {
-      setButtonText("Finish your Previous Quote");
-      setSubheadingText("Or reset your progress and select another service");
-    } else {
-      setButtonText(heroCtaLabel);
-    }
-
     setSubheadingText1(heroLede);
   }, [services.length, heroLede, heroCtaLabel]);
 

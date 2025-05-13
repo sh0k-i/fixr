@@ -31,7 +31,6 @@ const Step2PromoOptIn: React.FC<Step2PromoOptInProps> = ({ onNext, onBack, onRes
       ...prevForm,
       promo: promo,
     }));
-    localStorage.setItem('promo', JSON.stringify(promo));
 
     setLoading(false); // Hide spinner
     onNext();

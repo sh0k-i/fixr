@@ -7,7 +7,7 @@ import BlurFade from './ui/blur-fade';
 import useFormPersistence from '@/hooks/useFormPersistence';
 
 const ServiceCards: React.FC = () => {
-  const { contractor, services, form, setSelectedService } = useAppContext();
+  const { contractor, form, categories, setCategories } = useAppContext();
   const [, setCurrentStep, resetCurrentStep] = useFormPersistence('formStep', 1); 
 
   const navigate = useNavigate();
@@ -40,15 +40,14 @@ const ServiceCards: React.FC = () => {
       console.log('Using existing form ID:', formId);
     }
 
-    setSelectedService(service);
+    setCategories(service);
 
     console.log('Selected service:', service);
     console.log('Form ID:', formId);
     console.log(form);
-    console.log(services);
+    console.log(categories);
 
     // Update local storage
-    localStorage.setItem('selectedService', JSON.stringify(service));
     setCurrentStep(2);
     navigateWithParams(`/request-quotes/${slug}`);
   };
@@ -78,7 +77,7 @@ const ServiceCards: React.FC = () => {
         </BlurFade>
         <p className="mt-2 md:mt-4 text-gray-500 dark:text-neutral-500"></p>
       </div>
-      <Services services={services} handleServiceSelect={handleServiceSelect} />
+      <Services services={categories} handleServiceSelect={handleServiceSelect} />
       {/* <div className='flex justify-center'>
         <div className="mt-5 lg:mt-8 flex flex-col items-center gap-2 sm:flex-row sm:gap-3">
           {showZipInput && (

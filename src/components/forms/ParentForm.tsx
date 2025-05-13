@@ -1,10 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Stepper from '../ui/Stepper';
 import { useAppContext } from '@/context/AppContext';
-import useFormPersistence from '@/hooks/useFormPersistence';
-import useClearFormState from '@/hooks/useClearFormState';
-import Step1Selection from './Step1Selection';
 import ProgressBar from '../ui/ProgressBar';
 import Step1Info from './Step1Info';
 import Step2Schedule from './Step2Schedule';
@@ -14,28 +11,18 @@ import Step3Specifications from './Step3Specifications';
 const ParentForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const clearFormState = useClearFormState();
-  // const resetDatabase = useResetDatabase();
+  const { setForm, selectedService, setSelectedService } = useAppContext();
+  const [currentStep, setCurrentStep] = useState(0);
+  const progress = (currentStep - 1 ) * 33.3333;
 
-  const { setForm, services, setSelectedService } = useAppContext();
-  // Determine the initial step based on the number of services
-  const initialStep = services.length === 1 ? 2 : 1;
-  const [currentStep, setCurrentStep, resetCurrentStep] = useFormPersistence('formStep', initialStep);
-
-  const progress = (currentStep ) * 20;
-
-  // If there is only one service, preselect it
+  // If selectedService is set, then set the current step to 3
   useEffect(() => {
-    if (services.length === 1) {
-      setSelectedService(services[0]);
-
-      // If we are on step 1 and there is only one service, move to step 2
-      if (currentStep === 1) {
-        setCurrentStep(2)
-      }
+    if (selectedService) {
+      setCurrentStep(2);
+    } else {
+      setCurrentStep(1);
     }
-  }, [services, setSelectedService]);
-  
+  }, [selectedService]);
 
   const navigateWithParams = (path: string) => {
     const currentParams = new URLSearchParams(location.search);
@@ -55,9 +42,11 @@ const ParentForm = () => {
   };
 
   const handleReset = async () => {
-    resetCurrentStep();
-    clearFormState();
-    // await resetDatabase();
+    setSelectedService(null);
+    // remove param in url
+    const currentParams = new URLSearchParams(location.search);
+    currentParams.delete('service_id');
+    setCurrentStep(1);
   };
 
   const handleBackStep = () => {
@@ -66,10 +55,8 @@ const ParentForm = () => {
 
   const handleSubmitted = () => {
     navigateWithParams(`/summary/`);
-    resetCurrentStep();
 
     setForm(prev => ({ ...prev, formId: null })); 
-    localStorage.removeItem('formID');
   };
 
   return (
@@ -94,12 +81,11 @@ const ParentForm = () => {
         </div>
       </div>
       <div>
-        {currentStep === 1 && <Step1Selection onNext={handleNextStep} />}
-        {currentStep === 2 && <Step3Specifications onNext={handleNextStep} onReset={handleReset} onBack={handleBackStep} />}
-        {currentStep === 3 && <Step1Info onNext={handleNextStep} onReset={handleReset} onBack={handleBackStep} />}
 
-        {currentStep === 4 && <Step2Schedule onNext={handleNextStep} onReset={handleReset} onBack={handleBackStep} />}
-        {currentStep === 5 && <Summary onNext={handleSubmitted} onReset={handleReset} onBack={handleBackStep} />}
+        {currentStep === 1 && <Step3Specifications onNext={handleNextStep} />}
+        {currentStep === 2 && <Step1Info onNext={handleNextStep} onReset={handleReset} onBack={handleBackStep} />}
+        {currentStep === 3 && <Step2Schedule onNext={handleNextStep} onReset={handleReset} onBack={handleBackStep} />}
+        {currentStep === 4 && <Summary onNext={handleSubmitted} onReset={handleReset} onBack={handleBackStep} />}
       </div>
     </div>
   );
