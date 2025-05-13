@@ -7,8 +7,8 @@ import ServiceCards from "@/components/ServiceCards";
 import { useAppContext } from "@/context/AppContext";
 import { useEffect } from "react";
 import Feature from "@/components/Feature";
-import SocialProof from "@/components/SocialProof";
 import NavBar from "@/components/NavBar";
+import HowItWorks2 from "@/components/HowItWorks2";
 
 const Home = () => {
   const {
@@ -54,9 +54,10 @@ const Home = () => {
       <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 lg:py-24  space-y-12 sm:space-y-20 lg:space-y-24">
         {services && services.length > 1 && <ServiceCards />}
         <Feature />
+        <HowItWorks2/>
       </div>
 
-      <SocialProof />
+      
 
       <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-20 lg:pb-24  space-y-12 sm:space-y-20 lg:space-y-24">
         <Benefits />
