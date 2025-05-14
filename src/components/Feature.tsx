@@ -22,7 +22,7 @@ const Feature: React.FC = () => {
     <div className="">
       {/* Grid */}
       <div className="md:grid md:grid-cols-2 md:items-center md:gap-12 xl:gap-32 pointer-events-none">
-        <BlurFade delay={1 * 0.15} inView yOffset={0} className="mb-5 sm:mb-10 lg:mb-0">
+        <BlurFade delay={2 * 0.15} inView yOffset={0} className="mb-5 sm:mb-10 lg:mb-0">
           <img className="rounded-xl" src={imageUrl} alt="Features Image" />
         </BlurFade>
         {/* End Col */}

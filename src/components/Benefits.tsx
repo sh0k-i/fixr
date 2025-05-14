@@ -6,15 +6,6 @@ const Benefits: React.FC = () => {
     <div className=''>
       <div className="space-y-6 sm:space-y-8 pointer-events-none">
 
-      <BlurFade delay={1 * 0.15} inView yOffset={0} className="space-y-2 md:space-y-4">
-        <p className="section_header">
-        Why Homeowners <span className="text-accentColor">Love Us</span>
-        </p>
-        <p className="section_description">
-
-        </p>
-      </BlurFade>
-
       {/* Grid */}
       <div className="grid sm:grid-cols-3 gap-8 md:gap-12 grid-auto-[1fr]">
 
@@ -46,7 +37,7 @@ const Benefits: React.FC = () => {
         {/* End Icon Block */}
 
         {/* Icon Block */}
-        <BlurFade delay={3.5 * 0.15} inView yOffset={0} className="relative flex gap-x-5 rounded-xl p-4">
+        <BlurFade delay={4 * 0.15} inView yOffset={0} className="relative flex gap-x-5 rounded-xl p-4">
         <div className="absolute inset-0 bg-accentLight opacity-90 rounded-xl"></div>
           <svg
             className="shrink-0 mt-1 size-6 text-accentColor dark:text-accentColor z-10"
@@ -75,7 +66,7 @@ const Benefits: React.FC = () => {
         {/* End Icon Block */}
 
         {/* Icon Block */}
-        <BlurFade delay={4 * 0.15} inView yOffset={0} className="relative flex gap-x-5 rounded-xl p-4">
+        <BlurFade delay={5 * 0.15} inView yOffset={0} className="relative flex gap-x-5 rounded-xl p-4">
         <div className="absolute inset-0 bg-accentLight opacity-90 rounded-xl"></div>
           <svg
             className="shrink-0 mt-1 size-6 text-accentColor dark:text-accentColor z-10"
@@ -104,7 +95,7 @@ const Benefits: React.FC = () => {
         {/* End Icon Block */}
 
         {/* Icon Block */}
-        <BlurFade delay={4.5 * 0.15} inView yOffset={0} className="relative h- flex gap-x-5 rounded-xl p-4">
+        <BlurFade delay={6 * 0.15} inView yOffset={0} className="relative h- flex gap-x-5 rounded-xl p-4">
         <div className="absolute inset-0 bg-accentLight opacity-90 rounded-xl"></div>
           <svg
             className="shrink-0 mt-1 size-6 text-accentColor dark:text-accentColor z-10"
@@ -135,7 +126,7 @@ const Benefits: React.FC = () => {
         {/* End Icon Block */}
 
         {/* Icon Block */}
-        <BlurFade delay={5 * 0.15} inView yOffset={0}  className="relative flex gap-x-5 rounded-xl p-4">
+        <BlurFade delay={7 * 0.15} inView yOffset={0}  className="relative flex gap-x-5 rounded-xl p-4">
         <div className="absolute inset-0 bg-accentLight opacity-90 rounded-xl"></div>
           <svg
             className="shrink-0 mt-1 size-8 text-accentColor dark:text-accentColor z-10"
@@ -162,7 +153,7 @@ const Benefits: React.FC = () => {
         {/* End Icon Block */}
 
         {/* Icon Block */}
-        <BlurFade delay={5.5 * 0.15} inView yOffset={0} className="relative flex gap-x-5 rounded-xl p-4">
+        <BlurFade delay={8 * 0.15} inView yOffset={0} className="relative flex gap-x-5 rounded-xl p-4">
         <div className="absolute inset-0 bg-accentLight opacity-90 rounded-xl"></div>
           <svg
             className="shrink-0 mt-1 size-8 text-accentColor dark:text-accentColor z-10"

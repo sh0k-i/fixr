@@ -19,6 +19,7 @@ import Blog from './pages/Blog';
 import servicesData from '@/assets/services.json'; // Import local JSON
 import FilteredServices from './pages/FilteredServices';
 import RehashThankYou from './pages/RehashThankYou';
+import FaqPage from './pages/FaqPage';
 
 declare global {
   interface Window {
@@ -128,6 +129,7 @@ function App() {
         <Route path='/services' element={<OurServices/>} />
         <Route path='/blog' element={<Blog/>} />
         <Route path='/filtered-services' element={<FilteredServices/>} />
+        <Route path='/faqs' element={<FaqPage/>} />
 
         <Route path='/request-quotes/' element={<RequestQuote />} />
         <Route path='/cookie-policy/' element={<CookiePolicy />} />
