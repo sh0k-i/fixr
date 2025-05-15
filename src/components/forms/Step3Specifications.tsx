@@ -9,19 +9,17 @@ interface Step3SpecificationsProps {
 const Step3Specifications: React.FC<Step3SpecificationsProps> = ({
   onNext,
 }) => {
-  const {
-    services,
-    setSelectedService,
-    categories,
-
-  } = useAppContext();
+  const { services, setSelectedService, categories } = useAppContext();
   const [loading, setLoading] = useState<boolean>(false);
   const [filteredServices, setFilteredServices] = useState<any[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<any>({ id: "all", name: "All" });
+  const [selectedCategory, setSelectedCategory] = useState<any>({
+    id: "all",
+    name: "All",
+  });
 
   useEffect(() => {
     let filtered = services;
-    
+
     if (selectedCategory.id !== "all") {
       filtered = services.filter((service: any) =>
         service.category.includes(Number(selectedCategory.id))
@@ -36,15 +34,12 @@ const Step3Specifications: React.FC<Step3SpecificationsProps> = ({
     setSelectedCategory(category);
   };
 
-
   const handleSelect = async (service: any) => {
     setLoading(true);
     setSelectedService(service);
     setLoading(false);
     onNext();
   };
-
-  
 
   return (
     <div className="container-form">
@@ -55,7 +50,7 @@ const Step3Specifications: React.FC<Step3SpecificationsProps> = ({
               {" "}
               Hi there! Let us know{" "}
               <span className="text-accentColor">what you need </span>—choose
-              one of the options below 
+              one of the options below
             </h1>
           </div>
         </div>
@@ -66,8 +61,8 @@ const Step3Specifications: React.FC<Step3SpecificationsProps> = ({
             onClick={() => handleCategorySelect({ id: "all", name: "All" })}
             className={`px-4 py-2 rounded-lg transition-all border border-accentColor duration-300 ${
               selectedCategory.id === "all"
-                  ? "bg-accentLight text-accentColor border-accentColor"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200 border-gray-600"
+                ? "bg-accentLight text-accentColor border-accentColor"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200 border-gray-600"
             }`}
           >
             All
@@ -102,21 +97,21 @@ const Step3Specifications: React.FC<Step3SpecificationsProps> = ({
                       onClick={() => handleSelect(service)}
                     >
                       {/* Image container with promo badge */}
-                <div className="relative pt-[66.666%]">
-                  <img
-                    src={service.photo}
-                    alt={service.name}
-                    className="absolute top-0 left-0 w-full h-full object-cover rounded-b-lg"
-                  />
-                  {service.promo && (
-                    <div className="absolute bottom-2 left-2 flex items-center bg-green-500/20 backdrop-blur-lg  px-3 py-1 rounded-full">
-                      <i className="fi fi-rr-ticket flex items-center text-center mr-2 h-4 w-4 text-white"></i>
-                      <span className="text-sm font-medium text-white">
-                        {service.promo}
-                      </span>
-                    </div>
-                  )}
-                </div>
+                      <div className="relative pt-[66.666%]">
+                        <img
+                          src={service.photo}
+                          alt={service.name}
+                          className="absolute top-0 left-0 w-full h-full object-cover rounded-b-lg"
+                        />
+                        {service.promo && (
+                          <div className="absolute bottom-2 left-2 flex items-center bg-green-500/20 backdrop-blur-lg  px-3 py-1 rounded-full">
+                            <i className="fi fi-rr-ticket flex items-center text-center mr-2 h-4 w-4 text-white"></i>
+                            <span className="text-sm font-medium text-white">
+                              {service.promo}
+                            </span>
+                          </div>
+                        )}
+                      </div>
 
                       {/* Service name */}
                       <div className="text-left pt-4">

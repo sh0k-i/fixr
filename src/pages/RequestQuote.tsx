@@ -12,6 +12,7 @@ import { Dialog, DialogContent,
 import { Button } from '@/components/ui/button';
 import { useAppContext } from '@/context/AppContext';
 import NavBar2 from '@/components/NavBar2';
+import Footer from '@/components/Footer';
 
 const RequestQuote = () => {
   const location = useLocation();
@@ -66,6 +67,7 @@ const RequestQuote = () => {
       <div className='mt-20 md:mt-24'>
         <ParentForm />  
       </div>
+      <Footer />
       
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogTrigger asChild>

@@ -1,6 +1,6 @@
 import Footer from "@/components/Footer";
 import NavBar2 from "@/components/NavBar2";
-import ProductCards from "@/components/ProductCards";
+import ProductCarousel from "@/components/ProductCarousel";
 import Categories from "@/components/Services";
 import BlurFade from "@/components/ui/blur-fade";
 import { useAppContext } from "@/context/AppContext";
@@ -10,6 +10,13 @@ const OurServices = () => {
   const { categories, services } = useAppContext();
   const [featuredServices, setFeaturedServices] = useState(services);
   const [loading, setLoading] = useState(true);
+  const [bathroomServices, setBathroomServices] = useState<any[]>([]);
+  const [kitchenServices, setKitchenServices] = useState<any[]>([]);
+  const [outdoorServices, setOutdoorServices] = useState<any[]>([]);
+  const [flooringServices, setFlooringServices] = useState<any[]>([]);
+  const [electricalServices, setElectricalServices] = useState<any[]>([]);
+  const [solarServices, setSolarServices] = useState<any[]>([]);
+
 
   const handleServiceSelect = async (service: any) => {
     //redirect to page
@@ -24,12 +31,43 @@ const OurServices = () => {
 
   // filter featured services
   useEffect(() => {
-    const filtered = services.filter(
+    setLoading(true);
+
+    const featured = services.filter(
       (service: any) => service.featured === true
     );
+    setFeaturedServices(featured);
 
-    setFeaturedServices(filtered);
-    console.log("Filtering Featured services:", filtered);
+    const bathroomServices = services.filter((service: any) => 
+      service.category.includes(2)
+    );
+    setBathroomServices(bathroomServices);
+
+    const kitchenServices = services.filter((service: any) => 
+      service.category.includes(1)
+    );
+    setKitchenServices(kitchenServices);
+
+    const outdoorServices = services.filter((service: any) => 
+      service.category.includes(3)
+    );
+    setOutdoorServices(outdoorServices);
+
+    const flooringServices = services.filter((service: any) => 
+      service.category.includes(6)
+    );
+    setFlooringServices(flooringServices);
+
+    const electricalServices = services.filter((service: any) => 
+      service.category.includes(4)
+    );
+    setElectricalServices(electricalServices);
+
+    const solarServices = services.filter((service: any) => 
+      service.category.includes(7)
+    );
+    setSolarServices(solarServices);
+
     setLoading(false);
   }, [services]);
 
@@ -76,14 +114,122 @@ const OurServices = () => {
             className="text-left space-y-2 md:space-y-4"
           >
             <p className="text-accentColor font-semibold text-lg">
-            Featured Services 
+              Featured Services
             </p>
             <div className="font-semibold text-2xl sm:text-3xl text-gray-800 pointer-events-none">
               Great deals for you!
             </div>
           </BlurFade>
-          <ProductCards
+          <ProductCarousel
             services={featuredServices}
+            handleServiceSelect={handleServiceSelect}
+          />
+        </div>
+
+        <div className="space-y-8 sm:space-y-10">
+          {/* title */}
+          <BlurFade
+            delay={2 * 0.15}
+            inView
+            yOffset={0}
+            className="text-left space-y-2 md:space-y-4"
+          >
+            <div className="font-semibold text-2xl sm:text-3xl text-gray-800 pointer-events-none">
+              Bathroom Services
+            </div>
+          </BlurFade>
+          <ProductCarousel
+            services={bathroomServices}
+            handleServiceSelect={handleServiceSelect}
+          />
+        </div>
+
+        <div className="space-y-8 sm:space-y-10">
+          {/* title */}
+          <BlurFade
+            delay={2 * 0.15}
+            inView
+            yOffset={0}
+            className="text-left space-y-2 md:space-y-4"
+          >
+            <div className="font-semibold text-2xl sm:text-3xl text-gray-800 pointer-events-none">
+              Kitchen Services
+            </div>
+          </BlurFade>
+          <ProductCarousel
+            services={kitchenServices}
+            handleServiceSelect={handleServiceSelect}
+          />
+        </div>
+
+        <div className="space-y-8 sm:space-y-10">
+          {/* title */}
+          <BlurFade
+            delay={2 * 0.15}
+            inView
+            yOffset={0}
+            className="text-left space-y-2 md:space-y-4"
+          >
+            <div className="font-semibold text-2xl sm:text-3xl text-gray-800 pointer-events-none">
+            Outdoor & Landscaping Services
+            </div>
+          </BlurFade>
+          <ProductCarousel
+            services={outdoorServices}
+            handleServiceSelect={handleServiceSelect}
+          />
+        </div>
+
+        <div className="space-y-8 sm:space-y-10">
+          {/* title */}
+          <BlurFade
+            delay={2 * 0.15}
+            inView
+            yOffset={0}
+            className="text-left space-y-2 md:space-y-4"
+          >
+            <div className="font-semibold text-2xl sm:text-3xl text-gray-800 pointer-events-none">
+            Flooring & Walls Services
+            </div>
+          </BlurFade>
+          <ProductCarousel
+            services={flooringServices}
+            handleServiceSelect={handleServiceSelect}
+          />
+        </div>
+
+        <div className="space-y-8 sm:space-y-10">
+          {/* title */}
+          <BlurFade
+            delay={2 * 0.15}
+            inView
+            yOffset={0}
+            className="text-left space-y-2 md:space-y-4"
+          >
+            <div className="font-semibold text-2xl sm:text-3xl text-gray-800 pointer-events-none">
+            Electrical & Lighting Services
+            </div>
+          </BlurFade>
+          <ProductCarousel
+            services={electricalServices}
+            handleServiceSelect={handleServiceSelect}
+          />
+        </div>
+
+        <div className="space-y-8 sm:space-y-10">
+          {/* title */}
+          <BlurFade
+            delay={2 * 0.15}
+            inView
+            yOffset={0}
+            className="text-left space-y-2 md:space-y-4"
+          >
+            <div className="font-semibold text-2xl sm:text-3xl text-gray-800 pointer-events-none">
+            Solar Services
+            </div>
+          </BlurFade>
+          <ProductCarousel
+            services={solarServices}
             handleServiceSelect={handleServiceSelect}
           />
         </div>

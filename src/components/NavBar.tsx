@@ -66,7 +66,7 @@ const NavBar = () => {
                     <a
                       className={`sm:px-5 py-2.5 text-base font-medium transition-colors ${
                         isScrolled
-                          ? "text-gray-800 hover:text-accentColor"
+                          ? "text-gray-900 hover:text-accentColor"
                           : "text-white hover:text-accentColor" }`}
                       href={link.href}
                     >
@@ -202,7 +202,7 @@ const NavBar = () => {
                         d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
                     </svg>
-                    Get Free Quote
+                    Get Free Assesment
                   </a>
                 </nav>
               </motion.div>

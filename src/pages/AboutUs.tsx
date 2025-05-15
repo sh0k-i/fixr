@@ -37,7 +37,6 @@ const AboutUs = () => {
                   <div>
                     <p className="section_header">Our Story</p>
                   </div>
-
                   <div className="space-y-2 md:space-y-3 section_description">
                     <p>
                       At Fixr, we're redefining home improvement in the
@@ -183,7 +182,7 @@ const AboutUs = () => {
         {/* Meet the team */}
         <div className="space-y-6 sm:space-y-8">
           <BlurFade
-            delay={1 * 0.15}
+            delay={2 * 0.15}
             inView
             yOffset={0} className="space-y-2 md:space-y-4 text-center cursor-default">
             <h2 className="section_header">

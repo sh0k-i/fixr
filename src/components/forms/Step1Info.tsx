@@ -13,10 +13,9 @@ interface Step1InfoProps {
 
 const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
   
-  const { user, form, setUser, setForm, contractor } = useAppContext();
+  const { user, form, setUser, setForm } = useAppContext();
   const [loading, setLoading] = useState<boolean>(false);
   // Use dynamic links from contractor
-  const termsConditions = contractor.terms_conditions_link || null;
 
   const handleReset = () => {
     onReset();
@@ -413,16 +412,14 @@ const Step1Info: React.FC<Step1InfoProps> = ({ onNext, onReset, onBack }) => {
                 />
                 <label htmlFor="termsAndPrivacyOptIn" className="ml-4 block text-base text-gray-900 dark:text-gray-300">
                   I have read and agree to the 
-                  <a href={`/privacy-policy`} target="_blank" rel="noopener noreferrer" className="text-accentColor underline ml-1">
+                  <a href='/privacy-policy' target="_blank" rel="noopener noreferrer" className="text-accentColor underline ml-1">
                     Privacy Policy
                   </a>
-                  {termsConditions && ( 
-                    <span> and
-                      <a href={`${termsConditions}`} target="_blank" rel="noopener noreferrer" className="text-accentColor underline ml-1">
-                      Terms and Conditions
+                  <span> and
+                      <a href='terms-of-use' target="_blank" rel="noopener noreferrer" className="text-accentColor underline ml-1">
+                      Terms of Use
                       </a>
                     </span>
-                  )}
                 </label>
               </div>
               {formik.errors.termsAndPrivacyOptIn && (

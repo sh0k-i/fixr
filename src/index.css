@@ -153,6 +153,14 @@
   @apply inline-block text-sm text-gray-800 mt-2.5;
 }
 
+.slick-slide > div {
+  padding: 0 8px; /* Adjust spacing between cards */
+}
+
+.slick-list {
+  margin: 0 -8px; /* Offset the padding */
+}
+
 @theme inline {
   @keyframes marquee {
   from {

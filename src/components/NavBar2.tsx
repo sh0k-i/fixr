@@ -70,7 +70,7 @@ const NavBar2 = () => {
                     </span>
                   ) : (
                     <a
-                      className="sm:px-5 py-2.5 text-base font-medium text-gray-800 hover:text-accentColor transition-colors"
+                      className="sm:px-5 py-2.5 text-base font-medium text-gray-900 hover:text-accentColor transition-colors"
                       href={link.href}
                     >
                       {link.name}
@@ -84,7 +84,7 @@ const NavBar2 = () => {
                   className="bg-accentColor rounded-lg px-4 py-3 text-sm font-medium text-white hover:bg-accentDark"
                   href="/request-quotes"
                 >
-                  Get Free Quote
+                  Get Free Assesment
                 </a>
               </div>
             </div>
@@ -205,7 +205,7 @@ const NavBar2 = () => {
                         d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
                     </svg>
-                    Get Free Quote
+                    Get Free Assesment
                   </a>
                 </nav>
               </motion.div>

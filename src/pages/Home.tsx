@@ -7,8 +7,8 @@ import { useAppContext } from "@/context/AppContext";
 import Feature from "@/components/Feature";
 import NavBar from "@/components/NavBar";
 import HowItWorks2 from "@/components/HowItWorks2";
-import ProductCards from "@/components/ProductCards";
 import BlurFade from "@/components/ui/blur-fade";
+import ProductCarousel from "@/components/ProductCarousel";
 
 const Home = () => {
   const { featured } = useAppContext();
@@ -30,6 +30,7 @@ const Home = () => {
       <Testimonials />
 
       <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 lg:py-24  space-y-12 sm:space-y-20 lg:space-y-24">
+        {/* featured services */}
         <div className="space-y-8 sm:space-y-10 ">
           <BlurFade
             inView
@@ -46,17 +47,27 @@ const Home = () => {
             </p>
           </BlurFade>
           <BlurFade inView delay={3 * 0.15} yOffset={0}>
-            <ProductCards
-              services={featured}
-              handleServiceSelect={handleServiceSelect}
+            <ProductCarousel 
+            services={featured}
+            handleServiceSelect={handleServiceSelect}
             />
           </BlurFade>
+
+          {/* button */}
+          <BlurFade inView delay={3 * 0.15} yOffset={0}className="cursor-default">
+            <div className="text-center mt-6 ">
+              <a
+                href="/services"
+                className="pb-1 border-b border-accentColor hover:border-accentDark bg-transparent text-accentColor hover:text-accentDark transition duration-300 text-lg"
+              >
+                View More →
+              </a>
+            </div>
+          </BlurFade>
         </div>
+
         <HowItWorks2 />
         <Feature />
-      </div>
-
-      <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-20 lg:pb-24  space-y-12 sm:space-y-20 lg:space-y-24">
         <Benefits />
         <FAQ />
       </div>

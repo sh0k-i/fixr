@@ -47,6 +47,7 @@ const FilteredServices = () => {
       <div className="fixed top-0 left-0 w-full h-[300px] flex items-center justify-center bg-[url('/images/page-bg.png')] bg-cover bg-no-repeat bg-top z-[-1]"></div>
       <div className="max-w-[85rem] mt-[100px] md:mt-[142px] mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-20 space-y-12 sm:space-y-16 min-h-screen">
         <div className="space-y-8 sm:space-y-8">
+          {/* breadcrumb */}
           <ol className="flex items-center whitespace-nowrap">
             <li className="inline-flex items-center">
               <a
@@ -126,7 +127,7 @@ const FilteredServices = () => {
               className="inline-flex items-center text-sm font-semibold text-gray-800 truncate dark:text-neutral-200"
               aria-current="page"
             >
-              {selectedCategory?.name}
+              {selectedCategory?.name} Services
             </li>
           </ol>
 

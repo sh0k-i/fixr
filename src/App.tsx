@@ -20,6 +20,7 @@ import servicesData from '@/assets/services.json'; // Import local JSON
 import FilteredServices from './pages/FilteredServices';
 import RehashThankYou from './pages/RehashThankYou';
 import FaqPage from './pages/FaqPage';
+import SiteMap from './pages/SiteMap';
 
 declare global {
   interface Window {
@@ -132,10 +133,11 @@ function App() {
         <Route path='/faqs' element={<FaqPage/>} />
 
         <Route path='/request-quotes/' element={<RequestQuote />} />
-        <Route path='/cookie-policy/' element={<CookiePolicy />} />
+        <Route path='/terms-of-service/' element={<CookiePolicy />} />
         <Route path='/privacy-policy/' element={<PrivacyPolicy />} />
         <Route path='/summary/' element={<RehashThankYou />} />
         <Route path='/demo-form' element={<DemoForm />} />
+        <Route path='/sitemap' element={<SiteMap />} />
         
         <Route path='/confirmation/' element={<ConfirmationForm />} />
         <Route path='/confirmation-summary/' element={<ConfirmationSummary />} />

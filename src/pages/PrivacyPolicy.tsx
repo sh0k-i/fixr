@@ -2,27 +2,71 @@
 import Footer from "@/components/Footer";
 import NavBar2 from "@/components/NavBar2";
 
-
-
 const PrivacyPolicy = () => {
   return (
-    <div className="bg-gray-100">
+    <div className="">
       <NavBar2 />
-      <div className="z-10 max-w-[85rem] px-4 lg:px-14 mx-auto relative pb-20 mb-20 bg-white">
-        <div className="max-w-full mx-auto">
-          <div className='flex justify-center text-center mt-11'>
-            <div className="my-10">
-              <h1 className="heading-primary">
-                Privacy Policy for <span className="text-accentColor">Fixr</span>
-              </h1>
+      <div className="fixed top-0 left-0 w-full h-[300px] flex items-center justify-center bg-[url('/images/page-bg.png')] bg-cover bg-no-repeat bg-top z-[-1]"></div>
+      <div className="max-w-[85rem] mt-[100px] md:mt-[142px] mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-20 min-h-screen">
+        <div className="text-left space-y-2 md:space-y-4 mb-6 md:mb-8">
+          <ol className="flex items-center whitespace-nowrap">
+            <li className="inline-flex items-center">
+              <a
+                className="flex items-center text-sm text-gray-500 hover:text-accentColor "
+                href="/"
+              >
+                <svg
+                  className="shrink-0 me-3 size-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                Home
+              </a>
+              <svg
+                className="shrink-0 mx-2 size-4 text-gray-400 dark:text-neutral-600"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="m9 18 6-6-6-6"></path>
+              </svg>
+            </li>
+            <li
+              className="inline-flex items-center text-sm font-semibold text-gray-800 truncate dark:text-neutral-200"
+              aria-current="page"
+            >
+              Privacy Policy
+            </li>
+          </ol>
+            <div className="text-left space-y-2 md:space-y-4">
+            <div
+              className="section_header pointer-events-none"
+            >
+              Privacy Policy for <span className="text-accentColor">Fixr</span>
             </div>
           </div>
         </div>
         <p className="paragraph font-semibold"><strong>Effective Date:</strong> May 1, 2025</p>
-        <p className="paragraph">This Privacy Policy describes how fixr.com ("we," "us," or "our") collects, uses, and shares personal information of visitors to our website. This policy is consistent with our Cookie Policy and aims to comply with applicable federal and state privacy laws in the United States, including but not limited to the Children's Online Privacy Protection Act (COPPA).</p>
+        <p className="paragraph">This Privacy Policy describes how Fixr ("we," "us," or "our") collects, uses, and shares personal information of visitors to our website. This policy aims to provide transparency about how we handle your information.</p>
         
         <h3 className="heading-secondary">Definition of Personal Information</h3>
-        <p className="paragraph">For the purposes of this Privacy Policy, "Personal Information" means information that identifies, relates to, describes, is reasonably capable of being associated with, or could reasonably be linked, directly or indirectly, with a particular consumer or household.</p>
+        <p className="paragraph">For the purposes of this Privacy Policy, "Personal Information" means information that identifies, relates to, describes, or could reasonably be linked, directly or indirectly, with a particular individual.</p>
 
         <h3 className="heading-secondary">Information We Collect</h3>
         <p className="paragraph">We collect information about you in the following ways:</p>
@@ -34,28 +78,15 @@ const PrivacyPolicy = () => {
                 <li>Last name</li>
                 <li>Email address</li>
                 <li>Phone number</li>
-                <li>Zip code</li>
-                <li>State</li>
-                <li>Preferences about contractors</li>
-                <li>Service or product inquired about</li>
-                <li>Service specifications</li>
-                <li>Promotions interested in</li>
+                <li>Address</li>
             </ul>
             </dl>
           </li>
           <li className="list-label">Information Collected Automatically:
-            <dl className="list-description">Internet or Other Electronic Network Activity Information: When you visit our website, we automatically collect certain information about your device and browsing activity, including:
+            <dl className="list-description">When you visit our website, we automatically collect certain information about your device and browsing activity, including:
             <ul className="list-none list-inside ml-2 mt-2">
-                <li><strong>Cookies and Similar Technologies:</strong> As described in our Cookie Policy, we use cookies and similar technologies to collect information about your interaction with our website. This includes:
-                    <ul className="list-disc list-inside ml-4 mt-2">
-                        <li>Online Identifiers: A unique user identifier (distinct_id) generated by PostHog.</li>
-                        <li>Session Information: ($sesid), including timestamps of your visits.</li>
-                        <li>Referring Website: The website you visited before coming to our website.</li>
-                        <li>Initial Landing Page URL: The first page you accessed on our website, which may contain Personal Information you provided in the URL's query parameters (e.g., name, location data).</li>
-                        <p className="paragraph mb-2">For more details about the specific cookies used and their purpose, please refer to our<a href="/cookie-policy" target="_blank" rel="noopener noreferrer" className="text-accentColor underline ml-1">Cookie Policy</a></p>
-                    </ul>
-                </li>
                 <li><strong>Geolocation Data:</strong> We may collect general location information based on your IP address.</li>
+                <li><strong>Device and Usage Information:</strong> Information about your device, browser, and how you interact with our website.</li>
             </ul>
             </dl>
           </li>
@@ -64,14 +95,14 @@ const PrivacyPolicy = () => {
         <h3 className="heading-secondary">How We Use Your Personal Information</h3>
         <p className="paragraph">We may use the Personal Information we collect for the following purposes:</p>
         <ul className="list-label list-inside mt-4">
-          <li className="list-label">To Analyze and Improve Our Website:
-            <dl className="list-description">We use the data collected by PostHog to understand how visitors use our website, identify trends, improve website performance and usability, and tailor content to better meet the needs of our audience.</dl>
+          <li className="list-label">To Improve Our Website:
+            <dl className="list-description">We use the data collected to understand how visitors use our website, identify trends, improve website performance and usability, and tailor content to better meet the needs of our audience.</dl>
           </li>
           <li className="list-label">To Personalize User Experiences:
             <dl className="list-description">We may use your Personal Information to personalize content and user experiences on our website.</dl>
           </li>
-          <li className="list-label">To Connect You with Third-Party Home Improvement Contractors:
-            <dl className="list-description">We use the information you provide directly to match you with third-party contractors that provide home improvement services based on your indicated needs and preferences.</dl>
+          <li className="list-label">To Connect You with Third-Party Service Providers:
+            <dl className="list-description">We use the information you provide directly to match you with third-party contractors or service providers based on your indicated needs and preferences.</dl>
           </li>
         </ul>
 
@@ -79,10 +110,10 @@ const PrivacyPolicy = () => {
         <p className="paragraph">We may share your Personal Information with the following categories of third parties:</p>
         <ul className="list-label list-inside mt-4">
           <li className="list-label">Service Providers:
-            <dl className="list-description">We share Personal Information with third-party service providers who perform services on our behalf, such as PostHog for website analytics. These service providers are contractually obligated to protect your Personal Information and use it only for the purposes for which we disclose it to them.</dl>
+            <dl className="list-description">We share Personal Information with third-party service providers who perform services on our behalf. These service providers are contractually obligated to protect your Personal Information and use it only for the purposes for which we disclose it to them.</dl>
           </li>
-          <li className="list-label">Third-Party Home Improvement Contractors:
-            <dl className="list-description">We share your Contact Information and preferences with third-party contractors that provide home improvement services to facilitate connections based on your matched results. This sharing may be considered a 'sale' or 'sharing' of your personal information under the California Consumer Privacy Act (CPRA) and other similar U.S. state privacy laws like the Virginia Consumer Data Protection Act (CDPA), the Colorado Privacy Act (CPA). We honor your right to opt-out of such sharing as described below.</dl>
+          <li className="list-label">Third-Party Contractors:
+            <dl className="list-description">We share your Contact Information and preferences with third-party contractors or service providers to facilitate connections based on your matched results.</dl>
           </li>
           <li className="list-label">Legal Compliance:
             <dl className="list-description">We may disclose your Personal Information to comply with applicable laws, regulations, legal processes, or governmental requests.</dl>
@@ -90,67 +121,30 @@ const PrivacyPolicy = () => {
         </ul>
 
         <h3 className="heading-secondary">Your Privacy Rights</h3>
-        <p className="paragraph">Depending on your state of residence, you may have certain rights regarding your Personal Information. These rights may include the right to:</p>
+        <p className="paragraph">Depending on your location, you may have certain rights regarding your Personal Information. These rights may include the right to:</p>
         <ul className="list-label list-inside mt-4">
           <li className="list-label">Right to Know:
-            <dl className="list-description">Request information about the categories and specific pieces of Personal Information we have collected about you, the categories of sources from which the Personal Information is collected, the purposes for collecting, selling, or sharing Personal Information, and the categories of third parties with whom we share Personal Information.</dl>
+            <dl className="list-description">Request information about the categories and specific pieces of Personal Information we have collected about you, the purposes for collecting it, and the categories of third parties with whom we share it.</dl>
           </li>
           <li className="list-label">Right to Access:
             <dl className="list-description">Request a copy of the Personal Information we have collected about you.</dl>
           </li> 
-
           <li className="list-label">Right to Correct:
             <dl className="list-description">Request that we correct inaccurate Personal Information we maintain about you.</dl>
           </li>
           <li className="list-label">Right to Delete:
             <dl className="list-description">Request that we delete Personal Information we have collected from you, subject to certain exceptions.</dl>
           </li>
-          <li className="list-label">Right to Opt-Out of Sale or Sharing for Cross-Context Behavioral Advertising:
-            <dl className="list-description">You have the right to opt-out of the sale of your Personal Information or the sharing of your Personal Information for cross-context behavioral advertising. As we share your information with Third-Party Home Improvement Contractors, you have the right to opt-out of this sharing.</dl>
-          </li>
-          <li className="list-label">Right to Non-Discrimination:
-            <dl className="list-description">We will not discriminate against you for exercising any of your privacy rights.</dl>
-          </li>
-        </ul>
-
-        <h3 className="heading-secondary">Additional Rights for California Residents</h3>
-        <p className="paragraph">If you are a California resident, you have the following additional rights under the California Consumer Privacy Act (CCPA) as amended by the California Privacy Rights Act (CPRA):</p>
-
-        <ul className="list-decimal list-inside ml-2 mt-2">
-          <li>The rights as described above in "Your Privacy Rights."</li>
-          <li>To exercise your rights to know, access, correct, or delete your Personal Information, please submit a request to us by either:
-            <ul className="list-disc list-inside ml-4 mt-2">
-              <li>Emailing us at <a href="mailto:contact.fixr.com" className="text-accentColor underline">contact.fixr.com</a></li>
-              <li>Calling us at 555-123-4567</li>
-            </ul>
-          </li>
-          <li>To exercise your <strong>Right to Opt-Out of Sale or Sharing for Cross-Context Behavioral Advertising</strong>, please click on the following link: <a href="#" target="_blank" rel="noopener noreferrer" className="text-accentColor underline">Do Not Sell or Share My Personal Information</a>. You can also submit a request to opt-out by using the other methods listed above.</li>
-
-          <p className="paragraph">We will need to verify your identity before processing your request. To verify your identity, we may ask you to confirm certain Personal Information we have on file about you. If we cannot verify your identity, we may not be able to fulfill your request.</p>
-          <p className="paragraph">You may also designate an authorized agent to make a request on your behalf. If you use an authorized agent, we may require proof that you gave the authorized agent permission to submit the request.          </p>
-        </ul>
-
-        <h3 className="heading-secondary">Your Privacy Choices</h3>
-        <ul className="list-label list-inside mt-4">
-          <li className="list-label">Cookies:
-            <dl className="list-description">You have choices regarding cookies as described in our <a href="/cookie-policy" target="_blank" rel="noopener noreferrer" className="text-accentColor underline ml-1">Cookie Policy</a>. You can manage your cookie preferences through our cookie consent mechanism or through your browser settings.</dl>
-          </li> 
-          <li className="list-label">Opt-out of PostHog:
-            <dl className="list-description">As detailed in our <a href="/cookie-policy" target="_blank" rel="noopener noreferrer" className="text-accentColor underline ml-1">Cookie Policy</a>, you can opt-out of PostHog tracking by blocking cookies.</dl>
-          </li> 
         </ul>
 
         <h3 className="heading-secondary">Data Security</h3>
-        <p className="paragraph">We take reasonable security measures designed to protect your Personal Information from loss, misuse, unauthorized access, disclosure, alteration, and destruction. These measures include the use of encryption for data in transit and at rest, access controls to limit who can access personal information, regular security audits, and employee training on data protection practices. However, no internet transmission is completely secure, and we cannot guarantee absolute security.</p>
+        <p className="paragraph">We take reasonable security measures designed to protect your Personal Information from loss, misuse, unauthorized access, disclosure, alteration, and destruction. However, no internet transmission is completely secure, and we cannot guarantee absolute security.</p>
 
         <h3 className="heading-secondary">Data Retention</h3>
-        <p className="paragraph">We will retain your Personal Information for as long as necessary to fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required or permitted by law. Specifically, regarding PostHog cookies, these persistent cookies expire in approximately one year.</p>
+        <p className="paragraph">We will retain your Personal Information for as long as necessary to fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required or permitted by law.</p>
 
         <h3 className="heading-secondary">Children's Privacy</h3>
         <p className="paragraph">Our website is not intended for children under the age of 16, and we do not knowingly collect Personal Information from children under 16 without parental consent. If you are a parent or guardian and believe we have collected Personal Information from your child, please contact us immediately, and we will take steps to delete that information.</p>
-
-        <h3 className="heading-secondary">Data Breach Notification</h3>
-        <p className="paragraph">In the event of a data breach involving your Personal Information, we will notify you as required by applicable law. Notifications may be provided by email or by posting a notice on our website.</p>
 
         <h3 className="heading-secondary">Links to Other Websites</h3>
         <p className="paragraph">Our website may contain links to third-party websites. We are not responsible for the privacy practices of these other websites and encourage you to review their privacy policies.</p>
@@ -167,51 +161,3 @@ const PrivacyPolicy = () => {
 }
 
 export default PrivacyPolicy;
-
-
-// ### **Additional Rights for California Residents**
-
-// If you are a California resident, you have the following additional rights under the California Consumer Privacy Act (CCPA) as amended by the California Privacy Rights Act (CPRA):
-
-// -   The rights as described above in "Your Privacy Rights."
-// -   To exercise your rights to know, access, correct, or delete your Personal Information, please submit a request to us by either:
-//     -   Emailing us at [hello@homeprojectpartners.com](mailto:hello@homeprojectpartners.com)
-//     -   Calling us at 555-123-4567
-// -   To exercise your **Right to Opt-Out of Sale or Sharing for Cross-Context Behavioral Advertising**, please click on the following link: [Do Not Sell or Share My Personal Information](http://forms.homeprojectpartners.com/form/qarIJqgP). You can also submit a request to opt-out by using the other methods listed above.
-
-// We will need to verify your identity before processing your request. To verify your identity, we may ask you to confirm certain Personal Information we have on file about you. If we cannot verify your identity, we may not be able to fulfill your request.
-
-// You may also designate an authorized agent to make a request on your behalf. If you use an authorized agent, we may require proof that you gave the authorized agent permission to submit the request.
-
-// ## **Your Privacy Choices**
-
-// -   **Cookies:** You have choices regarding cookies as described in our [Cookie Policy](https://homeprojectpartners.com/cookie-policy). You can manage your cookie preferences through our cookie consent mechanism or through your browser settings.
-// -   **Opt-out of PostHog:** As detailed in our [Cookie Policy](https://homeprojectpartners.com/cookie-policy), you can opt-out of PostHog tracking by blocking cookies.
-
-// ## **Data Security**
-
-// We take reasonable security measures designed to protect your Personal Information from loss, misuse, unauthorized access, disclosure, alteration, and destruction. These measures include the use of encryption for data in transit and at rest, access controls to limit who can access personal information, regular security audits, and employee training on data protection practices. However, no internet transmission is completely secure, and we cannot guarantee absolute security.
-
-// ## **Data Retention**
-
-// We will retain your Personal Information for as long as necessary to fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required or permitted by law. Specifically, regarding PostHog cookies, these persistent cookies expire in approximately one year.
-
-// ## **Children's Privacy**
-
-// Our website is not intended for children under the age of 16, and we do not knowingly collect Personal Information from children under 16 without parental consent. If you are a parent or guardian and believe we have collected Personal Information from your child, please contact us immediately, and we will take steps to delete that information.
-
-// ## **Data Breach Notification**
-
-// In the event of a data breach involving your Personal Information, we will notify you as required by applicable law. Notifications may be provided by email or by posting a notice on our website.
-
-// ## **Links to Other Websites**
-
-// Our website may contain links to third-party websites. We are not responsible for the privacy practices of these other websites and encourage you to review their privacy policies.
-
-// ## **Changes to this Privacy Policy**
-
-// We may update this Privacy Policy from time to time to reflect changes in our practices or applicable laws. We will post any changes on this page and update the "Effective Date" at the top of this policy. We encourage you to review this Privacy Policy periodically.
-
-// ## **Contact Us**
-
-// If you have any questions about this Privacy Policy or our privacy practices, please contact us at [hello@homeprojectpartners.com](mailto:hello@homeprojectpartners.com).
