@@ -9,6 +9,7 @@ import NavBar from "@/components/NavBar";
 import HowItWorks2 from "@/components/HowItWorks2";
 import BlurFade from "@/components/ui/blur-fade";
 import ProductCarousel from "@/components/ProductCarousel";
+import HeroVideoDialog from "@/components/ui/hero-video-dialog";
 
 const Home = () => {
   const { featured } = useAppContext();
@@ -47,14 +48,19 @@ const Home = () => {
             </p>
           </BlurFade>
           <BlurFade inView delay={3 * 0.15} yOffset={0}>
-            <ProductCarousel 
-            services={featured}
-            handleServiceSelect={handleServiceSelect}
+            <ProductCarousel
+              services={featured}
+              handleServiceSelect={handleServiceSelect}
             />
           </BlurFade>
 
           {/* button */}
-          <BlurFade inView delay={3 * 0.15} yOffset={0}className="cursor-default">
+          <BlurFade
+            inView
+            delay={3 * 0.15}
+            yOffset={0}
+            className="cursor-default"
+          >
             <div className="text-center mt-6 ">
               <a
                 href="/services"
@@ -68,6 +74,38 @@ const Home = () => {
 
         <HowItWorks2 />
         <Feature />
+        <div className="space-y-8 sm:space-y-10 ">
+          <BlurFade
+            inView
+            delay={2 * 0.15}
+            yOffset={0}
+            className="space-y-2 md:space-y-4 text-center cursor-default"
+          >
+            <h2 className="section_header">
+              Watch Our <span className="text-accentColor">Demo</span>
+            </h2>
+          </BlurFade>
+        <div className="flex w-full justify-center items-center">
+        <BlurFade inView delay={2 * 0.15} yOffset={0} className="max-w-5xl">
+          <HeroVideoDialog
+            className="dark:hidden block"
+            animationStyle="from-center"
+            videoSrc="/demo.mp4"
+            thumbnailSrc="images/thumbnail.jpg"
+            thumbnailAlt="How To Video"
+          />
+          <HeroVideoDialog
+            className="hidden dark:block"
+            animationStyle="from-center"
+            videoSrc="/demo.mp4"
+            thumbnailSrc="images/thumbnail.jpg"
+            thumbnailAlt="How To Video"
+          />
+        </BlurFade>
+        </div>
+
+        </div>
+
         <Benefits />
         <FAQ />
       </div>

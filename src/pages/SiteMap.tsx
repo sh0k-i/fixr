@@ -73,7 +73,7 @@ const SiteMap = () => {
                       className="text-gray-800 transition hover:text-accentColor"
                     >
                       {" "}
-                      Get Free Assesment
+                      Get Free Assessment
                     </a>
                   </li>
                 </ul>

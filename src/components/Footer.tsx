@@ -201,7 +201,7 @@ const Footer: React.FC = () => {
                     className="text-gray-700 transition hover:text-accentColor"
                   >
                     {" "}
-                    Get Free Assesment{" "}
+                    Get Free Assessment{" "}
                   </a>
                 </li>
               </ul>

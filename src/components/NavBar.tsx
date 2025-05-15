@@ -81,7 +81,7 @@ const NavBar = () => {
                   className="bg-accentColor rounded-lg px-4 py-3 text-sm font-medium text-white hover:bg-accentDark"
                   href="/request-quotes"
                 >
-                  Get Free Quote
+                  Get Free Assessment
                 </a>
               </div>
             </div>
@@ -202,7 +202,7 @@ const NavBar = () => {
                         d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
                     </svg>
-                    Get Free Assesment
+                    Get Free Assessment
                   </a>
                 </nav>
               </motion.div>
