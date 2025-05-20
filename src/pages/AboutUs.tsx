@@ -201,11 +201,19 @@ const AboutUs = () => {
             delay={3 * 0.15}
             inView className="flex flex-col rounded-xl p-4 md:p-6 bg-white border border-gray-200 dark:bg-neutral-900 dark:border-neutral-700 cursor-default">
               <div className="flex items-center gap-x-4">
+                <div className="relative group"> 
                 <img
                   className="rounded-full size-20"
-                  src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80"
+                  src="https://scontent.fcgy2-4.fna.fbcdn.net/v/t39.30808-6/361599743_7133679463314883_7829992839832596120_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=ykvNbhoItZQQ7kNvwFxcy8I&_nc_oc=Adl-kKUnXubFMJu75Dd6h-j3Sp7DpMRvDB9z_ILTS6eyPtbgYJSVxDIe6o9L9-hXl0U&_nc_zt=23&_nc_ht=scontent.fcgy2-4.fna&_nc_gid=U9QdpcMH5_MY0rVKo7_rhQ&oh=00_AfJe-31ih8U5tZHF2fEy2rpWp1gZBB3jUPY6fQfZt1Z6Mw&oe=68323526"
                   alt="Avatar"
                 />
+
+                  
+                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full opacity-0 group-hover:opacity-100 transition-opacity bg-gray-800 text-white text-xs rounded px-2 py-1">
+                  photo of Tricia Pastrano
+                  </div>
+                </div>
+
                 <div className="grow">
                   <h3 className="font-medium text-gray-800 dark:text-neutral-200">
                     Tricia Angela Pastrano
@@ -217,8 +225,7 @@ const AboutUs = () => {
               </div>
 
               <p className="mt-3 text-gray-500 dark:text-neutral-500">
-                I am an ambitious workaholic, but apart from that, pretty simple
-                person.
+                I build things for a living
               </p>
 
               {/* <!-- Social Brands --> */}
@@ -371,11 +378,18 @@ const AboutUs = () => {
             delay={4 * 0.15}
             inView className="flex flex-col rounded-xl p-4 md:p-6 bg-white border border-gray-200 dark:bg-neutral-900 dark:border-neutral-700 cursor-default">
               <div className="flex items-center gap-x-4">
+                <div className="relative group">
                 <img
                   className="rounded-full size-20"
-                  src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80"
+                  src="/images/aki.jpg"
                   alt="Avatar"
+                  
                 />
+                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full opacity-0 group-hover:opacity-100 transition-opacity bg-gray-800 text-white text-xs rounded px-2 py-1">
+                  photo of Aki Maeda
+                  </div>
+                </div>
+
                 <div className="grow">
                   <h3 className="font-medium text-gray-800 dark:text-neutral-200">
                     Aki Maeda
@@ -548,25 +562,30 @@ const AboutUs = () => {
             <BlurFade
             delay={5 * 0.15}
             inView className="flex flex-col rounded-xl p-4 md:p-6 bg-white border border-gray-200 dark:bg-neutral-900 dark:border-neutral-700 cursor-default">
-              <div className="flex items-center gap-x-4">
-                <img
+                <div className="flex items-center gap-x-4">
+                <div className="relative group">
+                  <img
                   className="rounded-full size-20"
-                  src="https://images.unsplash.com/photo-1548142813-c348350df52b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80"
+                  src="/images/kat.jpg"
                   alt="Avatar"
-                />
+                  />
+                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full opacity-0 group-hover:opacity-100 transition-opacity bg-gray-800 text-white text-xs rounded px-2 py-1">
+                  photo of Katrina Juanero
+                  </div>
+                </div>
                 <div className="grow">
                   <h3 className="font-medium text-gray-800 dark:text-neutral-200">
-                  Katrina Juanero 
+                  Katrina Juanero
                   </h3>
                   <p className="text-xs uppercase text-gray-500 dark:text-neutral-500">
-                    Developer
+                  Developer
                   </p>
                 </div>
-              </div>
+                </div>
 
               <p className="mt-3 text-gray-500 dark:text-neutral-500">
-                I am an ambitious workaholic, but apart from that, pretty simple
-                person.
+              I am an ambitious workaholic, but apart from that, pretty simple
+              person.
               </p>
 
               {/* <!-- Social Brands --> */}
